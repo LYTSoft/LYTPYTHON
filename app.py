@@ -1,8 +1,9 @@
 import os
 from flask import Flask, render_template, request, redirect, session, url_for, flash
-import MySQLdb.cursors
+# import MySQLdb.cursors
 from datetime import datetime
-from flask_mysqldb import MySQL
+# from flask_mysqldb import MySQL
+from flaskext.mysql import MySQL
 
 # Crear la aplicación
 app = Flask(__name__)
@@ -12,7 +13,7 @@ app.secret_key = 'lytpython'
 
 # Configurar la base de datos MySQL
 app.config['MYSQL_CHARSET'] = 'utf8mb4'
-app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_HOST'] = 'localhost' 
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'petvet'
