@@ -30,13 +30,13 @@ def login():
         nombre = request.form['nombre-sesion']
         password = request.form['pass-sesion']
 
-        # Verificar si el usuario es el administrador
+      
         if nombre == 'Admin' and password == '12345':
             session['loggedin'] = True
             session['is_admin'] = True
             flash('¡Inicio de sesión exitoso como administrador!', 'success')
-            return redirect(url_for('indexAdmin'))  # Redirige al índice del administrador
-
+            return redirect(url_for('indexAdmin'))  
+        
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * FROM usuario WHERE nombre = %s AND contraseña = %s', (nombre, password))
         account = cursor.fetchone()
@@ -50,7 +50,7 @@ def login():
             session['correo'] = account['correo']
             session['id_mascota'] = account['id_mascota']
             flash('¡Inicio de sesión exitoso!', 'success')
-            return redirect(url_for('u_citasAgendadas'))  # Redirige al índice del usuario
+            return redirect(url_for('u_citasAgendadas'))  
         else:
             flash('¡Nombre o contraseña incorrectos!', 'danger')
     return render_template('usuario/login.html')
@@ -161,7 +161,7 @@ def u_servicio_adomicilio():
 @app.route('/admin/')
 def indexAdmin():
     if 'loggedin' in session and session.get('is_admin'):
-        return render_template('admin/index.html')  # Asegúrate de que esta ruta apunte a la página principal del administrador
+        return render_template('admin/index.html')  
     else:
         return redirect(url_for('login'))
 
