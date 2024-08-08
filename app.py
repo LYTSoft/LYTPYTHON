@@ -50,7 +50,7 @@ def login():
             session['correo'] = account['correo']
             session['id_mascota'] = account['id_mascota']
             flash('¡Inicio de sesión exitoso!', 'success')
-            return redirect(url_for('u_citasAgendadas'))  
+            return redirect(url_for('indexUsuario'))  
         else:
             flash('¡Nombre o contraseña incorrectos!', 'danger')
     return render_template('usuario/login.html')
@@ -106,7 +106,7 @@ def u_agendarCita():
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT tipoMascota FROM mascota WHERE id_mascota = %s', [session['id_mascota']])
         mascota = cursor.fetchone()
-        return render_template('usuario/u_agendarCita.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])
+        return render_template('usuario/index.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])
     else:
         return redirect(url_for('Index'))
 
@@ -132,6 +132,11 @@ def agendar_cita():
         return redirect(url_for('u_citasAgendadas'))
     else:
         return redirect(url_for('Index'))
+    
+@app.route('/home/usuario')
+def indexUsuario():
+    return render_template('usuario/index.html')
+
 
 @app.route('/adopcion/usuario/')
 def u_adopcion():
