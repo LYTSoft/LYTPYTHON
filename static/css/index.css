@@ -107,6 +107,17 @@
     height: auto; 
 }
 
+.ancho {
+  display: block;
+  width: 100%;
+  background-color: #193A6A;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
 
 
 @media screen and (max-width: 600px) {
