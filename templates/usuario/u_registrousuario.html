@@ -16,14 +16,6 @@
             <h1>Registro de usuario</h1>
         </header>
         
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-        
         <form id="registroForm" class="formulario" method="POST" action="{{ url_for('u_registrousuario') }}">
             <div class="form-row">
                 <div class="form-group col-6">

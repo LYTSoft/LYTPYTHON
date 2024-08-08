@@ -1,7 +1,8 @@
 import os
-from flask import Flask, render_template, request, redirect, session, url_for, flash
+from flask import Flask, render_template, request, redirect, session, url_for, send_from_directory
 import MySQLdb.cursors
 from flask_mysqldb import MySQL
+from werkzeug.utils import secure_filename
 
 # Crear la aplicación
 app = Flask(__name__)
@@ -10,6 +11,9 @@ app = Flask(__name__)
 app.secret_key = 'lytpython'
 
 # Configurar la base de datos MySQL
+UPLOAD_FOLDER = 'static/uploads'
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limitar el tamaño del archivo a 16 MB
 app.config['MYSQL_CHARSET'] = 'utf8mb4'
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
@@ -30,13 +34,11 @@ def login():
         nombre = request.form['nombre-sesion']
         password = request.form['pass-sesion']
 
-      
         if nombre == 'Admin' and password == '12345':
             session['loggedin'] = True
             session['is_admin'] = True
-            flash('¡Inicio de sesión exitoso como administrador!', 'success')
-            return redirect(url_for('indexAdmin'))  
-        
+            return redirect(url_for('indexAdmin'))
+
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * FROM usuario WHERE nombre = %s AND contraseña = %s', (nombre, password))
         account = cursor.fetchone()
@@ -49,11 +51,12 @@ def login():
             session['telefono'] = account['telefono']
             session['correo'] = account['correo']
             session['id_mascota'] = account['id_mascota']
-            flash('¡Inicio de sesión exitoso!', 'success')
-            return redirect(url_for('indexUsuario'))  
+            session['foto_perfil'] = account.get('foto_perfil', '')
+            return redirect(url_for('indexUsuario'))
         else:
-            flash('¡Nombre o contraseña incorrectos!', 'danger')
-    return render_template('usuario/login.html')
+            return render_template('usuario/login.html')
+    else:
+        return render_template('usuario/login.html')
 
 # Ruta de registro de usuario
 @app.route('/index/registro_usuario/', methods=['GET', 'POST'])
@@ -68,9 +71,8 @@ def u_registrousuario():
         correo = request.form['correo']
         contraseña = request.form['contraseña']
         verificar_contraseña = request.form['verificar_contraseña']
-
+        
         if contraseña != verificar_contraseña:
-            flash('¡Las contraseñas no coinciden!', 'danger')
             return redirect(url_for('u_registrousuario'))
 
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -78,15 +80,14 @@ def u_registrousuario():
         account = cursor.fetchone()
 
         if account:
-            flash('¡El nombre ya está registrado!', 'danger')
+            return render_template('usuario/u_registrousuario.html', error="¡El nombre ya está registrado!")
         else:
             cursor.execute('INSERT INTO mascota (tipoMascota) VALUES (%s)', (mascota,))
             id_mascota = cursor.lastrowid
             mysql.connection.commit()
 
-            cursor.execute('INSERT INTO usuario (nombre, apellido, `fecha-nacimiento`, telefono, sexo, id_mascota, correo, contraseña, verificar_contraseña) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)', (nombre, apellido, fecha_nacimiento, telefono, sexo, id_mascota, correo, contraseña, verificar_contraseña))
+            cursor.execute('INSERT INTO usuario (nombre, apellido, fecha_nacimiento, telefono, sexo, id_mascota, correo, contraseña) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)', (nombre, apellido, fecha_nacimiento, telefono, sexo, id_mascota, correo, contraseña))
             mysql.connection.commit()
-            flash('¡Te has registrado exitosamente!', 'success')
             return redirect(url_for('login'))
     return render_template('usuario/u_registrousuario.html')
 
@@ -106,67 +107,135 @@ def u_agendarCita():
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT tipoMascota FROM mascota WHERE id_mascota = %s', [session['id_mascota']])
         mascota = cursor.fetchone()
-        return render_template('usuario/index.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])
+        return render_template('usuario/agendarCita.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])
     else:
         return redirect(url_for('Index'))
 
-@app.route('/agendar_cita', methods=['POST'])
-def agendar_cita():
-    if 'loggedin' in session:
-        id_usuario = session['id']
-        fecha = request.form['fecha']
-        tanda = request.form['tanda']
-        id_mascota = request.form['mascota']
-        id_servicio = request.form.get('servicio', 'valor_por_defecto')
-        descripcion = request.form.get('descripcion', 'Valor por defecto')
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'jfif'}
 
-        cursor = mysql.connection.cursor()
-        sql = """
-        INSERT INTO citas (id_usuario, fecha, tanda, id_mascota, id_servicio, descripcion)
-        VALUES (%s, %s, %s, %s, %s, %s)
-        """
-        cursor.execute(sql, (id_usuario, fecha, tanda, id_mascota, id_servicio, descripcion))
-        mysql.connection.commit()
-        cursor.close()
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-        return redirect(url_for('u_citasAgendadas'))
-    else:
-        return redirect(url_for('Index'))
-    
-@app.route('/home/usuario')
+
+# Ruta para cargar la foto de perfil
+@app.route('/upload_photo', methods=['POST'])
+def upload_photo():
+    if 'profile_picture' not in request.files:
+        return redirect(request.url)
+    file = request.files['profile_picture']
+    if file.filename == '':
+        return redirect(request.url)
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        update_user_profile_picture(filename)  # Asegúrate de que esta función actualiza la base de datos
+        return redirect(url_for('indexUsuario'))  # Redirige a la página donde se muestra el perfil
+    return redirect(request.url)
+
+
+def update_user_profile_picture(filename):
+    user_id = session.get('id')  # Suponiendo que el ID del usuario está en la sesión
+    cursor = mysql.connection.cursor()
+    cursor.execute('UPDATE usuario SET foto_perfil = %s WHERE id_usuario = %s', (filename, user_id))
+    mysql.connection.commit()
+
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    if 'file' not in request.files:
+        return redirect(request.url)
+    file = request.files['file']
+    if file.filename == '':
+        return redirect(request.url)
+    if file:
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        return redirect(url_for('upload_file', filename=filename))
+
+@app.route('/uploads/<filename>')
+def archivo_subido(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+@app.route('/home/usuario/')
 def indexUsuario():
-    return render_template('usuario/index.html')
-
+    if 'loggedin' in session:
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT tipoMascota FROM mascota WHERE id_mascota = %s', [session['id_mascota']])
+        mascota = cursor.fetchone()
+        return render_template('usuario/index.html', 
+                               nombre=session['nombre'], 
+                               apellido=session['apellido'], 
+                               telefono=session['telefono'], 
+                               correo=session['correo'], 
+                               mascota=mascota['tipoMascota'],
+                               foto_perfil=session['foto_perfil'])
+    else:
+        return redirect(url_for('Index'))
 
 @app.route('/adopcion/usuario/')
 def u_adopcion():
-    return render_template('usuario/u_adopcion.html')
+    if 'loggedin' in session:
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT tipoMascota FROM mascota WHERE id_mascota = %s', [session['id_mascota']])
+        mascota = cursor.fetchone()
+        return render_template('usuario/u_adopcion.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])
+    else:
+        return redirect(url_for('Index'))
 
 @app.route('/guarderia/usuario/')
 def u_guarderia():
-    return render_template('usuario/u_guarderia.html')
+    if 'loggedin' in session:
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT tipoMascota FROM mascota WHERE id_mascota = %s', [session['id_mascota']])
+        mascota = cursor.fetchone()
+        return render_template('usuario/u_guarderia.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])
+    else:
+        return redirect(url_for('Index'))
 
 @app.route('/citasAgendadas/guarderia/usuario/')
 def u_citasAgendadasGuarderia():
-    return render_template('usuario/u_citasAgendadasGuarderia.html')
+    if 'loggedin' in session:
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT tipoMascota FROM mascota WHERE id_mascota = %s', [session['id_mascota']])
+        mascota = cursor.fetchone()
+        return render_template('usuario/u_citasAgendadasGuarderia.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])
+    else:
+        return redirect(url_for('Index'))
 
 @app.route('/guarderia/cita/usuario/')
 def u_guarderia_cita():
-    return render_template('usuario/u_guarderiaCita.html')
+    if 'loggedin' in session:
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT tipoMascota FROM mascota WHERE id_mascota = %s', [session['id_mascota']])
+        mascota = cursor.fetchone()
+        return render_template('usuario/u_guarderiaCita.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])
+    else:
+        return redirect(url_for('Index'))
 
 @app.route('/servicios/solicitados/usuario/')
 def u_servicio_solicitados():
-    return render_template('usuario/u_Servicios-solicitud.html')
+    if 'loggedin' in session:
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT tipoMascota FROM mascota WHERE id_mascota = %s', [session['id_mascota']])
+        mascota = cursor.fetchone()
+        return render_template('usuario/u_Servicios-solicitud.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])
+    else:
+        return redirect(url_for('Index'))
 
 @app.route('/servicios/adomicilio/usuario/')
 def u_servicio_adomicilio():
-    return render_template('usuario/u_servicioAdomicialio.html')
+    if 'loggedin' in session:
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT tipoMascota FROM mascota WHERE id_mascota = %s', [session['id_mascota']])
+        mascota = cursor.fetchone()
+        return render_template('usuario/u_servicioAdomicialio.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])
+    else:
+        return redirect(url_for('Index'))
 
 # Rutas para administradores
 @app.route('/admin/')
 def indexAdmin():
     if 'loggedin' in session and session.get('is_admin'):
-        return render_template('admin/index.html')  
+        return render_template('admin/index.html')
     else:
         return redirect(url_for('login'))
 
