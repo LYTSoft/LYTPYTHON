@@ -1,9 +1,7 @@
 import os
 from flask import Flask, render_template, request, redirect, session, url_for, flash
 import MySQLdb.cursors
-from datetime import datetime
 from flask_mysqldb import MySQL
-# from flaskext.mysql import MySQL
 
 # Crear la aplicación
 app = Flask(__name__)
@@ -13,7 +11,7 @@ app.secret_key = 'lytpython'
 
 # Configurar la base de datos MySQL
 app.config['MYSQL_CHARSET'] = 'utf8mb4'
-app.config['MYSQL_HOST'] = 'localhost' 
+app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'petvet'
@@ -21,33 +19,41 @@ app.config['MYSQL_DB'] = 'petvet'
 # Inicializar MySQL
 mysql = MySQL(app)
 
-# Inicio de sesión y registro
+# Ruta principal (login)
 @app.route('/')
 def Index():
-    return render_template('index.html')
+    return redirect(url_for('login'))
 
-# Ruta principal (login)
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST' and 'correo-sesion' in request.form and 'pass-sesion' in request.form:
-        correo = request.form['correo-sesion']
+    if request.method == 'POST' and 'nombre-sesion' in request.form and 'pass-sesion' in request.form:
+        nombre = request.form['nombre-sesion']
         password = request.form['pass-sesion']
+
+        # Verificar si el usuario es el administrador
+        if nombre == 'Admin' and password == '12345':
+            session['loggedin'] = True
+            session['is_admin'] = True
+            flash('¡Inicio de sesión exitoso como administrador!', 'success')
+            return redirect(url_for('indexAdmin'))  # Redirige al índice del administrador
+
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM usuario WHERE correo = %s AND contraseña = %s', (correo, password))
+        cursor.execute('SELECT * FROM usuario WHERE nombre = %s AND contraseña = %s', (nombre, password))
         account = cursor.fetchone()
         if account:
             session['loggedin'] = True
+            session['is_admin'] = False
             session['id'] = account['id_usuario']
-            session['correo'] = account['correo']
             session['nombre'] = account['nombre']
             session['apellido'] = account['apellido']
             session['telefono'] = account['telefono']
+            session['correo'] = account['correo']
             session['id_mascota'] = account['id_mascota']
             flash('¡Inicio de sesión exitoso!', 'success')
-            return redirect(url_for('u_servicios'))
+            return redirect(url_for('u_citasAgendadas'))  # Redirige al índice del usuario
         else:
-            flash('¡Correo o contraseña incorrectos!', 'danger')
-    return render_template('index.html')
+            flash('¡Nombre o contraseña incorrectos!', 'danger')
+    return render_template('usuario/login.html')
 
 # Ruta de registro de usuario
 @app.route('/index/registro_usuario/', methods=['GET', 'POST'])
@@ -62,38 +68,27 @@ def u_registrousuario():
         correo = request.form['correo']
         contraseña = request.form['contraseña']
         verificar_contraseña = request.form['verificar_contraseña']
-        
+
         if contraseña != verificar_contraseña:
             flash('¡Las contraseñas no coinciden!', 'danger')
             return redirect(url_for('u_registrousuario'))
-        
+
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM usuario WHERE correo = %s', (correo,))
+        cursor.execute('SELECT * FROM usuario WHERE nombre = %s', (nombre,))
         account = cursor.fetchone()
-        
+
         if account:
-            flash('¡El correo ya está registrado!', 'danger')
+            flash('¡El nombre ya está registrado!', 'danger')
         else:
             cursor.execute('INSERT INTO mascota (tipoMascota) VALUES (%s)', (mascota,))
             id_mascota = cursor.lastrowid
             mysql.connection.commit()
-            
+
             cursor.execute('INSERT INTO usuario (nombre, apellido, `fecha-nacimiento`, telefono, sexo, id_mascota, correo, contraseña, verificar_contraseña) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)', (nombre, apellido, fecha_nacimiento, telefono, sexo, id_mascota, correo, contraseña, verificar_contraseña))
             mysql.connection.commit()
             flash('¡Te has registrado exitosamente!', 'success')
-            return redirect(url_for('Index'))
+            return redirect(url_for('login'))
     return render_template('usuario/u_registrousuario.html')
-
-@app.route('/home/usuario/')
-def u_servicios():
-    if 'loggedin' in session:
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT tipoMascota FROM mascota WHERE id_mascota = %s', [session['id_mascota']])
-        mascota = cursor.fetchone()
-        return render_template('usuario/u_servicios.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])
-    else:
-        return redirect(url_for('Index'))
-    
 
 @app.route('/citas/agendadas/usuario/')
 def u_citasAgendadas():
@@ -118,13 +113,12 @@ def u_agendarCita():
 @app.route('/agendar_cita', methods=['POST'])
 def agendar_cita():
     if 'loggedin' in session:
-        id_usuario = session['id']  
+        id_usuario = session['id']
         fecha = request.form['fecha']
         tanda = request.form['tanda']
-        id_mascota = request.form['mascota']  
+        id_mascota = request.form['mascota']
         id_servicio = request.form.get('servicio', 'valor_por_defecto')
         descripcion = request.form.get('descripcion', 'Valor por defecto')
-
 
         cursor = mysql.connection.cursor()
         sql = """
@@ -138,7 +132,6 @@ def agendar_cita():
         return redirect(url_for('u_citasAgendadas'))
     else:
         return redirect(url_for('Index'))
-
 
 @app.route('/adopcion/usuario/')
 def u_adopcion():
@@ -166,36 +159,53 @@ def u_servicio_adomicilio():
 
 # Rutas para administradores
 @app.route('/admin/')
-def a_administrador():
-    return render_template('admin/a_administrador.html')
+def indexAdmin():
+    if 'loggedin' in session and session.get('is_admin'):
+        return render_template('admin/index.html')  # Asegúrate de que esta ruta apunte a la página principal del administrador
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/admin/adopcion/')
 def a_adopcion():
-    return render_template('admin/a_adopcion.html')
+    if 'loggedin' in session and session.get('is_admin'):
+        return render_template('admin/a_adopcion.html')
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/admin/citas/agendada/')
 def a_agendada_citas():
-    return render_template('admin/a_citas.html')
+    if 'loggedin' in session and session.get('is_admin'):
+        return render_template('admin/a_citas.html')
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/admin/servicios/')
 def a_servicios():
-    return render_template('admin/a_sevicio.html')
+    if 'loggedin' in session and session.get('is_admin'):
+        return render_template('admin/a_sevicio.html')
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/admin/agenda/citas/')
 def a_agenda_citas():
-    return render_template('admin/a_AgendadasGuarderia.html')
+    if 'loggedin' in session and session.get('is_admin'):
+        return render_template('admin/a_AgendadasGuarderia.html')
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/admin/despliegue/guarderia/')
 def a_despliegueGuarderia():
-    return render_template('admin/a_despliegue-Guarderia.html')
+    if 'loggedin' in session and session.get('is_admin'):
+        return render_template('admin/a_despliegue-Guarderia.html')
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/admin/despliegue/citas/')
 def a_despliegueCitas():
-    return render_template('admin/a_despliegue-citas.html')
+    if 'loggedin' in session and session.get('is_admin'):
+        return render_template('admin/a_despliegue-Citas.html')
+    else:
+        return redirect(url_for('login'))
 
-@app.route('/admin/despliegue/servicios/')
-def a_despliegueServicios():
-    return render_template('admin/a_despliegue-servicios.html')
-
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(port=3307, debug=True)

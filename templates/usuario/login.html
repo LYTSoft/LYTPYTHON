@@ -10,23 +10,23 @@
 <body>
     <div class="contenedor-formulario contenedor">
         <div class="imagen-fomulario"></div>
-        <form class="formulario" method="POST" action="{{ url_for('login') }}">
+        <form id="login-form" class="formulario" method="POST" action="{{ url_for('login') }}">
             <div class="input">
                 <img class="logo" src="{{ url_for('static', filename='imagenes/logo.png') }}" alt="Logo">
-                <label for="correo-sesion">Usuario :</label>
+                <label for="nombre-sesion">Nombre de usuario :</label>
                 <br>
-                <input placeholder="Ingresa tu correo" type="email" id="correo-sesion" name="correo-sesion">
+                <input placeholder="Ingresa tu nombre de usuario" type="text" id="nombre-sesion" name="nombre-sesion" required>
             </div>
             <div class="input">
-                <label for="pass-sesion">Password:</label>
+                <label for="pass-sesion">Contraseña:</label>
                 <br>
-                <input placeholder="Ingresa tu contraseña" type="password" id="pass-sesion" name="pass-sesion">
+                <input placeholder="Ingresa tu contraseña" type="password" id="pass-sesion" name="pass-sesion" required>
             </div>
             <div class="iniciarSeccion"> 
-                <button type="submit">INICIAR SESIÓN</button>
+                <button type="submit" id="login-button">INICIAR SESIÓN</button>
             </div>
             <div class="password-olvidada">
-                <a href="{{ url_for('u_registrousuario') }}">¿Aún no tienes cuenta?</a>
+                <a href="{{ url_for('u_registrousuario') }}" id="register-link">¿Aún no tienes cuenta?</a>
             </div>
         </form>
     </div>
