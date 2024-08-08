@@ -1,7 +1,8 @@
 import os
 from flask import Flask, render_template, request, redirect, session, url_for, send_from_directory
-import MySQLdb.cursors
-from flask_mysqldb import MySQL
+# import MySQLdb.cursors
+# from flask_mysqldb import MySQL
+from flaskext.mysql import MySQL
 from werkzeug.utils import secure_filename
 
 # Crear la aplicación
@@ -128,13 +129,13 @@ def upload_photo():
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        update_user_profile_picture(filename)  # Asegúrate de que esta función actualiza la base de datos
-        return redirect(url_for('indexUsuario'))  # Redirige a la página donde se muestra el perfil
+        update_user_profile_picture(filename) 
+        return redirect(url_for('indexUsuario'))  
     return redirect(request.url)
 
 
 def update_user_profile_picture(filename):
-    user_id = session.get('id')  # Suponiendo que el ID del usuario está en la sesión
+    user_id = session.get('id')  
     cursor = mysql.connection.cursor()
     cursor.execute('UPDATE usuario SET foto_perfil = %s WHERE id_usuario = %s', (filename, user_id))
     mysql.connection.commit()
