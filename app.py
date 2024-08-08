@@ -109,8 +109,15 @@ def u_registrousuario():
 # Ruta para ver citas agendadas del usuario
 @app.route('/citas/agendadas/usuario/')
 def u_citasAgendadas():
-    
-        return render_template('usuario/u_citasAgendadas.html')
+      if 'loggedin' in session:
+        connection = get_db_connection()
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute('SELECT tipoMascota FROM mascota WHERE id_mascota = %s', [session['id_mascota']])
+        mascota = cursor.fetchone()
+        connection.close()
+        return render_template('usuario/u_citasAgendadas.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])
+      return redirect(url_for('Index'))
+        
 
 # Ruta para agendar citas del usuario
 @app.route('/agendarcitas/usuario/')
@@ -121,7 +128,7 @@ def u_agendarCita():
         cursor.execute('SELECT tipoMascota FROM mascota WHERE id_mascota = %s', [session['id_mascota']])
         mascota = cursor.fetchone()
         connection.close()
-        return render_template('usuario/agendarCita.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])
+        return render_template('usuario/u_agendarCita.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])
     return redirect(url_for('Index'))
 
 # Ruta para cargar la foto de perfil

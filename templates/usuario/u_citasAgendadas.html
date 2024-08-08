@@ -1,5 +1,3 @@
-<!-- HECHA POR YOHAN -->
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,7 +9,7 @@
     <link rel="icon" href="{{ url_for('static', filename='imagenes/icon.png') }}">
 </head>
 <body class="body-agandadas">
-     <header>
+    <header>
         <div class="menu">
             <img src="{{ url_for('static', filename='recursos/icon/menu.svg') }}" alt="Menú">
         </div>
@@ -56,11 +54,11 @@
                     <li>
                         <a href="/guarderia/usuario/">
                             <img src="{{ url_for('static', filename='recursos/icon/guarderia.svg') }}" alt="Guardería" class="icon">
-                           <span>Agendar Guardería</span>
+                            <span>Agendar Guardería</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/adopcion/usuario/">
+                        <a href="#">
                             <img src="{{ url_for('static', filename='recursos/icon/adopcion.svg') }}" alt="Adopción" class="icon">
                             <span>Adopción</span>
                         </a>
@@ -108,39 +106,28 @@
         </div>
     </header>
 
-
     <main class="con-agendadas">
         <div class="con-tabla">
-        <table id="citasTable">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Email</th>
-                    <th>Fecha</th>
-                    <th>Teléfono</th>
-                    <th>Tipo de Mascota</th>
-                    <th>Tanda</th>
-                    <th>Servicios</th>
-                    <th>Mensaje</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for cita in citas %}
-                <tr>
-                    <td>{{ cita[1] }}</td>
-                    <td>{{ cita[2] }}</td>
-                    <td>{{ cita[3] }}</td>
-                    <td>{{ cita[4] }}</td>
-                    <td>{{ cita[5] }}</td>
-                    <td>{{ cita[6] }}</td>
-                    <td>{{ cita[7] }}</td>
-                    <td>{{ cita[8] }}</td>
-                    <td>{{ cita[9] }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+            <table id="citasTable">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Tanda</th>
+                        <th>Servicios</th>
+                        <th>Mensaje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cita in citas %}
+                    <tr>
+                        <td>{{ cita.fecha }}</td>
+                        <td>{{ cita.tanda }}</td>
+                        <td>{{ cita.servicios }}</td>
+                        <td>{{ cita.descripcion }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
         <div class="agen">
             <button onclick="volverAlFormulario()">Nueva cita</button>
@@ -148,6 +135,5 @@
     </main>
 
     <script src="{{ url_for('static', filename='js/header.js') }}"></script>
-    
 </body>
 </html>
