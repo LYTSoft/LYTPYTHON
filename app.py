@@ -94,7 +94,7 @@ def u_registrousuario():
 
         if account:
             connection.close()
-            return render_template('usuario/u_registrousuario.html', error="¡El nombre ya está registrado!")
+            return render_template('usuario/u_registrousuario.html')
         else:
             cursor.execute('INSERT INTO mascota (tipoMascota) VALUES (%s)', (mascota,))
             id_mascota = cursor.lastrowid
@@ -109,14 +109,8 @@ def u_registrousuario():
 # Ruta para ver citas agendadas del usuario
 @app.route('/citas/agendadas/usuario/')
 def u_citasAgendadas():
-    if 'loggedin' in session:
-        connection = get_db_connection()
-        cursor = connection.cursor(dictionary=True)
-        cursor.execute('SELECT tipoMascota FROM mascota WHERE id_mascota = %s', [session['id_mascota']])
-        mascota = cursor.fetchone()
-        connection.close()
-        return render_template('usuario/u_citasAgendadas.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])
-    return redirect(url_for('Index'))
+    
+        return render_template('usuario/u_citasAgendadas.html')
 
 # Ruta para agendar citas del usuario
 @app.route('/agendarcitas/usuario/')
