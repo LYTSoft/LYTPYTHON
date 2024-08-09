@@ -238,16 +238,35 @@ def u_servicio_solicitados():
     return redirect(url_for('Index'))
 
 # Ruta para solicitar servicios a domicilio
-@app.route('/servicios/adomicilio/usuario/')
-def u_servicio_adomicilio():
-    if 'loggedin' in session:
+@app.route('/admin/adopcion/', methods=['GET', 'POST'])
+def a_adopcion():
+    if request.method == 'POST' and all(k in request.form for k in ['foto_mascota', 'nombre', 'descripcion', 'edad', 'sexo']):
+        foto_mascota = request.form['foto_mascota']
+        nombre = request.form['nombre']
+        descripcion = request.form['descripcion']
+        edad = request.form['edad']
+        sexo = request.form['sexo']
+        peso = request.form['peso']
+
         connection = get_db_connection()
-        cursor = connection.cursor(dictionary=True)
-        cursor.execute('SELECT tipoMascota FROM mascota WHERE id_mascota = %s', [session['id_mascota']])
-        mascota = cursor.fetchone()
-        connection.close()
-        return render_template('usuario/u_servicioAdomicialio.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])
-    return redirect(url_for('Index'))
+        cursor = connection.cursor()
+
+        # Verificar si el registro ya existe
+        cursor.execute('SELECT * FROM adopcion WHERE nombre = %s', (nombre,))
+        account = cursor.fetchone()
+
+        if account:
+            connection.close()
+            return render_template('admin/a_adopcion.html', message='El registro ya existe.')
+        else:
+            # Insertar datos en la base de datos
+            cursor.execute('INSERT INTO adopcion (foto_mascota, nombre, descripcion, edad, sexo, peso) VALUES (%s, %s, %s, %s, %s, %s)',
+                           (foto_mascota, nombre, descripcion, edad, sexo, peso))
+            connection.commit()
+            connection.close()
+            return redirect(url_for('a_adopcion'))  # Redirigir después de la inserción
+
+    return render_template('admin/a_adopcion.html')
 
 # Rutas para administradores
 @app.route('/admin/')
@@ -256,11 +275,11 @@ def indexAdmin():
         return render_template('admin/index.html')
     return redirect(url_for('login'))
 
-@app.route('/admin/adopcion/')
-def a_adopcion():
-    if 'loggedin' in session and session.get('is_admin'):
-        return render_template('admin/a_adopcion.html')
-    return redirect(url_for('login'))
+# @app.route('/admin/adopcion/')
+# def a_adopcion():
+#     if 'loggedin' in session and session.get('is_admin'):
+#         return render_template('admin/a_adopcion.html')
+#     return redirect(url_for('login'))
 
 @app.route('/admin/citas/agendada/')
 def a_agendada_citas():
