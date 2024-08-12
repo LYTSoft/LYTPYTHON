@@ -1,11 +1,8 @@
 
 /* HECHO POR TIARA */
 
-/* Perfil hecho por Tiara */
 
-.logo{
-    width: 15%;
-}
+/* Perfil hecho por Tiara */
 
 .modal {
     display: none;
@@ -124,7 +121,6 @@
 .accion .boton-cs-perfil {
     background-color: #193A6A;
 } 
-/* estilo del header */
 
 :root{
     --color-barra-lateral:#fff;

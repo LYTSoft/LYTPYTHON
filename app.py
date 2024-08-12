@@ -9,7 +9,7 @@ app = Flask(__name__)
 # Configurar la aplicación
 app.secret_key = 'lytpython'  # Clave secreta para sesiones
 UPLOAD_FOLDER = 'static/uploads'  # Carpeta para almacenar archivos subidos
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+# app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limitar el tamaño del archivo a 16 MB
 
 # Función para obtener una conexión a la base de datos MySQL
@@ -22,10 +22,6 @@ def get_db_connection():
         charset='utf8mb4'
     )
 
-# Función para verificar si el archivo tiene una extensión permitida
-def allowed_file(filename):
-    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'jfif'}
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # Ruta principal redirige a la página de inicio de sesión
 @app.route('/')
@@ -131,33 +127,44 @@ def u_agendarCita():
         return render_template('usuario/u_agendarCita.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])
     return redirect(url_for('Index'))
 
-# Ruta para cargar la foto de perfil
-@app.route('/upload_photo', methods=['POST'])
-def upload_photo():
-    if 'profile_picture' not in request.files:
-        return redirect(request.url)
-    file = request.files['profile_picture']
-    if file.filename == '':
-        return redirect(request.url)
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        update_user_profile_picture(filename)
+@app.route('/agendar_cita', methods=['POST'])
+def agendar_cita():
+    if 'loggedin' in session:
+        nombre = request.form['nombre']
+        apellido = request.form['apellido']
+        email = request.form['email']
+        fecha = request.form['fecha']
+        telefono = request.form['telefono']
+        id_mascota = request.form['mascota']
+        tanda = request.form['tanda']
+        servicios = request.form.getlist('servicios')
+        descripcion = request.form['descripcion']
+        id_usuario = request.form['id_usuario']
+
+        connection = get_db_connection()
+        cursor = connection.cursor()
+        
+        # Insertar los datos de la cita en la base de datos
+        cursor.execute('''
+            INSERT INTO citas (id_usuario, nombre, apellido, email, fecha, telefono, id_mascota, tanda, descripcion)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+        ''', (id_usuario, nombre, apellido, email, fecha, telefono, id_mascota, tanda, descripcion))
+        cita_id = cursor.lastrowid
+
+        # Insertar los servicios seleccionados
+        for servicio in servicios:
+            cursor.execute('''
+                INSERT INTO servicios_cita (id_cita, servicio)
+                VALUES (%s, %s)
+            ''', (cita_id, servicio))
+
+        connection.commit()
+        connection.close()
+        
         return redirect(url_for('indexUsuario'))
-    return redirect(request.url)
+    
+    return redirect(url_for('Index'))
 
-# Actualiza la foto de perfil del usuario en la base de datos
-def update_user_profile_picture(filename):
-    connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
-    cursor.execute('UPDATE usuario SET foto_perfil = %s WHERE id_usuario = %s', (filename, session['id']))
-    connection.commit()
-    connection.close()
-
-# Ruta para servir archivos subidos
-@app.route('/static/uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 # Rutas para usuarios
 @app.route('/home/usuario/')

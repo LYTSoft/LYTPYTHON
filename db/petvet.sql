@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-08-2024 a las 23:24:15
+-- Tiempo de generación: 12-08-2024 a las 20:36:36
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.2.13
 
@@ -130,10 +130,9 @@ CREATE TABLE `mascota` (
 INSERT INTO `mascota` (`id_mascota`, `tipoMascota`) VALUES
 (1, 'Perro'),
 (2, 'Gato'),
-(3, 'Conejo'),
+(3, 'Roedor'),
 (4, 'Ave'),
-(5, 'Pez'),
-(12, 'gato');
+(5, 'Otro');
 
 -- --------------------------------------------------------
 
@@ -223,68 +222,6 @@ INSERT INTO `vacuna` (`id_vacuna`, `vacuna`, `precio`) VALUES
 (3, 'Vacuna contra el moquillo ', 500),
 (4, 'Vacuna refuerzo a polivalente', 600),
 (5, 'Vacuna contra Lyme', 800);
-
--- --------------------------------------------------------
-
---
--- Estructura Stand-in para la vista `vista_mascotas`
--- (Véase abajo para la vista actual)
---
-CREATE TABLE `vista_mascotas` (
-`id_mascota` int(11)
-,`tipoMascota` varchar(50)
-);
-
--- --------------------------------------------------------
-
---
--- Estructura Stand-in para la vista `vista_servicios`
--- (Véase abajo para la vista actual)
---
-CREATE TABLE `vista_servicios` (
-`id_servicios` int(11)
-,`servicio` varchar(50)
-,`precio` float
-);
-
--- --------------------------------------------------------
-
---
--- Estructura Stand-in para la vista `vista_vacunas`
--- (Véase abajo para la vista actual)
---
-CREATE TABLE `vista_vacunas` (
-`id_vacuna` int(11)
-,`vacuna` varchar(50)
-,`precio` float
-);
-
--- --------------------------------------------------------
-
---
--- Estructura para la vista `vista_mascotas`
---
-DROP TABLE IF EXISTS `vista_mascotas`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vista_mascotas`  AS  select `mascota`.`id_mascota` AS `id_mascota`,`mascota`.`tipoMascota` AS `tipoMascota` from `mascota` ;
-
--- --------------------------------------------------------
-
---
--- Estructura para la vista `vista_servicios`
---
-DROP TABLE IF EXISTS `vista_servicios`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vista_servicios`  AS  select `servicio`.`id_servicios` AS `id_servicios`,`servicio`.`servicio` AS `servicio`,`servicio`.`precio` AS `precio` from `servicio` ;
-
--- --------------------------------------------------------
-
---
--- Estructura para la vista `vista_vacunas`
---
-DROP TABLE IF EXISTS `vista_vacunas`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vista_vacunas`  AS  select `vacuna`.`id_vacuna` AS `id_vacuna`,`vacuna`.`vacuna` AS `vacuna`,`vacuna`.`precio` AS `precio` from `vacuna` ;
 
 --
 -- Índices para tablas volcadas
