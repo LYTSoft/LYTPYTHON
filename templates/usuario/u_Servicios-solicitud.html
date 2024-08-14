@@ -70,11 +70,11 @@
 
             <div class="usuario">
                 <a href="#" onclick="abrirModal()">
-                    <img src="{{ url_for('static', filename='imagenes/user-.png') }}" alt="Usuario">
+                    <img src="{{ url_for('static', filename='uploads/' + g.user.foto_perfil) }}" alt="Usuario">
                     <div class="info-usuario">
                         <div class="nombre-email">
-                            <span class="nombre">{{ nombre }} {{ apellido }}</span>
-                            <span class="email">{{ correo }}</span>
+                            <span class="nombre">{{ g.user.nombre }} {{ g.user.apellido }}</span>
+                            <span class="email">{{ g.user.correo }}</span>
                         </div>
                     </div>
                 </a>
@@ -86,13 +86,13 @@
                     <div class="perfil-container">
                         <div class="perfil-header">
                             <div class="perfil-foto-container">
-                                <img id="perfil-foto" src="{{ url_for('static', filename='imagenes/default-profile.jpg') }}" alt="">
+                                <img id="perfil-foto" src="{{ url_for('static', filename='uploads/' + g.user.foto_perfil) }}" alt="">
                             </div>
                             <div class="perfil-info">
-                                <h1>{{ nombre }} {{ apellido }}</h1>
-                                <p>Email: <span id="email">{{ correo }}</span></p>
-                                <p>Teléfono: <span id="telefono">{{ telefono }}</span></p>
-                                <p>Mascota: <span id="mascota">{{ mascota }}</span></p>
+                                <h1>{{ g.user.nombre }} {{ g.user.apellido }}</h1>
+                                <p>Email: <span id="email">{{ g.user.correo }}</span></p>
+                                <p>Teléfono: <span id="telefono">{{ g.user.telefono }}</span></p>
+                                <p>Mascota: <span id="mascota">{{ g.user.tipoMascota }}</span></p>
                             </div>
                         </div>
                         <div class="accion">
@@ -103,6 +103,7 @@
                     </div>
                 </div>
             </div>
+            
         </div>
     </header>
 

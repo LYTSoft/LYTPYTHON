@@ -1,5 +1,5 @@
 import mysql.connector
-from flask import Flask, render_template, request, redirect, session, url_for, flash
+from flask import Flask, render_template, request, redirect, session, url_for, g
 from werkzeug.utils import secure_filename
 import os
 from functools import wraps
@@ -25,6 +25,20 @@ def get_db_connection():
         database='petvet',  # Nombre de la base de datos
         charset='utf8mb4'  # Codificación de caracteres
     )
+    
+    # Función que se ejecuta antes de cada request para agregar información del usuario
+@app.before_request
+def load_logged_in_user():
+    user_id = session.get('id')
+    
+    if user_id is None:
+        g.user = None
+    else:
+        connection = get_db_connection()
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute('SELECT * FROM usuario WHERE id_usuario = %s', (user_id,))
+        g.user = cursor.fetchone()
+        connection.close()
     
 # Función para obtener el tipo de mascota basado en el ID de la mascota
 def get_mascota_tipo(id_mascota):
@@ -87,8 +101,7 @@ def login():
                 'foto_perfil': account.get('foto_perfil', '')
             })
             return redirect(url_for('indexUsuario'))
-        else:
-            flash('Usuario o contraseña incorrectos', 'error')
+
 
     return render_template('usuario/login.html')
 
@@ -168,7 +181,6 @@ def agendar_cita():
             cursor.close()
             connection.close()
 
-            flash('Cita agendada con éxito', 'success')
             return redirect(url_for('u_citasAgendadas'))
 
     return render_template('usuario/u_agendarCita.html')
