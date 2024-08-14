@@ -121,21 +121,10 @@
             </div>
             <form class="formulario ">
                 <div class="form-1">
-                    <label for="nombre">Nombre:</label><br>
-                    <input type="text" id="nombre" placeholder="Nombre" name="nombre" class="form-input" required><br>
-
-                    <label for="apellido">Apellido:</label><br>
-                    <input type="text" id="apellido" placeholder="Apellido" name="apellido" class="form-input" required><br>
-
-                    <label for="email">Correo electrónico:</label><br>
-                    <input type="email" id="email" name="email" placeholder="Correo electrónico" class="form-input" required><br>
-
                     <label for="servicio">Servicios:</label><br>
                     <select id="servicio" name="servicio" class="form-input" required>
                         <option value="">Seleccione una opción</option>
-                        <option value="gato">Hospedaje y cuidado de mascota</option>
-                        <option value="ave">Paseos diarios</option>
-                        <option value="roedor">Áreas de recreación</option>
+                        <option value="5">Hospedaje y cuidado de mascota</option>
                     </select><br>
                 </div>
 
@@ -152,11 +141,11 @@
                     <label for="mascota">Mascota:</label><br>
                     <select id="mascota" name="mascota" class="form-input" required>
                         <option value="">Seleccione una opción</option>
-                        <option value="gato">Gato</option>
-                        <option value="ave">Ave</option>
-                        <option value="roedor">Roedor</option>
-                        <option value="perro">Perro</option>
-                        <option value="otros">Otros</option>
+                        <option value="1">Perro</option>
+                        <option value="2">Gato</option>  
+                        <option value="3">Roedores</option>
+                        <option value="4">Aves</option>
+                        <option value="5">Otros</option>
                     </select><br>
                 </div>
                 <div>
@@ -171,7 +160,6 @@
             </form>
 
             <script src="{{ url_for('static', filename='js/header.js') }}"></script>
-            <script src="{{ url_for('static', filename='js/formularioguarderia.js') }}"></script>
 
         </main>
     </div>

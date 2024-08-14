@@ -1,327 +1,283 @@
-# Importar los módulos necesarios
-import mysql.connector  # Para conectar con la base de datos MySQL
-from flask import Flask, render_template, request, redirect, session, url_for, send_from_directory  # Módulos de Flask
-from werkzeug.utils import secure_filename  # Para asegurar los nombres de archivos
-import os  # Módulos de operaciones del sistema operativo
+import mysql.connector  # Importa el conector de MySQL para interactuar con la base de datos
+from flask import Flask, render_template, request, redirect, session, url_for  # Importa los módulos necesarios de Flask
+from functools import wraps  # Importa wraps para preservar la metadata de las funciones decoradas
 
-# Crear la aplicación Flask
-app = Flask(__name__)
+app = Flask(__name__)  # Crea una instancia de la aplicación Flask
+app.secret_key = 'lytpython'  # Configura una clave secreta para la sesión de Flask
+UPLOAD_FOLDER = 'static/uploads'  # Configura la carpeta para subir archivos
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER  # Asigna la carpeta de subida a la configuración de Flask
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limita el tamaño máximo de archivo subido a 16 MB
 
-# Configurar la aplicación
-app.secret_key = 'lytpython'  # Clave secreta para manejar sesiones
-UPLOAD_FOLDER = 'static/uploads'  # Carpeta para almacenar archivos subidos
-# app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER  # Comentado, no se usa en este código
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limitar el tamaño de los archivos subidos a 16 MB
-
-# Función para obtener una conexión a la base de datos MySQL
 def get_db_connection():
     return mysql.connector.connect(
-        host='localhost',  # Dirección del servidor de la base de datos
+        host='localhost',  # Dirección del servidor de base de datos
         user='root',  # Usuario de la base de datos
-        password='',  # Contraseña del usuario
+        password='',  # Contraseña del usuario de la base de datos
         database='petvet',  # Nombre de la base de datos
-        charset='utf8mb4'  # Codificación de caracteres
+        charset='utf8mb4'  # Conjunto de caracteres para manejar caracteres especiales
     )
 
-# Ruta principal redirige a la página de inicio de sesión
+# Función para obtener el tipo de mascota basado en el ID de la mascota
+def get_mascota_tipo(id_mascota):
+    connection = get_db_connection()  # Establece una conexión con la base de datos
+    cursor = connection.cursor(dictionary=True)  # Crea un cursor para ejecutar consultas SQL
+    cursor.execute('SELECT tipoMascota FROM mascota WHERE id_mascota = %s', [id_mascota])  # Ejecuta una consulta SQL para seleccionar el tipo de mascota dado un ID de mascota
+    mascota = cursor.fetchone()  # Recupera una fila de resultados de la consulta
+    connection.close()  # Cierra la conexión con la base de datos
+    return mascota['tipoMascota'] if mascota else None  # Devuelve el tipo de mascota si se encontró una fila, de lo contrario, devuelve None
+
+# Decorador para verificar si el usuario está logueado
+def login_required(f):
+    @wraps(f)  # Preserva la información de la función original (nombre, docstring, etc.)
+    def decorated_function(*args, **kwargs):
+        if 'loggedin' not in session:  # Verifica si 'loggedin' está en la sesión, lo que indica que el usuario está logueado
+            return redirect(url_for('login'))  # Si no está logueado, redirige a la página de login
+        return f(*args, **kwargs)  # Si está logueado, ejecuta la función original
+    return decorated_function
+
+# Decorador para verificar si el usuario es un administrador
+def admin_required(f):
+    @wraps(f)  # Preserva la información de la función original (nombre, docstring, etc.)
+    def decorated_function(*args, **kwargs):
+        if 'loggedin' not in session or not session.get('is_admin'):  # Verifica si 'loggedin' está en la sesión y si el usuario tiene permisos de administrador
+            return redirect(url_for('login'))  # Si no está logueado o no es administrador, redirige a la página de login
+        return f(*args, **kwargs)  # Si está logueado y es administrador, ejecuta la función original
+    return decorated_function
+
+
 @app.route('/')
 def Index():
-    return redirect(url_for('login'))  # Redirige a la ruta de inicio de sesión
 
-# Ruta para el inicio de sesión
+    return redirect(url_for('login'))  # Redirige a la función 'login' usando la URL generada para la ruta '/login'
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST' and 'nombre-sesion' in request.form and 'pass-sesion' in request.form:
-        nombre = request.form['nombre-sesion']  # Obtener nombre del formulario
-        password = request.form['pass-sesion']  # Obtener contraseña del formulario
+    # Ruta para manejar el inicio de sesión de los usuarios. Soporta los métodos GET y POST.
+    if request.method == 'POST':  # Verifica si el método de la solicitud es POST (cuando el formulario es enviado)
+        nombre = request.form['nombre-sesion']  # Obtiene el valor del campo 'nombre-sesion' del formulario de inicio de sesión
+        password = request.form['pass-sesion']  # Obtiene el valor del campo 'pass-sesion' del formulario de inicio de sesión
 
-        # Autenticación de administrador
+        # Verifica si el nombre de usuario y la contraseña son correctos para el usuario administrador
         if nombre == 'Admin' and password == '12345':
-            session['loggedin'] = True  # Establecer sesión como iniciada
-            session['is_admin'] = True  # Establecer que es un administrador
-            return redirect(url_for('indexAdmin'))  # Redirige al panel de administración
+            session['loggedin'] = True  # Marca la sesión como iniciada
+            session['is_admin'] = True  # Marca la sesión como perteneciente a un administrador
+            return redirect(url_for('indexAdmin'))  # Redirige a la página principal del administrador
 
-        # Autenticación de usuario normal
-        connection = get_db_connection()  # Conectar a la base de datos
-        cursor = connection.cursor(dictionary=True)  # Crear un cursor para ejecutar consultas
-        cursor.execute('SELECT * FROM usuario WHERE nombre = %s AND contraseña = %s', (nombre, password))  # Consultar usuario
-        account = cursor.fetchone()  # Obtener el primer registro encontrado
-        connection.close()  # Cerrar la conexión a la base de datos
+        # Si no es el administrador, se verifica el usuario en la base de datos
+        connection = get_db_connection()  # Obtiene una conexión a la base de datos
+        cursor = connection.cursor(dictionary=True)  # Crea un cursor para ejecutar consultas SQL, configurado para devolver resultados en forma de diccionario
+        cursor.execute('SELECT * FROM usuario WHERE nombre = %s AND contraseña = %s', (nombre, password))  # Ejecuta una consulta SQL para verificar el nombre de usuario y contraseña
+        account = cursor.fetchone()  # Obtiene la primera fila del resultado de la consulta
+        connection.close()  # Cierra la conexión con la base de datos
 
+        # Si se encuentra una cuenta que coincide con el nombre de usuario y la contraseña proporcionados
         if account:
-            # Guardar información del usuario en la sesión
+            # Actualiza la sesión con la información del usuario
             session.update({
-                'loggedin': True,  # Establecer sesión como iniciada
-                'is_admin': False,  # Establecer que no es un administrador
-                'id': account['id_usuario'],  # ID del usuario
-                'nombre': account['nombre'],  # Nombre del usuario
-                'apellido': account['apellido'],  # Apellido del usuario
-                'telefono': account['telefono'],  # Teléfono del usuario
-                'correo': account['correo'],  # Correo del usuario
-                'id_mascota': account['id_mascota'],  # ID de la mascota del usuario
-                'foto_perfil': account.get('foto_perfil', '')  # Foto de perfil del usuario (opcional)
+                'loggedin': True,
+                'is_admin': False,  # Marca al usuario como no administrador
+                'id': account['id_usuario'],  # Almacena el ID del usuario en la sesión
+                'nombre': account['nombre'],  # Almacena el nombre del usuario en la sesión
+                'apellido': account['apellido'],  # Almacena el apellido del usuario en la sesión
+                'telefono': account['telefono'],  # Almacena el teléfono del usuario en la sesión
+                'correo': account['correo'],  # Almacena el correo del usuario en la sesión
+                'id_mascota': account['id_mascota'],  # Almacena el ID de la mascota del usuario en la sesión
+                'foto_perfil': account.get('foto_perfil', '')  # Almacena la foto de perfil del usuario si existe, de lo contrario, asigna una cadena vacía
             })
-            return redirect(url_for('indexUsuario'))  # Redirige a la página de inicio del usuario
-        else:
-            return render_template('usuario/login.html')  # Renderiza la página de login si no hay coincidencia
-    return render_template('usuario/login.html')  # Renderiza la página de login si es un GET
+            return redirect(url_for('indexUsuario'))  # Redirige a la página principal del usuario
+    return render_template('usuario/login.html')  # Renderiza la plantilla de login si el método no es POST
 
-# Ruta para el registro de usuario
 @app.route('/index/registro_usuario/', methods=['GET', 'POST'])
 def u_registrousuario():
-    if request.method == 'POST' and all(k in request.form for k in ['nombre', 'apellido', 'fecha_nacimiento', 'telefono', 'sexo', 'mascota', 'correo', 'contraseña', 'verificar_contraseña']):
-        nombre = request.form['nombre']  # Obtener nombre del formulario
-        apellido = request.form['apellido']  # Obtener apellido del formulario
-        fecha_nacimiento = request.form['fecha_nacimiento']  # Obtener fecha de nacimiento del formulario
-        telefono = request.form['telefono']  # Obtener teléfono del formulario
-        sexo = request.form['sexo']  # Obtener sexo del formulario
-        mascota = request.form['mascota']  # Obtener tipo de mascota del formulario
-        correo = request.form['correo']  # Obtener correo del formulario
-        contraseña = request.form['contraseña']  # Obtener contraseña del formulario
-        verificar_contraseña = request.form['verificar_contraseña']  # Obtener verificación de contraseña del formulario
+    # Ruta para manejar el registro de nuevos usuarios. Soporta los métodos GET y POST.
 
+    if request.method == 'POST' and all(k in request.form for k in ['nombre', 'apellido', 'fecha_nacimiento', 'telefono', 'sexo', 'mascota', 'correo', 'contraseña', 'verificar_contraseña']):  # Verifica que el método sea POST y que todos los campos necesarios estén presentes
+        nombre = request.form['nombre']  # Obtiene el nombre del formulario
+        apellido = request.form['apellido']  # Obtiene el apellido del formulario
+        fecha_nacimiento = request.form['fecha_nacimiento']  # Obtiene la fecha de nacimiento del formulario
+        telefono = request.form['telefono']  # Obtiene el teléfono del formulario
+        sexo = request.form['sexo']  # Obtiene el sexo del formulario
+        id_mascota = request.form['mascota']  # Obtiene el ID de la mascota del formulario
+        correo = request.form['correo']  # Obtiene el correo del formulario
+        contraseña = request.form['contraseña']  # Obtiene la contraseña del formulario
+        verificar_contraseña = request.form['verificar_contraseña']  # Obtiene la contraseña de verificación del formulario
+
+        # Verifica si las contraseñas coinciden
         if contraseña != verificar_contraseña:
-            return redirect(url_for('u_registrousuario'))  # Redirige si las contraseñas no coinciden
-
-        connection = get_db_connection()  # Conectar a la base de datos
-        cursor = connection.cursor(dictionary=True)  # Crear un cursor para ejecutar consultas
-        cursor.execute('SELECT * FROM usuario WHERE nombre = %s', (nombre,))  # Consultar si el usuario ya existe
-        account = cursor.fetchone()  # Obtener el primer registro encontrado
-
+            return render_template('usuario/u_registrousuario.html', error="Las contraseñas no coinciden")  # Renderiza la página de registro con un mensaje de error si las contraseñas no coinciden
+        
+        connection = get_db_connection()  # Obtiene una conexión a la base de datos
+        cursor = connection.cursor(dictionary=True)  # Crea un cursor para ejecutar consultas SQL, configurado para devolver resultados en forma de diccionario
+        
+        cursor.execute('SELECT * FROM usuario WHERE nombre = %s', (nombre,))  # Verifica si el nombre ya está registrado en la base de datos
+        account = cursor.fetchone()  # Obtiene la primera fila del resultado de la consulta
+        
+        # Si ya existe una cuenta con el mismo nombre
         if account:
-            connection.close()  # Cerrar la conexión a la base de datos
-            return render_template('usuario/u_registrousuario.html')  # Renderiza la página de registro si el usuario ya existe
+            connection.close()  # Cierra la conexión con la base de datos
+            return render_template('usuario/u_registrousuario.html', error="El correo ya está registrado")  # Renderiza la página de registro con un mensaje de error si el correo ya está registrado
         else:
-            # Insertar una nueva mascota en la base de datos
-            cursor.execute('INSERT INTO mascota (tipoMascota) VALUES (%s)', (mascota,))
-            id_mascota = cursor.lastrowid  # Obtener el ID de la última fila insertada
-            connection.commit()  # Confirmar los cambios
+            # Inserta la nueva cuenta de usuario en la base de datos
+            cursor.execute('INSERT INTO usuario (nombre, apellido, fecha_nacimiento, telefono, sexo, id_mascota, correo, contraseña) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)', 
+                           (nombre, apellido, fecha_nacimiento, telefono, sexo, id_mascota, correo, contraseña))
+            connection.commit()  # Confirma la transacción en la base de datos
+            connection.close()  # Cierra la conexión con la base de datos
+            return redirect(url_for('login'))  # Redirige a la página de inicio de sesión
+    
+    return render_template('usuario/u_registrousuario.html')  # Renderiza la página de registro de usuario si el método no es POST o faltan campos en el formulario
 
-            # Insertar un nuevo usuario en la base de datos
-            cursor.execute('INSERT INTO usuario (nombre, apellido, fecha_nacimiento, telefono, sexo, id_mascota, correo, contraseña) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)', (nombre, apellido, fecha_nacimiento, telefono, sexo, id_mascota, correo, contraseña))
-            connection.commit()  # Confirmar los cambios
-            connection.close()  # Cerrar la conexión a la base de datos
-            return redirect(url_for('login'))  # Redirige a la página de login
-    return render_template('usuario/u_registrousuario.html')  # Renderiza la página de registro si es un GET
 
-# Ruta para ver citas agendadas del usuario
+# Ruta para mostrar las citas agendadas del usuario (requiere login)
 @app.route('/citas/agendadas/usuario/')
-def u_citasAgendadasPerfil():
-    if 'loggedin' in session:
-        connection = get_db_connection()  # Conectar a la base de datos
-        cursor = connection.cursor(dictionary=True)  # Crear un cursor para ejecutar consultas
-        cursor.execute('SELECT tipoMascota FROM mascota WHERE id_mascota = %s', [session['id_mascota']])  # Consultar tipo de mascota
-        mascota = cursor.fetchone()  # Obtener el registro de la mascota
-        connection.close()  # Cerrar la conexión a la base de datos
-        return render_template('usuario/u_citasAgendadas.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])  # Renderiza la página de citas agendadas
-    return redirect(url_for('Index'))  # Redirige a la página principal si no está logueado
-
-# Ruta para ver citas agendadas del usuario
-@app.route('/citas/agendadas/usuario/')
+@login_required
 def u_citasAgendadas():
-    if 'loggedin' in session:
-        connection = get_db_connection()  # Conectar a la base de datos
-        cursor = connection.cursor(dictionary=True)  # Crear un cursor para ejecutar consultas
-        
-        # Obtener las citas del usuario
-        cursor.execute('''
-            SELECT c.fecha, c.tanda, m.tipoMascota, s.servicio, c.descripcion 
-            FROM citas c
-            JOIN mascota m ON c.id_mascota = m.id_mascota
-            JOIN servicio s ON c.id_servicio = s.id_servicio
-            WHERE c.id_usuario = %s
-        ''', (session['id'],))  # Consultar citas del usuario
-        citas = cursor.fetchall()  # Obtener todas las citas
-        
-        cursor.execute('SELECT tipoMascota FROM mascota WHERE id_mascota = %s', [session['id_mascota']])  # Consultar tipo de mascota
-        mascota = cursor.fetchone()  # Obtener el registro de la mascota
-        connection.close()  # Cerrar la conexión a la base de datos
-        
-        return render_template('usuario/u_citasAgendadas.html', 
-                               nombre=session['nombre'], 
-                               apellido=session['apellido'], 
-                               telefono=session['telefono'], 
-                               correo=session['correo'], 
-                               mascota=mascota['tipoMascota'],
-                               citas=citas)  # Renderiza la página de citas agendadas con la información
-    return redirect(url_for('Index'))  # Redirige a la página principal si no está logueado
+    return render_template('usuario/u_citasAgendadas.html')
 
-# Ruta para agendar citas del usuario
+# Ruta para mostrar el formulario de agendar cita (requiere login)
 @app.route('/agendarcitas/usuario/')
-def u_agendarCita():
-    if 'loggedin' in session:
-        connection = get_db_connection()  # Conectar a la base de datos
-        cursor = connection.cursor(dictionary=True)  # Crear un cursor para ejecutar consultas
-        cursor.execute('SELECT tipoMascota FROM mascota WHERE id_mascota = %s', [session['id_mascota']])  # Consultar tipo de mascota
-        mascota = cursor.fetchone()  # Obtener el registro de la mascota
-        connection.close()  # Cerrar la conexión a la base de datos
-        return render_template('usuario/u_agendarCita.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])  # Renderiza la página para agendar citas
-    return redirect(url_for('Index'))  # Redirige a la página principal si no está logueado
+@login_required
+def u_agendarCitaPerfil():
+     return render_template('usuario/u_agendarCita.html')
 
-# Ruta para procesar la solicitud de agendar una cita
-@app.route('/u_agendarCita', methods=['POST'])
+# Ruta para procesar la agenda de citas (GET y POST)
+@app.route('/usuario/u_agendarCita', methods=['GET', 'POST'])
 def agendar_cita():
-    if 'loggedin' in session:
-        id_usuario = request.form['id_usuario']  # Obtener ID del usuario del formulario
-        fecha = request.form['fecha']  # Obtener fecha de la cita del formulario
-        tanda = request.form['tanda']  # Obtener tanda de la cita del formulario
-        mascota = request.form['mascota']  # Obtener ID de la mascota del formulario
-        servicios = request.form['servicios']  # Obtener ID del servicio del formulario
-        descripcion = request.form['descripcion']  # Obtener descripción de la cita del formulario
-
-        connection = get_db_connection()  # Conectar a la base de datos
-        cursor = connection.cursor()  # Crear un cursor para ejecutar consultas
+    if request.method == 'POST':
+        print("Datos recibidos:", request.form)
         
-        # Insertar datos en la tabla citas
-        query = "INSERT INTO citas (id_usuario, fecha, tanda, id_mascota, id_servicio, descripcion) VALUES (%s, %s, %s, %s, %s, %s)"
-        cursor.execute(query, (id_usuario, fecha, tanda, mascota, servicios, descripcion))  # Ejecutar consulta
-        connection.commit()  # Confirmar los cambios
-        cursor.close()  # Cerrar el cursor
-        connection.close()  # Cerrar la conexión a la base de datos
-        
-        return redirect(url_for('u_citasAgendadas'))  # Redirige a la página de citas agendadas
-    return redirect(url_for('login'))  # Redirige a la página de login si no está logueado
+        # Verifica si todos los campos necesarios están en el formulario
+        if all(k in request.form for k in ['id_usuario', 'fecha', 'tanda', 'mascota', 'servicios', 'descripcion']):
+            # Extrae los datos del formulario
+            id_usuario = request.form['id_usuario']
+            fecha = request.form['fecha']
+            tanda = request.form['tanda']
+            id_mascota = request.form['mascota']
+            id_servicios = request.form['servicios']
+            descripcion = request.form['descripcion']
 
-# Ruta para la página de inicio del usuario
+            # Conecta a la base de datos
+            connection = get_db_connection()
+            cursor = connection.cursor()
+
+            # Verifica si ya existe una cita en esa fecha
+            cursor.execute('SELECT * FROM CITAS WHERE FECHA = %s', (fecha,))
+            account = cursor.fetchone()
+
+            if account:
+                # Si ya existe, cierra la conexión y muestra un mensaje
+                cursor.close()
+                connection.close()
+                return render_template('usuario/u_agendarCita.html', message='El registro ya existe.')
+
+            # Si no existe, inserta la nueva cita
+            cursor.execute('INSERT INTO citas (id_usuario, fecha, tanda, id_mascota, id_servicio, descripcion) VALUES (%s, %s, %s, %s, %s, %s)',
+                           (id_usuario, fecha, tanda, id_mascota, id_servicios, descripcion))
+
+            # Confirma la transacción y cierra la conexión
+            connection.commit()
+            cursor.close()
+            connection.close()
+
+            # Redirige a la misma página (probablemente debería mostrar un mensaje de éxito)
+            return redirect(url_for('agendar_cita'))
+
+    # Si es GET o si falla el POST, muestra el formulario de agendar cita
+    return render_template('usuario/u_agendarCita.html')
+
+# Rutas para diferentes páginas de usuario (todas requieren login)
 @app.route('/home/usuario/')
+@login_required
 def indexUsuario():
-    if 'loggedin' in session:
-        connection = get_db_connection()  # Conectar a la base de datos
-        cursor = connection.cursor(dictionary=True)  # Crear un cursor para ejecutar consultas
-        cursor.execute('SELECT tipoMascota FROM mascota WHERE id_mascota = %s', [session['id_mascota']])  # Consultar tipo de mascota
-        mascota = cursor.fetchone()  # Obtener el registro de la mascota
-        connection.close()  # Cerrar la conexión a la base de datos
-        return render_template('usuario/index.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])  # Renderiza la página de inicio del usuario
-    return redirect(url_for('Index'))  # Redirige a la página principal si no está logueado
+     return render_template('usuario/index.html')
 
-# Ruta para la adopción de mascotas por parte del usuario
 @app.route('/adopcion/usuario/')
+@login_required
 def u_adopcion():
-    if 'loggedin' in session:
-        connection = get_db_connection()  # Conectar a la base de datos
-        cursor = connection.cursor(dictionary=True)  # Crear un cursor para ejecutar consultas
-        cursor.execute('SELECT tipoMascota FROM mascota WHERE id_mascota = %s', [session['id_mascota']])  # Consultar tipo de mascota
-        mascota = cursor.fetchone()  # Obtener el registro de la mascota
-        connection.close()  # Cerrar la conexión a la base de datos
-        return render_template('usuario/u_adopcion.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])  # Renderiza la página de adopción
-    return redirect(url_for('Index'))  # Redirige a la página principal si no está logueado
+     return render_template('usuario/u_adopcion.html')
 
-# Ruta para la guardería de mascotas por parte del usuario
 @app.route('/guarderia/usuario/')
+@login_required
 def u_guarderia():
-    if 'loggedin' in session:
-        connection = get_db_connection()  # Conectar a la base de datos
-        cursor = connection.cursor(dictionary=True)  # Crear un cursor para ejecutar consultas
-        cursor.execute('SELECT tipoMascota FROM mascota WHERE id_mascota = %s', [session['id_mascota']])  # Consultar tipo de mascota
-        mascota = cursor.fetchone()  # Obtener el registro de la mascota
-        connection.close()  # Cerrar la conexión a la base de datos
-        return render_template('usuario/u_guarderia.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])  # Renderiza la página de guardería
-    return redirect(url_for('Index'))  # Redirige a la página principal si no está logueado
+     return render_template('usuario/u_guarderia.html')
 
-# Ruta para ver citas agendadas en la guardería del usuario
 @app.route('/citasAgendadas/guarderia/usuario/')
+@login_required
 def u_citasAgendadasGuarderia():
-    if 'loggedin' in session:
-        connection = get_db_connection()  # Conectar a la base de datos
-        cursor = connection.cursor(dictionary=True)  # Crear un cursor para ejecutar consultas
-        cursor.execute('SELECT tipoMascota FROM mascota WHERE id_mascota = %s', [session['id_mascota']])  # Consultar tipo de mascota
-        mascota = cursor.fetchone()  # Obtener el registro de la mascota
-        connection.close()  # Cerrar la conexión a la base de datos
-        return render_template('usuario/u_citasAgendadasGuarderia.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])  # Renderiza la página de citas agendadas en la guardería
-    return redirect(url_for('Index'))  # Redirige a la página principal si no está logueado
+    return render_template('usuario/u_citasAgendadasGuarderia.html')
 
-# Ruta para la cita en la guardería del usuario
 @app.route('/guarderia/cita/usuario/')
+@login_required
 def u_guarderia_cita():
-    if 'loggedin' in session:
-        connection = get_db_connection()  # Conectar a la base de datos
-        cursor = connection.cursor(dictionary=True)  # Crear un cursor para ejecutar consultas
-        cursor.execute('SELECT tipoMascota FROM mascota WHERE id_mascota = %s', [session['id_mascota']])  # Consultar tipo de mascota
-        mascota = cursor.fetchone()  # Obtener el registro de la mascota
-        connection.close()  # Cerrar la conexión a la base de datos
-        return render_template('usuario/u_guarderiaCita.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])  # Renderiza la página de cita en la guardería
-    return redirect(url_for('Index'))  # Redirige a la página principal si no está logueado
+     return render_template('usuario/u_guarderiaCita.html')
 
-# Ruta para ver los servicios solicitados por el usuario
 @app.route('/servicios/solicitados/usuario/')
+@login_required
 def u_servicio_solicitados():
-    if 'loggedin' in session:
-        connection = get_db_connection()  # Conectar a la base de datos
-        cursor = connection.cursor(dictionary=True)  # Crear un cursor para ejecutar consultas
-        cursor.execute('SELECT tipoMascota FROM mascota WHERE id_mascota = %s', [session['id_mascota']])  # Consultar tipo de mascota
-        mascota = cursor.fetchone()  # Obtener el registro de la mascota
-        connection.close()  # Cerrar la conexión a la base de datos
-        return render_template('usuario/u_Servicios-solicitud.html', nombre=session['nombre'], apellido=session['apellido'], telefono=session['telefono'], correo=session['correo'], mascota=mascota['tipoMascota'])  # Renderiza la página de servicios solicitados
-    return redirect(url_for('Index'))  # Redirige a la página principal si no está logueado
+     return render_template('usuario/u_Servicios-solicitud.html')
 
-# Rutas para administradores
+# Rutas para el administrador (requieren ser admin)
 @app.route('/admin/')
+@admin_required
 def indexAdmin():
-    if 'loggedin' in session and session.get('is_admin'):
-        return render_template('admin/index.html')  # Renderiza la página principal del administrador
-    return redirect(url_for('login'))  # Redirige a la página de login si no es administrador
+    return render_template('admin/index.html')
 
-# Ruta para solicitar servicios a domicilio
+# Ruta para la página de adopción del admin (GET y POST)
 @app.route('/admin/adopcion/', methods=['GET', 'POST'])
+@admin_required
 def a_adopcion():
-    if request.method == 'POST' and all(k in request.form for k in ['foto_mascota', 'nombre', 'descripcion', 'edad', 'sexo']):
-        foto_mascota = request.form['foto_mascota']  # Obtener foto de la mascota del formulario
-        nombre = request.form['nombre']  # Obtener nombre de la mascota del formulario
-        descripcion = request.form['descripcion']  # Obtener descripción de la mascota del formulario
-        edad = request.form['edad']  # Obtener edad de la mascota del formulario
-        sexo = request.form['sexo']  # Obtener sexo de la mascota del formulario
-        peso = request.form['peso']  # Obtener peso de la mascota del formulario
+  if request.method == 'POST' and all(k in request.form for k in ['foto_mascota', 'nombre', 'descripcion', 'edad', 'sexo']):
+        # Extrae los datos del formulario
+        foto_mascota = request.form['foto_mascota']
+        nombre = request.form['nombre']
+        descripcion = request.form['descripcion']
+        edad = request.form['edad']
+        sexo = request.form['sexo']
+        peso = request.form['peso']
 
-        connection = get_db_connection()  # Conectar a la base de datos
-        cursor = connection.cursor()  # Crear un cursor para ejecutar consultas
+        # Conecta a la base de datos
+        connection = get_db_connection()
+        cursor = connection.cursor()
 
-        # Verificar si el registro ya existe
+        # Verifica si ya existe una mascota con ese nombre
         cursor.execute('SELECT * FROM adopcion WHERE nombre = %s', (nombre,))
-        account = cursor.fetchone()  # Obtener el registro de adopción
+        account = cursor.fetchone()
         if account:
-            connection.close()  # Cerrar la conexión a la base de datos
-            return render_template('admin/a_adopcion.html', message='El registro ya existe.')  # Mensaje de error si el registro ya existe
+            connection.close()
+            return render_template('admin/a_adopcion.html', message='El registro ya existe.')
         else:
-            # Insertar datos en la base de datos
+            # Si no existe, inserta el nuevo registro
             cursor.execute('INSERT INTO adopcion (foto_mascota, nombre, descripcion, edad, sexo, peso) VALUES (%s, %s, %s, %s, %s, %s)',
-                           (foto_mascota, nombre, descripcion, edad, sexo, peso))  # Ejecutar consulta
-            connection.commit()  # Confirmar los cambios
-            connection.close()  # Cerrar la conexión a la base de datos
-            return redirect(url_for('a_adopcion'))  # Redirigir después de la inserción
+                           (foto_mascota, nombre, descripcion, edad, sexo, peso))
+            connection.commit()
+            connection.close()
+            return redirect(url_for('a_adopcion'))
 
-    return render_template('admin/a_adopcion.html')  # Renderiza la página de adopción del administrador
-
-
+# Más rutas para el administrador
 @app.route('/admin/citas/agendada/')
+@admin_required
 def a_agendada_citas():
-    if 'loggedin' in session and session.get('is_admin'):
-        return render_template('admin/a_citas.html')  # Renderiza la página de citas agendadas del administrador
-    return redirect(url_for('login'))  # Redirige a la página de login si no es administrador
+    return render_template('admin/a_citas.html')
 
 @app.route('/admin/servicios/')
+@admin_required
 def a_servicios():
-    if 'loggedin' in session and session.get('is_admin'):
-        return render_template('admin/a_sevicio.html')  # Renderiza la página de servicios del administrador
-    return redirect(url_for('login'))  # Redirige a la página de login si no es administrador
+    return render_template('admin/a_sevicio.html')
 
 @app.route('/admin/agenda/citas/')
+@admin_required
 def a_agenda_citas():
-    if 'loggedin' in session and session.get('is_admin'):
-        return render_template('admin/a_AgendadasGuarderia.html')  # Renderiza la página de agenda de citas del administrador
-    return redirect(url_for('login'))  # Redirige a la página de login si no es administrador
+    return render_template('admin/a_AgendadasGuarderia.html')
 
 @app.route('/admin/despliegue/guarderia/')
+@admin_required
 def a_despliegueGuarderia():
-    if 'loggedin' in session and session.get('is_admin'):
-        return render_template('admin/a_despliegue-Guarderia.html')  # Renderiza la página de despliegue de guardería del administrador
-    return redirect(url_for('login'))  # Redirige a la página de login si no es administrador
+    return render_template('admin/a_despliegue-Guarderia.html')
 
 @app.route('/admin/despliegue/citas/')
+@admin_required
 def a_despliegueCitas():
-    if 'loggedin' in session and session.get('is_admin'):
-        return render_template('admin/a_despliegue-Citas.html')  # Renderiza la página de despliegue de citas del administrador
-    return redirect(url_for('login'))  # Redirige a la página de login si no es administrador
+     return render_template('admin/a_despliegue-Citas.html')
 
-# Ejecutar la aplicación Flask
+# Inicia la aplicación
 if __name__ == "__main__":
-    app.run(port=3307, debug=True)  # Ejecuta la aplicación Flask en el puerto 3307 y con modo debug activado
+    app.run(port=3307, debug=True)

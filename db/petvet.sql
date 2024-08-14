@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-08-2024 a las 20:36:36
+-- Tiempo de generación: 14-08-2024 a las 23:17:16
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.2.13
 
@@ -78,6 +78,13 @@ CREATE TABLE `citas` (
   `id_servicio` int(11) NOT NULL,
   `descripcion` varchar(200) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `citas`
+--
+
+INSERT INTO `citas` (`id_citas`, `id_usuario`, `fecha`, `tanda`, `id_mascota`, `id_servicio`, `descripcion`) VALUES
+(7, 1, '2024-08-17', 'Tarde', 3, 6, 'mdkmwdew');
 
 -- --------------------------------------------------------
 
@@ -167,7 +174,7 @@ INSERT INTO `servicio` (`id_servicios`, `servicio`, `precio`) VALUES
 (2, 'Paseos a mascotas', 500),
 (3, 'Corte de uñas ', 500),
 (4, 'Revisiones físicas', 700),
-(5, ' Higiene para Mascotas', 0),
+(5, 'Hospedaje y cuidado de mascota', 0),
 (6, 'Chequeo General', 0),
 (7, 'Vacunación y Medicación', 0);
 
@@ -198,7 +205,7 @@ CREATE TABLE `usuario` (
 INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `fecha_nacimiento`, `telefono`, `sexo`, `id_mascota`, `correo`, `contraseña`, `verificar_contraseña`, `foto_perfil`) VALUES
 (1, 'Tiara', 'Peña', '2024-08-14', '8298427894', 'femenino', 1, 'tiara12p@gmail.com', '123', '', 'goku.jpg'),
 (2, 'yohan', 'perez', '2024-08-30', '8294890987', 'masculino', 2, 'yohan@gamil.com', '12345', '', NULL),
-(3, 'Ash', 'Then', '2024-08-16', '3456789056', 'femenino', 2, 'ash@gmail.com', '12', '', NULL);
+(9, 'Camil', 'Cedeno', '2006-06-21', '8298427894', 'femenino', 4, 'camil@gmail.com', '123', '', NULL);
 
 -- --------------------------------------------------------
 
@@ -296,7 +303,9 @@ ALTER TABLE `servicio`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id_usuario`),
-  ADD KEY `id_mascota` (`id_mascota`);
+  ADD KEY `id_mascota` (`id_mascota`),
+  ADD KEY `id_mascota_2` (`id_mascota`),
+  ADD KEY `id_mascota_3` (`id_mascota`);
 
 --
 -- Indices de la tabla `vacuna`
@@ -324,7 +333,7 @@ ALTER TABLE `adopcion`
 -- AUTO_INCREMENT de la tabla `citas`
 --
 ALTER TABLE `citas`
-  MODIFY `id_citas` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_citas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `domicilio`
@@ -342,7 +351,7 @@ ALTER TABLE `guarderia`
 -- AUTO_INCREMENT de la tabla `mascota`
 --
 ALTER TABLE `mascota`
-  MODIFY `id_mascota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_mascota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -360,7 +369,7 @@ ALTER TABLE `servicio`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `vacuna`

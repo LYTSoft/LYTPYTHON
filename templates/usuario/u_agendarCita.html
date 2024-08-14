@@ -120,7 +120,7 @@
                   <p class="p2">¡Completa este formulario antes de tu cita para el mejor cuidado de tu mascota! </p>
               </div>
             
-  <form action="{{ url_for('u_agendarCita') }}" method="POST">
+ <form action="{{ url_for('agendar_cita') }}" method="post">
                     <input type="hidden" name="id_usuario" value="{{ session['id'] }}">
     <div class="form-1">
         <label for="fecha">Fecha:</label><br>
@@ -160,3 +160,8 @@
         <button type="button" class="anchoE" onclick="verCitas()">Ver Citas</button>
     </div>
 </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
