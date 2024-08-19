@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-08-2024 a las 20:19:58
+-- Tiempo de generación: 19-08-2024 a las 21:24:11
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.2.13
 
@@ -84,7 +84,8 @@ CREATE TABLE `citas` (
 --
 
 INSERT INTO `citas` (`id_citas`, `id_usuario`, `fecha`, `tanda`, `id_mascota`, `id_servicio`, `descripcion`) VALUES
-(7, 1, '2024-08-17', 'Tarde', 3, 6, 'mdkmwdew');
+(7, 1, '2024-08-17', 'Tarde', 3, 6, 'mdkmwdew'),
+(8, 1, '2024-08-14', 'Tarde', 3, 6, 'mm');
 
 -- --------------------------------------------------------
 
@@ -206,7 +207,8 @@ CREATE TABLE `usuario` (
 INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `fecha_nacimiento`, `telefono`, `sexo`, `id_mascota`, `correo`, `contraseña`, `verificar_contraseña`, `foto_perfil`) VALUES
 (1, 'Tiara', 'Peña', '2024-08-14', '8298427894', 'femenino', 1, 'tiara12p@gmail.com', '123', '', 'goku.jpg'),
 (2, 'yohan', 'perez', '2024-08-30', '8294890987', 'masculino', 2, 'yohan@gamil.com', '12345', '', NULL),
-(9, 'Camil', 'Cedeno', '2006-06-21', '8298427894', 'femenino', 4, 'camil@gmail.com', '123', '', NULL);
+(3, 'Camil', 'Cedeno', '2006-06-21', '8298427894', 'femenino', 4, 'camil@gmail.com', '123', '', NULL),
+(4, 'laura', 'cabrera', '2024-08-01', '0987654321', 'femenino', 2, 'la@gamil.com', '12', '', NULL);
 
 -- --------------------------------------------------------
 
@@ -334,7 +336,7 @@ ALTER TABLE `adopcion`
 -- AUTO_INCREMENT de la tabla `citas`
 --
 ALTER TABLE `citas`
-  MODIFY `id_citas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_citas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `domicilio`
@@ -370,7 +372,7 @@ ALTER TABLE `servicio`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `vacuna`
