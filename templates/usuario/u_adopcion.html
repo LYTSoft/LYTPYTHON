@@ -71,7 +71,7 @@
 
             <div class="usuario">
                 <a href="#" onclick="abrirModal()">
-                    <img src="{{ url_for('static', filename='uploads/' + g.user.foto_perfil) }}" alt="Usuario">
+                    <img src="{{ url_for('static', filename='imagenes/user.png') }}" alt="">
                     <div class="info-usuario">
                         <div class="nombre-email">
                             <span class="nombre">{{ g.user.nombre }} {{ g.user.apellido }}</span>
@@ -87,7 +87,7 @@
                     <div class="perfil-container">
                         <div class="perfil-header">
                             <div class="perfil-foto-container">
-                                <img id="perfil-foto" src="{{ url_for('static', filename='uploads/' + g.user.foto_perfil) }}" alt="">
+                              <img src="{{ url_for('static', filename='imagenes/user.png') }}" alt="">
                             </div>
                             <div class="perfil-info">
                                 <h1>{{ g.user.nombre }} {{ g.user.apellido }}</h1>

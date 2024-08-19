@@ -97,8 +97,8 @@ def login():
                 'apellido': account['apellido'],
                 'telefono': account['telefono'],
                 'correo': account['correo'],
-                'id_mascota': account['id_mascota'],
-                'foto_perfil': account.get('foto_perfil', '')
+                'id_mascota': account['id_mascota']
+                
             })
             return redirect(url_for('indexUsuario'))
 
