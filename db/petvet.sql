@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-08-2024 a las 23:17:16
+-- Tiempo de generación: 19-08-2024 a las 20:19:58
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.2.13
 
@@ -113,6 +113,7 @@ CREATE TABLE `guarderia` (
   `id_guaderia` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
   `id_servicio` int(11) NOT NULL,
+  `telefono` int(14) NOT NULL,
   `desde` varchar(15) COLLATE utf8_spanish_ci NOT NULL,
   `hasta` varchar(15) COLLATE utf8_spanish_ci NOT NULL,
   `id_mascota` int(11) NOT NULL,
