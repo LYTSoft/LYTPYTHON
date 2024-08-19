@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-08-2024 a las 21:24:11
+-- Tiempo de generación: 19-08-2024 a las 23:20:51
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.2.13
 
@@ -84,8 +84,7 @@ CREATE TABLE `citas` (
 --
 
 INSERT INTO `citas` (`id_citas`, `id_usuario`, `fecha`, `tanda`, `id_mascota`, `id_servicio`, `descripcion`) VALUES
-(7, 1, '2024-08-17', 'Tarde', 3, 6, 'mdkmwdew'),
-(8, 1, '2024-08-14', 'Tarde', 3, 6, 'mm');
+(20, 1, '2024-08-13', 'Mañana', 2, 6, '');
 
 -- --------------------------------------------------------
 
@@ -336,7 +335,7 @@ ALTER TABLE `adopcion`
 -- AUTO_INCREMENT de la tabla `citas`
 --
 ALTER TABLE `citas`
-  MODIFY `id_citas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_citas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `domicilio`

@@ -110,28 +110,28 @@
     <main class="con-agendadas">
         <div class="con-tabla">
     <table id="citasTable">
-        <thead>
-            <tr>
-                <th>Fecha</th>
-                <th>Tanda</th>
-                <th>Mascota</th>
-                <th>Servicio</th>
-                <th>Descripción</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for cita in citas %}
-            <tr>
-                <td>{{ cita.fecha }}</td>
-                <td>{{ cita.tanda }}</td>
-                <td>{{ cita.tipoMascota }}</td>
-                <td>{{ cita.servicio }}</td>
-                <td>{{ cita.descripcion }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Tanda</th>
+                        <th>Mascota</th>
+                        <th>Servicio</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cita in citas %}
+                    <tr>
+                        <td>{{ cita.fecha }}</td>
+                        <td>{{ cita.tanda }}</td>
+                        <td>{{ cita.tipoMascota }}</td>
+                        <td>{{ cita.servicio }}</td>
+                        <td>{{ cita.descripcion }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
         <div class="agen">
             <button onclick="volverAlFormulario()">Nueva cita</button>
         </div>

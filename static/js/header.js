@@ -59,7 +59,7 @@ function agendarCita () {
 }
 
 function agendarCitaAdomicilio () {
-    window.location.href = "/servicios/adomicilio/usuario/"
+    window.location.href = "/citasAdomicilio/"
 }
 
  
