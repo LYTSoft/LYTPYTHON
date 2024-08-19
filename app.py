@@ -198,75 +198,43 @@ def u_adopcion():
 
 
 
-
-
-
-@app.route('/guarderia/usuario/')
+@app.route('/guarderia/usuario/', methods=['GET', 'POST'])
 @login_required
 def u_guarderia():
-     return render_template('usuario/u_guarderia.html')
-
-
-# @app.route('/usuario/u_guarderia', methods=['GET', 'POST'])
-# @login_required
-# def u_guarderia():
-#     if request.method == 'POST':
-#         print("Datos recibidos:", request.form)
+    if request.method == 'POST':
+        print("Datos recibidos:", request.form)
         
-#         if all(k in request.form for k in ['id_guarderia', 'id_usuario', 'id_servicio', 'telefono', 'desde', 'hasta', 'mascota', 'descripcion']):
+        if all(k in request.form for k in ['id_usuario', 'telefono', 'desde', 'hasta', 'mascota', 'descripcion']):
+            id_usuario = request.form['id_usuario']
+            telefono = request.form['telefono']
+            desde = request.form['desde']
+            hasta = request.form['hasta']
+            mascota = request.form['mascota']
+            descripcion = request.form['descripcion']
+            id_servicio = 5  # Suponiendo que el servicio es constante
 
-#             id_guarderia = request.form['id_guarderia']
-#             id_usuario = request.form['id_usuario']
-#             id_servicio = request.form['id_servicio']
-#             telefono = request.form['telefono']
-#             desde = request.form['desde']
-#             hasta = request.form['hasta']
-#             mascota = request.form['mascota']
-#             descripcion = request.form['descripcion']
+            connection = get_db_connection()
+            cursor = connection.cursor()
 
-#             connection = get_db_connection()
-#             cursor = connection.cursor()
+            # Verifica si el registro ya existe
+            cursor.execute('SELECT * FROM guarderia WHERE telefono = %s AND desde = %s AND hasta = %s AND id_usuario = %s AND id_servicio = %s', (telefono, desde, hasta, id_usuario, id_servicio))
+            existing_record = cursor.fetchone()
 
-#             cursor.execute('SELECT * FROM guarderia WHERE fecha = %s', (telefono,))
-#             account = cursor.fetchone()
+            if existing_record:
+                cursor.close()
+                connection.close()
+                return render_template('usuario/u_guarderia.html', message='El registro ya existe.')
 
-#             if account:
-#                 cursor.close()
-#                 connection.close()
-#                 return render_template('usuario/u_guarderis.html', message='El registro ya existe.')
+            cursor.execute('INSERT INTO guarderia (id_usuario, id_servicio, telefono, desde, hasta, id_mascota, descripcion) VALUES (%s, %s, %s, %s, %s, %s, %s)',
+                           (id_usuario, id_servicio, telefono, desde, hasta, mascota, descripcion))
 
-#             cursor.execute('INSERT INTO guarderia (id_guarderia, id_usuario, id_servicio, telefono, desde, hasta, mascota, descripcion) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)',
-#                            (id_guarderia, id_usuario, id_servicio, telefono, desde, hasta, mascota,descripcion))
+            connection.commit()
+            cursor.close()
+            connection.close()
 
-#             connection.commit()
-#             cursor.close()
-#             connection.close()
+            return redirect(url_for('u_guarderia'))
 
-#             return redirect(url_for('u_guarderia'))
-
-#     return render_template('usuario/u_guarderia.html')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    return render_template('usuario/u_guarderia.html')
 
 
 

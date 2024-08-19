@@ -119,45 +119,48 @@
                     <p class="p2">¡Completa este formulario antes de tu cita para el mejor cuidado de tu mascota!</p>
                 </div>
             </div>
-            <form class="formulario ">
-                <div class="form-1">
-                    <label for="servicio">Servicios:</label><br>
+        <form class="formulario" method="POST" action="/guarderia/usuario/">
+
+             <input type="hidden" name="id_usuario" value="{{ g.user['id_usuario'] }}">
+
+             <div class="form-1">
+                  <label for="servicio">Servicios:</label><br>
                     <select id="servicio" name="servicio" class="form-input" required>
-                        <option value="">Seleccione una opción</option>
-                        <option value="5">Hospedaje y cuidado de mascota</option>
-                    </select><br>
-                </div>
+                         <option value="">Seleccione una opción</option>
+                         <option value="5">Hospedaje y cuidado de mascota</option>
+                   </select><br>
+               </div>
 
-                <div class="form-2">
-                    <label for="telefono">Teléfono:</label><br>
-                    <input type="number" id="telefono" placeholder="Teléfono" name="telefono" class="form-input" required><br>
+               <div class="form-2">
+                   <label for="telefono">Teléfono:</label><br>
+                   <input type="number" id="telefono" placeholder="Teléfono" name="telefono" class="form-input" required><br>
 
-                    <label for="desde">Desde:</label><br>
-                    <input type="date" id="desde" name="desde" class="form-input" required><br>
+                 <label for="desde">Desde:</label><br>
+                 <input type="date" id="desde" name="desde" class="form-input" required><br>
 
-                    <label for="fecha">Hasta:</label><br>
-                    <input type="date" id="hasta" name="hasta" class="form-input" required><br>
+                 <label for="hasta">Hasta:</label><br>
+                 <input type="date" id="hasta" name="hasta" class="form-input" required><br>
 
-                    <label for="mascota">Mascota:</label><br>
-                    <select id="mascota" name="mascota" class="form-input" required>
-                        <option value="">Seleccione una opción</option>
-                        <option value="1">Perro</option>
-                        <option value="2">Gato</option>  
-                        <option value="3">Roedores</option>
-                        <option value="4">Aves</option>
-                        <option value="5">Otros</option>
-                    </select><br>
-                </div>
-                <div>
-                    <textarea class="mss" placeholder="Si tienes alguna duda sobre la estadía, háznoslo saber, estaremos pendientes!" name="descripcion"></textarea><br>
-                </div>
+                 <label for="mascota">Mascota:</label><br>
+                 <select id="mascota" name="mascota" class="form-input" required>
+                      <option value="">Seleccione una opción</option>
+                      <option value="1">Perro</option>
+                      <option value="2">Gato</option>  
+                      <option value="3">Roedores</option>
+                      <option value="4">Aves</option>
+                     <option value="5">Otros</option>
+                 </select><br>
+              </div>
 
-                <div class="boton">
-                    <button type="submit" class="ancho">Enviar</button>
-                    <button type="button" class="anchoE" onclick="verCitas()">Ver Citas</button>
+              <div>
+                 <textarea class="mss" placeholder="Si tienes alguna duda sobre la estadía, háznoslo saber, estaremos pendientes!" name="descripcion"></textarea><br>
+             </div>
 
-                </div>
-            </form>
+              <div class="boton">
+                 <button type="submit" class="ancho">Enviar</button>
+                 <button type="button" class="anchoE" onclick="verCitas()">Ver Citas</button>
+             </div>
+     </form>
 
             <script src="{{ url_for('static', filename='js/header.js') }}"></script>
 
