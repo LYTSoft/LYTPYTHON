@@ -34,51 +34,35 @@
       </div>
     </header>
     
-    <main class="main-agen-admin citas-ad">
-        <table>
-            <thead>
-            <tr class="alto">
-                <th>Num</th>
-                <th>Cliente</th>
-                <th>Fecha</th>
-                <th>Tanda</th>
-                <th>Ver más</th>
-                <th>Acciones</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Maria perez</td>
-                <td>04/06/2024</td>
-                <td>Tarde</td>
-                <td><a href="/admin/despliegue/citas/" class="ver-mas">Ver mas</a></td>
-                <td class="eliminar-a">Eliminar cita</td>
-            </tr>
-              <tr class="gris">
-                <td>2</td>
-                <td>Maria perez</td>
-                <td>04/06/2024</td>
-                <td>Tarde</td>
-                <td><a href="/admin/despliegue/citas/" class="ver-mas">Ver mas</a></td>
-                <td class="eliminar-a">Eliminar cita</td>
-            </tr>
-              <tr >
-                <td>3</td>
-                <td>Maria perez</td>
-                <td>07/06/2024</td>
-                <td>Mañana</td>
-                <td><a href="/admin/despliegue/citas/" class="ver-mas">Ver mas</a></td>
-                <td class="eliminar-a">Eliminar cita</td>
-            </tr>
-              <tr class="gris">
-                <td>4</td>
-                <td>Maria perez</td>
-                <td>08/06/2024</td>
-                <td>Mañana</td>
-                <td><a href="/admin/despliegue/citas/" class="ver-mas">Ver mas</a></td>
-                <td class="eliminar-a">Eliminar cita</td>
-            </tr>
-            </thead>
-        </table>
-    </main>
+    <main class="main-agen-admin">
+        <div class="div-tabla">
+         <table>
+             <thead>
+                 <tr class="tabla-arriba">
+                     <th class="alto-tabla">ID</th>
+                     <th class="alto-tabla" >Fecha</th>
+                     <th class="alto-tabla">Tanda</th>
+                     <th class="alto-tabla">Descripcion</th>
+                     <th class="alto-tabla">Usuario</th>
+                     <th class="alto-tabla">Mascota</th>
+                     <th class="alto-tabla">Servicio</th>
+                 </tr>
+             </thead>
+             <tbody>
+                 {% for appointment in appointments %}
+                 <tr>
+                     <td>{{ appointment.id_citas }}</td>
+                     <td>{{ appointment.fecha }}</td>
+                     <td>{{ appointment.tanda }}</td>
+                     <td>{{ appointment.descripcion }}</td>
+                     <td>{{ appointment.usuario }}</td>
+                     <td>{{ appointment.mascota }}</td>
+                     <td>{{ appointment.servicio }}</td>
+                 </tr>
+                 {% endfor %}
+             </tbody>
+         </table>
+        </div>
+     </main>
 </body>
 </html>

@@ -1,4 +1,5 @@
 
+
 /* HECHO POR TIARA */
 
 
@@ -442,6 +443,7 @@ a{
 
 }
 
+
 .imagen-admin{
     height: 220px;
 
@@ -460,161 +462,29 @@ a{
 }
 
 /* Estilos de citas agendadas del admin yohan */
-.body-admin{
- background-color: #fff;
-}
-.citas-ad{
-    margin-left: 0;
-    background-color: #fff;
-}
 
 .main-agen-admin{
     display: flex;
     justify-content: center;
-    margin-top: 2%;
-
 }
 table{
+    transform: translate(-45px,520px);
     font-size:1.6vw;
     margin-top: 20px;
     text-align: center;
-    width: 75%;
     border-collapse: collapse;/*Fusionar los bordes  */
+ 
 
 }
-th{
+/* hola */
+
+.alto-tabla{
+    padding: 30px;
+    color: #fff;
     background-color: #193A6A;
-    color: #FFF;
-    font-weight: 800;
-}
-th,td{
-    padding: 15px;
-}
-.gris{
-       background-color: #D9D9D9;
-}
-.eliminar-a{
-   color:#FF0000 ;
-   font-weight: 550;
-
-}
-.ver-mas{
-    color: #2C7CBE;
-    font-weight: 550;
 }
 
-/* estilos de la pagina de despligue de citas agendadas */
-.main-despligue{
-    display:flex;
-    margin-left: 0;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
 
-.conten-despligue{
-    display: flex;
-    flex-direction: column;
-    margin-top: 30px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);/* efecto de sombra  */
-    border: 5px;/* un borde alrededor del elemento*/
-    width: 60%;/*  ancho del elemento */
-    /* height: 640px;altura del elemento  */
-
-}
-li{
-    list-style-type:none;
-}
-
-.Cita-pendiente{
-   color: #193A6A;
-   font-size: 26px;
-   font-weight: 750;
-   padding-bottom: 9px;
-   border-bottom: 2px solid #ED9B51;
-   margin-top: 10px;
-
-}
-.pendiente{
-    margin-left: 30px;
-    font-size: 30px;
-}
-.conten-lista-desplie{
-    margin-left: 50px;
-    display: flex;
-    /* justify-content: space-around;  */
-    flex-wrap: wrap;
-    /* flex-direction: column; */
-    margin-top: 20px;
-}
-.encabeza{
-    font-size: 17px;
-    margin-top: 5px;
-    font-weight: 550;
-    color:#193A6A ;
-}
-.ul-despliegue{
-    width: 50%;
-}
-.conten-encabeza{
-    width: 70%;
-    padding: 10px;
-    margin-top: 5px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-}
-.servicios-ul{
-    width: 100%;
-}
-.center-servicios{
-    color: #193A6A;
-    margin-right: 70px;
-    text-align: center;
-    margin-top: 20px;
-    font-size: 2.2vw;
-}
-.servi-div{
-    display: flex;
-    flex-wrap: wrap;
-}
-.li-servi{
-    margin-left: 10px;
-    width: 28%;
-}
-
-.conten-descripcion{
-    /* background-color: #ece3e3; */
-    border-radius: 5px;
-     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border: 2px solid #585555;
-
-    margin-top: 40px;
-
-    height: 150px;
-    margin-left: 11%;
-    margin-bottom: 30px;
-    width: 70%;
-    
-    
-
-}
-.h2-descripcion,.descripcion{
-    margin-top: 20px;
-    margin-left: 20px;
-}
-.h2-descripcion{
-    /* font-size: 30px; */
-    color: #193A6A;
-
-    
-
-}
-p{
-    /* width: 60%; */
-    font-size:1.9vw;
-  
-}
 /* u_servicios.html */
 
 .servicio-adomicilio {

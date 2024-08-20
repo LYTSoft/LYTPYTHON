@@ -10,7 +10,7 @@
     <link rel="icon" href="{{ url_for('static', filename='imagenes/icon.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos_tiara.css') }}">
 </head>
-<body class="body-admin">
+<body class="body-admin-tabla">
     <header class="alto-admi">
         <div>
             <figure>
@@ -36,56 +36,35 @@
         </div>
     </header>
       
-    <main class="main-agen-admin citas-ad">
-        <table>
-            <thead>
-                <tr class="alto">
-                    <th>Num</th>
-                    <th>Cliente</th>
-                    <th>Fecha</th>
-                    <th>Servicio</th>
-                    <th>Mascota</th>
-                    <th>Ver más</th>
-                    <th>Acciones</th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Maria Perez</td>
-                    <td>04/06/2024</td>
-                    <td>Revisiones físicas</td>
-                    <td>Perro</td>
-                    <td><a href="/admin/despliegue/servicios/" class="ver-mas">Ver más</a></td>
-                    <td class="eliminar-a">Eliminar cita</td>
-                </tr>
-                <tr class="gris">
-                    <td>2</td>
-                    <td>Maria Perez</td>
-                    <td>04/06/2024</td>
-                    <td>Baño</td>
-                    <td>Gato</td>
-                    <td><a href="/admin/despliegue/servicios/" class="ver-mas">Ver más</a></td>
-                    <td class="eliminar-a">Eliminar cita</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Maria Perez</td>
-                    <td>07/06/2024</td>
-                    <td>Higiene</td>
-                    <td>Perro</td>
-                    <td><a href="/admin/despliegue/servicios/" class="ver-mas">Ver más</a></td>
-                    <td class="eliminar-a">Eliminar cita</td>
-                </tr>
-                <tr class="gris">
-                    <td>4</td>
-                    <td>Maria Perez</td>
-                    <td>08/06/2024</td>
-                    <td>Vacuna de la rabia</td>
-                    <td>Gato</td>
-                    <td><a href="/admin/despliegue/servicios/" class="ver-mas">Ver más</a></td>
-                    <td class="eliminar-a">Eliminar cita</td>
-                </tr>
-            </thead>
-        </table>
-    </main>
+    <main class="main-agen-admin">
+        <div class="div-tabla">
+         <table>
+             <thead>
+                 <tr class="tabla-arriba">
+                     <th class="alto-tabla">ID</th>
+                     <th class="alto-tabla" >Fecha</th>
+                     <th class="alto-tabla">Tanda</th>
+                     <th class="alto-tabla">Descripcion</th>
+                     <th class="alto-tabla">Usuario</th>
+                     <th class="alto-tabla">Mascota</th>
+                     <th class="alto-tabla">Servicio</th>
+                 </tr>
+             </thead>
+             <tbody>
+                 {% for appointment in appointments %}
+                 <tr>
+                     <td>{{ appointment.id_citas }}</td>
+                     <td>{{ appointment.fecha }}</td>
+                     <td>{{ appointment.tanda }}</td>
+                     <td>{{ appointment.descripcion }}</td>
+                     <td>{{ appointment.usuario }}</td>
+                     <td>{{ appointment.mascota }}</td>
+                     <td>{{ appointment.servicio }}</td>
+                 </tr>
+                 {% endfor %}
+             </tbody>
+         </table>
+        </div>
+     </main>
 </body>
 </html>
