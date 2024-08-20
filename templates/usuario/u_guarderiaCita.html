@@ -108,17 +108,27 @@
     
     <main class="con-agendadas">
         <div class="con-tabla">
-            <table id="citasTable">
+            <table id="guarderiaTable">
                 <thead>
                     <tr>
-                        <th>Nombre</th>
                         <th>Desde</th>
                         <th>Hasta</th>
                         <th>Mascota</th>
-                        <th>Acciones</th>
+                        <th>Servicio</th>
+                        <th>Descripción</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                    {% for cita in guarderia %}
+                    <tr>
+                        <td>{{ cita.desde }}</td>
+                        <td>{{ cita.hasta }}</td>
+                        <td>{{ cita.tipoMascota }}</td>
+                        <td>{{ cita.servicio }}</td>
+                        <td>{{ cita.descripcion }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
         </div>
         <div class="agen">
@@ -128,7 +138,5 @@
 
     <script src="{{ url_for('static', filename='js/header.js') }}"></script>
     <script src="{{ url_for('static', filename='js/tablaguarderia.js') }}"></script>
-   
-
 </body>
 </html>

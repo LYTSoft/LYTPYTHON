@@ -62,6 +62,9 @@ function agendarCitaAdomicilio () {
     window.location.href = "/citasAdomicilio/"
 }
 
+function volverAlFormulario() {
+    window.location.href = '/agendarcitas/usuario/';
+}
  
 // Función para abrir el modal
 function abrirModal() {

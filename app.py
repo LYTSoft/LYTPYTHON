@@ -120,6 +120,7 @@ def login():
             # Si es un administrador, establece las variables de sesión correspondientes
             session['loggedin'] = True
             session['is_admin'] = True
+            session['user_id'] = 'admin'  # Añadimos un ID de usuario para el admin
             # Redirige a la página principal del administrador
             return redirect(url_for('indexAdmin'))
 
@@ -137,6 +138,7 @@ def login():
             session.update({
                 'loggedin': True,
                 'is_admin': False,
+                'user_id': account['id_usuario'],  # Usamos 'user_id' para consistencia
                 'id': account['id_usuario'],
                 'nombre': account['nombre'],
                 'apellido': account['apellido'],
@@ -144,8 +146,6 @@ def login():
                 'correo': account['correo'],
                 'id_mascota': account['id_mascota']
             })
-
-
             
             # Redirige a la página principal del usuario
             return redirect(url_for('indexUsuario'))
@@ -200,27 +200,18 @@ def u_registrousuario():
 @app.route('/usuario/u_agendarCita', methods=['GET', 'POST'])
 @login_required
 def agendar_cita():
-    # Esta ruta maneja tanto solicitudes GET como POST.
-    # Solo los usuarios autenticados pueden acceder a esta ruta.
-    
     if request.method == 'POST':
-        # Si la solicitud es de tipo POST (enviar datos del formulario):
-        
+        # Código para manejar la solicitud POST
         print("Datos recibidos:", request.form)
-        # Imprime los datos del formulario recibidos para depuración.
-        
         # Verifica que todos los campos necesarios estén presentes en el formulario.
-        if all(k in request.form for k in ['id_usuario', 'fecha', 'tanda', 'mascota', 'servicios', 'descripcion']):
+        if all(k in request.form for k in ['fecha', 'tanda', 'mascota', 'servicios', 'descripcion']):
             # Extrae los datos del formulario.
-            id_usuario = request.form['id_usuario']
+            id_usuario = session['user_id']  # Obtén el ID del usuario de la sesión
             fecha = request.form['fecha']
             tanda = request.form['tanda']
             id_mascota = request.form['mascota']
             id_servicios = request.form['servicios']
             descripcion = request.form['descripcion']
-            
-            print(f"ID Usuario: {id_usuario}, Fecha: {fecha}, Tanda: {tanda}, Mascota: {id_mascota}, Servicios: {id_servicios}, Descripción: {descripcion}")
-            # Imprime los datos extraídos para verificar que se han recibido correctamente.
             
             # Obtiene la conexión a la base de datos.
             connection = get_db_connection()
@@ -230,7 +221,6 @@ def agendar_cita():
             cursor.execute('SELECT * FROM citas WHERE fecha = %s AND id_usuario = %s', (fecha, id_usuario))
             account = cursor.fetchone()
             print("Citas encontradas:", account)
-            # Imprime los resultados de la consulta para depuración.
             
             if account:
                 # Si ya existe una cita para la fecha y usuario, muestra un mensaje.
@@ -239,7 +229,7 @@ def agendar_cita():
                 return render_template('usuario/u_agendarCita.html', message='Ya tienes una cita agendada para esa fecha.')
             
             # Si no existe una cita, inserta la nueva cita en la base de datos.
-            cursor.execute('INSERT INTO citas (id_usuario, fecha, tanda, id_mascota, id_servicio, descripcion) VALUES (%s, %s, %s, %s, %s, %s)',
+            cursor.execute('INSERT INTO citas (id_usuario, fecha, tanda, id_mascota, id_servicios, descripcion) VALUES (%s, %s, %s, %s, %s, %s)',
                            (id_usuario, fecha, tanda, id_mascota, id_servicios, descripcion))
             
             # Confirma los cambios en la base de datos.
@@ -248,10 +238,44 @@ def agendar_cita():
             connection.close()
             
             # Redirige al usuario a la página de perfil de citas agendadas.
-            return redirect(url_for('u_agendarCitaPerfil'))
+            return redirect(url_for('u_citasAgendada'))
     
     # Renderiza el formulario de agendar cita si la solicitud es GET o si no se ha enviado una cita.
     return render_template('usuario/u_agendarCita.html')
+
+
+
+@app.route('/citas/agendadas/usuario/')
+@login_required
+def u_citasAgendada():
+    # Conecta a la base de datos
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+
+    # Obtén el ID del usuario desde la sesión
+    id_usuario = session['user_id']
+
+    # Ejecuta la consulta SQL para obtener las citas agendadas del usuario
+    cursor.execute('''
+        SELECT c.fecha, c.tanda, m.tipoMascota, s.servicio, c.descripcion
+        FROM citas c
+        JOIN usuario u ON c.id_usuario = u.id_usuario
+        JOIN mascota m ON u.id_mascota = m.id_mascota
+        JOIN servicio s ON c.id_servicios = s.id_servicios
+        WHERE c.id_usuario = %s
+        ORDER BY c.fecha DESC
+    ''', (id_usuario,))
+    
+    # Obtiene todos los resultados de la consulta
+    citas_agendadas = cursor.fetchall()
+
+    # Cierra el cursor y la conexión
+    cursor.close()
+    connection.close()
+
+    # Renderiza la plantilla con los datos de las citas agendadas
+    return render_template('usuario/u_citasAgendadas.html', citas=citas_agendadas)
+
 
 
 @app.route('/guarderia/usuario/', methods=['GET', 'POST'])
@@ -304,6 +328,7 @@ def u_guarderia():
 
     # Si la solicitud es GET, renderiza la plantilla del formulario de guardería
     return render_template('usuario/u_guarderia.html')
+
 
 @app.route('/citas/agendadas/usuario/')
 @login_required
@@ -383,10 +408,28 @@ def a_adopcion():
 
 
 
+
 @app.route('/admin/citas/')
 @admin_required
 def a_servicios():
-    return render_template('admin/a_citas.html')
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    
+    # Consulta para obtener todas las citas pendientes
+    cursor.execute('''
+        SELECT c.id_citas, c.fecha, c.tanda, c.descripcion, u.nombre as usuario, m.tipoMascota as mascota, s.servicio
+        FROM citas c
+        JOIN usuario u ON c.id_usuario = u.id_usuario
+        JOIN mascota m ON c.id_mascota = m.id_mascota
+        JOIN servicio s ON c.id_servicios = s.id_servicios
+        ORDER BY c.fecha DESC
+    ''')
+    
+    citas_pendientes = cursor.fetchall()
+    cursor.close()
+    connection.close()
+    
+    return render_template('admin/a_citas.html', citas=citas_pendientes)
 
 
 # @app.route('/admin/adopcion/', methods=['GET', 'POST'])
