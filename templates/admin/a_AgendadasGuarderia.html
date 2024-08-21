@@ -20,7 +20,7 @@
 
         <div class="bajo-header">
             <div class="text-pag-b">
-                <h1>Citas Guarderia- Administrador</h1>
+                <h1>Citas Guarderia - Administrador</h1>
             </div>
 
             <div class="con-botones">
@@ -44,25 +44,25 @@
             <thead>
                 <tr class="tabla-arriba">
                     <th class="alto-tabla">ID</th>
-                    <th class="alto-tabla" >Fecha</th>
-                    <th class="alto-tabla">Tanda</th>
-                    <th class="alto-tabla">Descripcion</th>
+                    <th class="alto-tabla">Desde</th>
+                    <th class="alto-tabla">Hasta</th>
                     <th class="alto-tabla">Usuario</th>
                     <th class="alto-tabla">Mascota</th>
                     <th class="alto-tabla">Servicio</th>
+                    <th class="alto-tabla">Descripcion</th>
                 </tr>
             </thead>
             <tbody>
-                {% for appointment in appointments %}
+                {% for cita in guarderia %}
                 <tr>
-                    <td>{{ appointment.id_citas }}</td>
-                    <td>{{ appointment.fecha }}</td>
-                    <td>{{ appointment.tanda }}</td>
-                    <td>{{ appointment.descripcion }}</td>
-                    <td>{{ appointment.usuario }}</td>
-                    <td>{{ appointment.mascota }}</td>
-                    <td>{{ appointment.servicio }}</td>
-                </tr>
+                    <td>{{ cita.id_guarderia }}</td>
+                    <td>{{ cita.desde }}</td>
+                    <td>{{ cita.hasta }}</td>
+                    <td>{{ cita.usuario }}</td>
+                    <td>{{ cita.mascota }}</td>
+                    <td>{{ cita.servicio }}</td>
+                    <td class="descripcion">{{ cita.descripcion }}</td>
+                </tr> 
                 {% endfor %}
             </tbody>
         </table>

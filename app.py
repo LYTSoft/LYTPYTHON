@@ -294,81 +294,75 @@ def u_citasAgendada():
 @app.route('/guarderia/usuario/', methods=['GET', 'POST'])
 @login_required
 def u_guarderia():
-    
-    
     if request.method == 'POST':
-        print("Datos recibidos:", request.form)  
+        print("Datos recibidos:", request.form)
         
-       
-        if all(k in request.form for k in ['id_usuario', 'desde', 'hasta', 'mascota', 'descripcion', 'id_servicio']):
-         
+        required_fields = ['id_usuario', 'desde', 'hasta', 'mascota', 'descripcion', 'id_servicios']
+        if all(k in request.form for k in required_fields):
             id_usuario = request.form['id_usuario']
             desde = request.form['desde']
             hasta = request.form['hasta']
             mascota = request.form['mascota']
             descripcion = request.form['descripcion']
-            id_servicio = request.form['id_servicio']
+            id_servicios = request.form['id_servicios']
 
-         
             connection = get_db_connection()
             cursor = connection.cursor()
 
-          
-            cursor.execute('SELECT * FROM guarderia WHERE telefono = %s AND desde = %s AND hasta = %s AND id_usuario = %s AND id_servicio = %s',
-                           ( desde, hasta, id_usuario, id_servicio))
+            cursor.execute('SELECT * FROM guarderia WHERE desde = %s AND hasta = %s AND id_usuario = %s AND id_servicios = %s',
+                           (desde, hasta, id_usuario, id_servicios))
             existing_record = cursor.fetchone()
 
             if existing_record:
-               
                 cursor.close()
                 connection.close()
                 return render_template('usuario/u_guarderia.html', message='El registro ya existe.')
 
-           
-            cursor.execute('INSERT INTO guarderia (id_usuario, id_servicio, telefono, desde, hasta, id_mascota, descripcion) VALUES (%s, %s, %s, %s, %s, %s, %s)',
-                           (id_usuario, id_servicio, desde, hasta, mascota, descripcion))
+            cursor.execute('INSERT INTO guarderia (id_usuario, id_servicios, desde, hasta, id_mascota, descripcion) VALUES (%s, %s, %s, %s, %s, %s)',
+                           (id_usuario, id_servicios, desde, hasta, mascota, descripcion))
 
-           
             connection.commit()
-            
             cursor.close()
             connection.close()
 
             return redirect(url_for('u_guarderia'))
 
-  
     return render_template('usuario/u_guarderia.html')
-
 # HECHO POR TIARA
 
 @app.route('/guarderia/cita/usuario/')
 @login_required
 def u_guarderia_cita():
-     
-      # Para la solicitud GET, muestra los datos de guardería del usuario
+    # Conecta a la base de datos
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
+
+    # Obtén el ID del usuario desde la sesión
     id_usuario = session['user_id']
 
+    # Ejecuta la consulta SQL para obtener las citas de guardería del usuario
     cursor.execute('''
-        SELECT g.desde, g.hasta, m.tipoMascota, s.servicio, g.descripcion
-        FROM guarderia g
-        JOIN usuario u ON g.id_usuario = u.id_usuario
-        JOIN mascota m ON g.id_mascota = m.id_mascota
-        JOIN servicio s ON g.id_servicios = s.id_servicios
-        WHERE g.id_usuario = %s
-        ORDER BY g.desde DESC
+        SELECT c.desde, c.hasta, m.tipoMascota, s.servicio, c.descripcion
+        FROM guarderia c
+        JOIN usuario u ON c.id_usuario = u.id_usuario
+        JOIN mascota m ON c.id_mascota = m.id_mascota
+        JOIN servicio s ON c.id_servicios = s.id_servicios
+        WHERE c.id_usuario = %s
+        ORDER BY c.desde DESC
     ''', (id_usuario,))
 
-    guarderia = cursor.fetchall()
+    # Obtiene todos los resultados de la consulta
+    guarderia_citas = cursor.fetchall()
 
+    # Cierra el cursor y la conexión
     cursor.close()
     connection.close()
 
-    return render_template('usuario/u_guarderiaCita.html', guarderia=guarderia)
+    # Renderiza la plantilla con los datos de las citas de guardería
+    return render_template('usuario/u_guarderiaCita.html', guarderia=guarderia_citas)
 
 
-@app.route
+
 
 @app.route('/home/usuario/')
 @login_required
@@ -522,7 +516,33 @@ def a_servicio():
 @app.route('/admin/guarderia/')
 @admin_required
 def a_guarderia():
-    return render_template('admin/a_AgendadasGuarderia.html')
+    # Conecta a la base de datos
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+
+    # Ejecuta la consulta SQL para obtener todas las citas de guardería
+    cursor.execute('''
+        SELECT c.id_guarderia, c.desde, c.hasta,  m.tipoMascota as mascota, s.servicio, c.descripcion, u.nombre as usuario
+        FROM guarderia c
+        JOIN usuario u ON c.id_usuario = u.id_usuario
+        JOIN mascota m ON c.id_mascota = m.id_mascota
+        JOIN servicio s ON c.id_servicios = s.id_servicios
+        ORDER BY c.desde DESC
+    ''')
+
+    # Obtiene todos los resultados de la consulta
+    citas_guarderia = cursor.fetchall()
+
+    # Cierra el cursor y la conexión
+    cursor.close()
+    connection.close()
+
+    # Renderiza la plantilla con los datos de las citas de guardería
+    return render_template('admin/a_AgendadasGuarderia.html', guarderia=citas_guarderia)
+
+
+
+
 
 
 @app.route('/admin/despliegue/guarderia/')
