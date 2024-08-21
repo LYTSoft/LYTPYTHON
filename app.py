@@ -15,6 +15,7 @@ app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'petvet'
 
+# HECHO POR TIARA
 
 # Función para obtener una conexión a la base de datos MySQL
 def get_db_connection():
@@ -26,7 +27,8 @@ def get_db_connection():
         charset='utf8mb4'  # Codificación de caracteres
     )
     
-    
+    # HECHO POR TIARA
+
 # Este código se ejecuta antes de cada solicitud
 @app.before_request
 def load_logged_in_user():
@@ -51,7 +53,8 @@ def load_logged_in_user():
         # Cierra la conexión con la base de datos
         connection.close()
 
-    
+    # HECHO POR TIARA
+
 # Función para obtener el tipo de mascota basado en el ID de la mascota
 def get_mascota_tipo(id_mascota):
     # Establece una conexión con la base de datos
@@ -72,6 +75,7 @@ def get_mascota_tipo(id_mascota):
     # Retorna el tipo de mascota si se encontró un resultado, de lo contrario retorna None
     return mascota['tipoMascota'] if mascota else None
 
+# HECHO POR TIARA
 
 
 def login_required(f):# Decorador que se utiliza para proteger vistas que requieren que el 
@@ -89,6 +93,8 @@ def login_required(f):# Decorador que se utiliza para proteger vistas que requie
         # con los argumentos proporcionados
     return decorated_function # Devuelve la función envuelta que realizará la verificación de autenticación
 
+# HECHO POR TIARA
+
 
 # Decorador para restringir el acceso a vistas solo para administradores
 def admin_required(f):
@@ -101,6 +107,9 @@ def admin_required(f):
         # Si el usuario está autenticado y es administrador, ejecuta la vista original
         return f(*args, **kwargs)
     return decorated_function
+
+
+# HECHO POR TIARA
 
 # Ruta para la página de inicio, redirige a la página de inicio de sesión
 @app.route('/')
@@ -153,6 +162,9 @@ def login():
     # Renderiza la plantilla de inicio de sesión si la solicitud es GET o si las credenciales son incorrectas
     return render_template('usuario/login.html')
 
+
+# HECHO POR TIARA
+
 @app.route('/index/registro_usuario/', methods=['GET', 'POST'])
 def u_registrousuario():
     # Verifica si la solicitud es de tipo POST y que todos los campos requeridos están presentes en el formulario
@@ -197,7 +209,7 @@ def u_registrousuario():
     # Si la solicitud es GET o si el formulario no tiene todos los campos requeridos, renderiza el formulario
     return render_template('usuario/u_registrousuario.html')
 
-@app.route('/usuario/u_agendarCita', methods=['GET', 'POST'])
+@app.route('/agendarcitas/usuario/', methods=['GET', 'POST'])
 @login_required
 def agendar_cita():
     if request.method == 'POST':
@@ -238,12 +250,13 @@ def agendar_cita():
             connection.close()
             
             # Redirige al usuario a la página de perfil de citas agendadas.
-            return redirect(url_for('u_citasAgendada'))
+            return redirect(url_for('u_agendarCita'))
     
     # Renderiza el formulario de agendar cita si la solicitud es GET o si no se ha enviado una cita.
     return render_template('usuario/u_agendarCita.html')
 
 
+# HECHO POR TIARA
 
 @app.route('/citas/agendadas/usuario/')
 @login_required
@@ -281,64 +294,75 @@ def u_citasAgendada():
 @app.route('/guarderia/usuario/', methods=['GET', 'POST'])
 @login_required
 def u_guarderia():
-     # Esta ruta maneja tanto solicitudes GET como POST.
-    # Solo los usuarios autenticados pueden acceder a esta ruta.
-    
     if request.method == 'POST':
-        print("Datos recibidos:", request.form)  # Imprime los datos del formulario para depuración
+        print("Datos recibidos:", request.form)
         
-        # Verifica si todos los campos requeridos están presentes en el formulario
-        if all(k in request.form for k in ['id_usuario', 'telefono', 'desde', 'hasta', 'mascota', 'descripcion']):
-            # Obtiene los valores del formulario
+        required_fields = ['id_usuario', 'desde', 'hasta', 'mascota', 'descripcion', 'id_servicios']
+        if all(k in request.form for k in required_fields):
             id_usuario = request.form['id_usuario']
-            telefono = request.form['telefono']
             desde = request.form['desde']
             hasta = request.form['hasta']
             mascota = request.form['mascota']
             descripcion = request.form['descripcion']
-            id_servicio = request.form['id_servicio']
+            id_servicios = request.form['id_servicios']
 
-            # Conecta a la base de datos
             connection = get_db_connection()
             cursor = connection.cursor()
 
-            # Verifica si ya existe un registro con los mismos datos
-            cursor.execute('SELECT * FROM guarderia WHERE telefono = %s AND desde = %s AND hasta = %s AND id_usuario = %s AND id_servicio = %s', 
-                           (telefono, desde, hasta, id_usuario, id_servicio))
+            cursor.execute('SELECT * FROM guarderia WHERE desde = %s AND hasta = %s AND id_usuario = %s AND id_servicios = %s',
+                           (desde, hasta, id_usuario, id_servicios))
             existing_record = cursor.fetchone()
 
             if existing_record:
-                # Si el registro ya existe, cierra el cursor y la conexión, y renderiza la plantilla con un mensaje
                 cursor.close()
                 connection.close()
                 return render_template('usuario/u_guarderia.html', message='El registro ya existe.')
 
-            # Si el registro no existe, inserta el nuevo registro en la base de datos
-            cursor.execute('INSERT INTO guarderia (id_usuario, id_servicio, telefono, desde, hasta, id_mascota, descripcion) VALUES (%s, %s, %s, %s, %s, %s, %s)',
-                           (id_usuario, id_servicio, telefono, desde, hasta, mascota, descripcion))
+            cursor.execute('INSERT INTO guarderia (id_usuario, id_servicios, desde, hasta, id_mascota, descripcion) VALUES (%s, %s, %s, %s, %s, %s)',
+                           (id_usuario, id_servicios, desde, hasta, mascota, descripcion))
 
-            # Guarda los cambios en la base de datos
             connection.commit()
-            # Cierra el cursor y la conexión con la base de datos
             cursor.close()
             connection.close()
 
-            # Redirige al usuario a la página de guardería
             return redirect(url_for('u_guarderia'))
 
-    # Si la solicitud es GET, renderiza la plantilla del formulario de guardería
     return render_template('usuario/u_guarderia.html')
+# HECHO POR TIARA
 
-
-@app.route('/citas/agendadas/usuario/')
+@app.route('/guarderia/cita/usuario/')
 @login_required
-def u_citasAgendadas():
-    return render_template('usuario/u_citasAgendadas.html')
+def u_guarderia_cita():
+    # Conecta a la base de datos
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
 
-@app.route('/agendarcitas/usuario/')
-@login_required
-def u_agendarCitaPerfil():
-     return render_template('usuario/u_agendarCita.html')
+    # Obtén el ID del usuario desde la sesión
+    id_usuario = session['user_id']
+
+    # Ejecuta la consulta SQL para obtener las citas de guardería del usuario
+    cursor.execute('''
+        SELECT c.desde, c.hasta, m.tipoMascota, s.servicio, c.descripcion
+        FROM guarderia c
+        JOIN usuario u ON c.id_usuario = u.id_usuario
+        JOIN mascota m ON c.id_mascota = m.id_mascota
+        JOIN servicio s ON c.id_servicios = s.id_servicios
+        WHERE c.id_usuario = %s
+        ORDER BY c.desde DESC
+    ''', (id_usuario,))
+
+    # Obtiene todos los resultados de la consulta
+    guarderia_citas = cursor.fetchall()
+
+    # Cierra el cursor y la conexión
+    cursor.close()
+    connection.close()
+
+    # Renderiza la plantilla con los datos de las citas de guardería
+    return render_template('usuario/u_guarderiaCita.html', guarderia=guarderia_citas)
+
+
+
 
 @app.route('/home/usuario/')
 @login_required
@@ -360,10 +384,7 @@ def u_citasAdomicilio():
 def u_citasAgendadasGuarderia():
     return render_template('usuario/u_citasAgendadasGuarderia.html')
 
-@app.route('/guarderia/cita/usuario/')
-@login_required
-def u_guarderia_cita():
-     return render_template('usuario/u_guarderiaCita.html')
+
 
 @app.route('/servicios/solicitados/usuario/')
 @login_required
@@ -481,7 +502,8 @@ def tablaadopc():
 
 
 
-
+# HECHO POR TIARA
+        
 @app.route('/admin/citas/')
 @admin_required
 def a_servicios():
@@ -567,7 +589,33 @@ def a_servicio():
 @app.route('/admin/guarderia/')
 @admin_required
 def a_guarderia():
-    return render_template('admin/a_AgendadasGuarderia.html')
+    # Conecta a la base de datos
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+
+    # Ejecuta la consulta SQL para obtener todas las citas de guardería
+    cursor.execute('''
+        SELECT c.id_guarderia, c.desde, c.hasta,  m.tipoMascota as mascota, s.servicio, c.descripcion, u.nombre as usuario
+        FROM guarderia c
+        JOIN usuario u ON c.id_usuario = u.id_usuario
+        JOIN mascota m ON c.id_mascota = m.id_mascota
+        JOIN servicio s ON c.id_servicios = s.id_servicios
+        ORDER BY c.desde DESC
+    ''')
+
+    # Obtiene todos los resultados de la consulta
+    citas_guarderia = cursor.fetchall()
+
+    # Cierra el cursor y la conexión
+    cursor.close()
+    connection.close()
+
+    # Renderiza la plantilla con los datos de las citas de guardería
+    return render_template('admin/a_AgendadasGuarderia.html', guarderia=citas_guarderia)
+
+
+
+
 
 
 

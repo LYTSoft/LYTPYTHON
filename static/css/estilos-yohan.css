@@ -147,7 +147,7 @@ body {
     width: 100%;
     display: flex;
     flex-direction: column;
-    background-color: #f9f9f9;
+    background-color: #f7f7f7;
 }
 
 main {
@@ -511,11 +511,40 @@ tbody tr{
 
 }
 
+/* Estilo para la celda de descripción */
+.descripcion {
+  font-size: clamp(0.8rem, 1.5vw, 1.5rem); /* Tamaño de fuente adaptable entre 0.8rem y 1.5rem */
+  white-space: normal; /* Permite el ajuste de línea para el texto largo */
+  overflow: hidden; /* Oculta el texto que no cabe dentro de la celda */
+  word-break: break-word; /* Rompe las palabras largas para que no se desborden */
+  max-width: 100%; /* Asegura que la celda no se expanda más allá del contenedor */
+}
 
 
 
 /* u_registroMascotas.html y  u_registrousuario.html  Hecho por tiara*/
 
+/* Estilo base para la tabla */
+table {
+  width: 100%;
+  border-collapse: collapse; /* Asegura que las celdas se muestren sin espacio entre ellas */
+}
+
+/* Estilo para las celdas */
+td {
+ 
+  padding: 20px; /* Espaciado interno de las celdas */
+  vertical-align: top; /* Alinea el texto al tope de la celda */
+}
+
+/* Estilo para las filas alternas */
+tbody tr:nth-child(odd) {
+  background-color:#ffffff;  
+}
+
+tbody tr:nth-child(even) {
+  background-color: rgb(228, 227, 227) 
+}
 
 
 
