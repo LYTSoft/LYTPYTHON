@@ -643,22 +643,6 @@ table{
 
 /* estilos de adopcion admin trabajado por laura  */
 
-.body-adop {
-    font-family: Arial, sans-serif;
-    line-height: 1.5;
-    background-color: #f4f4f4; /* Color de fondo suave */
-    margin: 0;
-    padding: 0;
-}
-
-/* Estilos para el contenedor principal */
-.main-adop {
-    max-width: 1400px; /* Ancho máximo para pantallas grandes */
-    margin: 20px auto;
-    padding: 20px;
-}
-
-/* Estilos para el contenedor de adopción */
 .adopt-container {
     background: #fff; /* Fondo blanco */
     border: 1px solid #ddd; /* Borde delgado */
@@ -670,8 +654,8 @@ table{
     gap: 20px; /* Espaciado entre los elementos */
 }
 
-/* Estilos para el título */
-.h1 {
+/* Estilos para el título principal */
+.adopt-container h1 {
     font-size: 2em; /* Tamaño del texto grande */
     color: #193A6A; /* Azul oscuro */
     margin-bottom: 10px; /* Margen inferior ajustado */
@@ -679,7 +663,7 @@ table{
 }
 
 /* Estilos para el párrafo */
-.p {
+.adopt-container p {
     font-size: 1em; /* Tamaño del texto ajustado */
     color: #333; /* Color del texto oscuro */
     margin-bottom: 20px; /* Margen inferior ajustado */
@@ -698,7 +682,6 @@ table{
     flex: 1 1 calc(50% - 16px); /* Ocupa la mitad del contenedor menos el espaciado */
     display: flex;
     flex-direction: column;
-    margin-left: 6px;
 }
 
 /* Estilos para las etiquetas del formulario */
@@ -712,7 +695,8 @@ table{
 .form-group input[type="text"],
 .form-group input[type="number"],
 .form-group select,
-.form-group input[type="file"] {
+.form-group input[type="file"],
+.form-group textarea {
     width: 100%;
     padding: 10px; /* Padding ajustado */
     border: 1px solid #ddd;
@@ -721,12 +705,9 @@ table{
     font-size: 0.9em; /* Tamaño del texto ajustado */
 }
 
-.form-group textarea{
-    width: 100%;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 13px; /* Tamaño del texto ajustado */
+/* Estilos para el textarea */
+.form-group textarea {
+    resize: vertical; /* Permite cambiar el tamaño verticalmente */
 }
 
 /* Estilos para el botón de enviar */
@@ -742,10 +723,11 @@ table{
     display: block;
     width: 100%;
     margin-top: 6px; /* Margen superior para separar del último campo */
+    transition: background-color 0.3s; /* Transición suave */
 }
 
 .form-group button:hover {
-    background-color: #193A6A; /* Azul más oscuro al pasar el ratón */
+    background-color: #0e2c54; /* Azul más oscuro al pasar el ratón */
 }
 
 /* Estilos para el campo de archivo */
@@ -753,18 +735,39 @@ table{
     background: #f9f9f9; /* Fondo claro */
     border: 1px solid #ddd; 
     border-radius: 4px; /* Bordes redondeados */
-    padding: -5px; 
+    padding: 5px; /* Padding ajustado */
 }
 
-.form-group-image label {
-    margin-bottom: 6px; /* Margen inferior reducido */
+/* Estilos para la tabla */
+table {
+    width: 100%; /* Ancho completo */
+    border-collapse: collapse; /* Sin espacios entre las celdas */
+    margin-top: 20px; /* Margen superior */
 }
 
-input[type="file"] {
+th, td {
+    padding: 10px; /* Espaciado dentro de las celdas */
+    text-align: center; /* Alinear texto al centro */
+    border: 1px solid #ddd; /* Borde de las celdas */
+}
+
+th {
+    background-color: #f2f2f2; /* Color de fondo para el encabezado */
+    color: #193A6A; /* Color de texto para el encabezado */
+}
+
+/* Estilos para los botones de eliminación */
+table button {
+    background-color: #c9302c; /* Color de fondo rojo */
+    color: #fff; /* Color del texto en blanco */
     border: none;
-    padding: 0;
-    margin: 0;
-    display: block;
+    padding: 8px 12px; /* Espaciado del botón */
+    border-radius: 4px; /* Bordes redondeados */
+    cursor: pointer;
+}
+
+table button:hover {
+    background-color: #a71d22; /* Color más oscuro al pasar el ratón */
 }
 
 

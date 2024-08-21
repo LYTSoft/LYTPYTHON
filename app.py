@@ -374,37 +374,110 @@ def u_servicio_solicitados():
 @admin_required
 def indexAdmin():
     return render_template('admin/index.html')
+# Hecho por yohan adopcion
+
+
+
 
 
 @app.route('/admin/adopcion/', methods=['GET', 'POST'])
 @admin_required
 def a_adopcion():
-  if request.method == 'POST' and all(k in request.form for k in ['foto_mascota', 'nombre', 'descripcion', 'edad', 'sexo']):
-        foto_mascota = request.files['foto_mascota']
+    if request.method == 'POST':
+        # Manejo de formulario
+        foto_mascota = request.form['foto_mascota']
         nombre = request.form['nombre']
         descripcion = request.form['descripcion']
         edad = request.form['edad']
         sexo = request.form['sexo']
-        peso = request.form['peso']
-
-        # Guardar la foto de la mascota
-        filename = secure_filename(foto_mascota.filename)
-        foto_mascota.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
+        
         connection = get_db_connection()
         cursor = connection.cursor()
+        cursor.execute('INSERT INTO adopcion (foto_mascota, nombre, descripcion, edad, sexo) VALUES (%s, %s, %s, %s, %s)',
+                       (foto_mascota, nombre, descripcion, edad, sexo))
+        connection.commit()
+        cursor.close()
+        connection.close()
+        
+        return redirect(url_for('a_adopcion'))
 
-        cursor.execute('SELECT * FROM adopcion WHERE nombre = %s', (nombre,))
-        account = cursor.fetchone()
-        if account:
-            connection.close()
-            return render_template('admin/a_adopcion.html', message='El registro ya existe.')
-        else:
-            cursor.execute('INSERT INTO adopcion (foto_mascota, nombre, descripcion, edad, sexo, peso) VALUES (%s, %s, %s, %s, %s, %s)',
-                           (filename, nombre, descripcion, edad, sexo, peso))
-            connection.commit()
-            connection.close()
-            return redirect(url_for('a_adopcion'))
+    # GET Request: Muestra el formulario y la tabla con los datos
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute('SELECT id_adopcion, foto_mascota, nombre, descripcion, edad, sexo FROM adopcion')
+    adopciones = cursor.fetchall()
+    cursor.close()
+    connection.close()
+
+    return render_template('admin/a_adopcion.html', adopciones=adopciones)
+
+# @app.route('/admin/adopcion/delete/<int:id_adopcion>', methods=['POST'])
+# @admin_required
+# def delete_adopcion(id_adopcion):
+#     connection = get_db_connection()
+#     cursor = connection.cursor()
+#     cursor.execute('DELETE FROM adopcion WHERE id_adopcion = ?', (id_adopcion,))
+#     connection.commit()
+#     cursor.close()
+#     connection.close()
+#     return redirect(url_for('a_adopcion'))
+
+@app.route('/admin/adopcion/eliminar/<int:id_adopcion>', methods=['POST'])
+def eliminar_adopcion(id_adopcion):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    
+    # Eliminar el registro por ID
+    cursor.execute('DELETE FROM adopcion WHERE id_adopcion = %s', (id_adopcion,))
+    connection.commit()
+    connection.close()
+    
+    return redirect(url_for('a_adopcion'))  # Redirigir después de la eliminación
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@app.route('/citas/agendadas/usuario/')
+
+def tablaadopc():
+    # Conecta a la base de datos
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+
+    # Obtén el ID del usuario desde la sesión
+ 
+
+    # Ejecuta la consulta SQL para obtener las citas agendadas del usuario
+    cursor.execute('''
+        SELECT * FROM adopcion ORDER BY
+                
+    ''')
+    
+    # Obtiene todos los resultados de la consulta
+    citas_agendadas = cursor.fetchall()
+
+    # Cierra el cursor y la conexión
+    cursor.close()
+    connection.close()
+
+    # Renderiza la plantilla con los datos de las citas agendadas
+    return render_template('admin/a_adopcion.html', citas=citas_agendadas)
+
 
 
 
@@ -461,8 +534,8 @@ def a_servicios():
 #             connection.commit()
 #             connection.close()
 #             return redirect(url_for('admin/a_adopcion.html'))
+        
 
-#         return render_template('admin/a_adopcion.html')
 
 # @app.route('/admin/citas/')
 # @admin_required
@@ -497,15 +570,7 @@ def a_guarderia():
     return render_template('admin/a_AgendadasGuarderia.html')
 
 
-@app.route('/admin/despliegue/guarderia/')
-@admin_required
-def a_despliegueGuarderia():
-    return render_template('admin/a_despliegue-Guarderia.html')
 
-@app.route('/admin/despliegue/citas/')
-@admin_required
-def a_despliegueCitas():
-     return render_template('admin/a_despliegue-Citas.html')
 
 
 # Inicia la aplicación
