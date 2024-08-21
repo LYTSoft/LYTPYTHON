@@ -125,7 +125,7 @@
                         <td>{{ cita.hasta }}</td>
                         <td>{{ cita.tipoMascota }}</td>
                         <td>{{ cita.servicio }}</td>
-                        <td>{{ cita.descripcion }}</td>
+                        <td  class="descripcion">{{ cita.descripcion }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -137,6 +137,6 @@
     </main>
 
     <script src="{{ url_for('static', filename='js/header.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/tablaguarderia.js') }}"></script>
+
 </body>
 </html>
