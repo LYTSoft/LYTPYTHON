@@ -310,7 +310,7 @@ def u_guarderia():
             cursor = connection.cursor()
 
             cursor.execute('SELECT * FROM guarderia WHERE desde = %s AND hasta = %s AND id_usuario = %s AND id_servicios = %s',
-                           (desde, hasta, id_usuario, id_servicios))
+            (desde, hasta, id_usuario, id_servicios))
             existing_record = cursor.fetchone()
 
             if existing_record:
@@ -374,10 +374,67 @@ def indexUsuario():
 def u_adopcion():
      return render_template('usuario/u_adopcion.html')
 
-@app.route('/citasAdomicilio/')
+
+
+
+
+
+
+
+
+@app.route('/citasAdomicilio/', methods=['GET', 'POST'])
 @login_required
-def u_citasAdomicilio():
-    return render_template('usuario/u_servicioAdomicialio.html')
+def u_citasAdomicialio():
+    if request.method == 'POST':
+        print("Datos recibidos:", request.form)
+
+        required_fields = ['id_adomicilio', 'id_usuario', 'fecha', 'direccion', 'tanda', 'mascota']
+
+        if all(k in request.form for k in required_fields):
+            id_adomicilio = request.form.get('id_adomicilio')
+            id_usuario = request.form.get('id_usuario')
+            fecha = request.form.get('fecha')
+            direccion = request.form.get('direccion')
+            tanda = request.form.get('tanda')
+            mascota = request.form.get('mascota')
+            vacunas = request.form.getlist('vacunas[]')
+            servicios = request.form.getlist('servicios[]')
+
+            try:
+                connection = get_db_connection()
+                cursor = connection.cursor()
+
+                cursor.execute('SELECT * FROM domicilio WHERE id_adomicilio = %s AND id_usuario = %s AND fecha = %s AND direccion = %s AND tanda = %s AND id_mascota = %s',
+                               (id_adomicilio, id_usuario, fecha, direccion, tanda, mascota))
+                existing_record = cursor.fetchone()
+
+                if existing_record:
+                    return render_template('usuario/u_servicioAdomicilio.html', message='El registro ya existe.')
+
+                for vacuna in vacunas:
+                    for servicio in servicios:
+                        cursor.execute('INSERT INTO domicilio (id_adomicilio, id_usuario, fecha, direccion, tanda, id_mascota, id_vacuna, id_servicio) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)',
+                                       (id_adomicilio, id_usuario, fecha, direccion, tanda, mascota, vacuna, servicio))
+
+                connection.commit()
+
+            except Exception as e:
+                print("Error:", e)
+                connection.rollback()
+            
+            finally:
+                cursor.close()
+                connection.close()
+
+            return redirect(url_for('u_servicioAdomicilio'))
+
+    return render_template('usuario/u_servicioAdomicilio.html')
+
+
+
+
+
+
 
 @app.route('/citasAgendadas/guarderia/usuario/')
 @login_required

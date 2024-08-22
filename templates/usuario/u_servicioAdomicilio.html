@@ -114,56 +114,51 @@
             <h1 class="h1">¡Por favor de llenar!</h1>
             <p class="p">¡Completa este formulario para que podamos cumplir con tu servicio a domicilio! </p>
         </div>
-        <form class="formulario ">
+        <form class="formulario" method="POST" action="/citasAdomicilio/">
             <div class="con-main-servicios">
                 <div class="formularios-servicios">
                     <div class="formulario-servicios">
-                        <label class="label-servicios" for="nombre">Nombre:</label>
-                        <input type="text" id="nombre" placeholder="Nombre" name="nombre" class="form-input" required>
-                        <label class="label-servicios" for="correo">Correo:</label>
-                        <input class="input-servicios" type="email" placeholder="Escriba su email" id="correo" required>
                         <label class="label-servicios" for="fecha">Fecha:</label>
-                        <input class="input-servicios" type="date" required id="fecha">
+                        <input class="input-servicios" type="date" id="fecha" name="fecha" required><br>
                         <label class="label-servicios" for="direccion">Dirección:</label>
-                        <input class="input-servicios" type="text" id="direccion" name="direccion" placeholder="Escriba su dirección" required maxlength="200">
+                        <input class="input-servicios" type="text" id="direccion" name="direccion" placeholder="Escriba su dirección" required maxlength="200"><br>
                     </div>
                     <div class="formulario-servicios">
-                        <label class="label-servicios" for="ape">Apellido:</label>
-                        <input class="input-servicios" type="text" placeholder="Escriba su Apellido" id="ape" autocomplete="off" required>
                         <label class="label-servicios" for="tanda">Tanda:</label>
                         <select class="input-servicios" name="tanda" id="tanda" required>
                             <option value="">-Elija una opción</option>
                             <option value="Mañana">Mañana</option>
                             <option value="Tarde">Tarde</option>
-                        </select>
+                        </select><br>
                         <label class="label-servicios" for="mascota">Mascota:</label>
-                        <select class="input-servicios" name="mascotas" id="mascota" required>
+                        <select class="input-servicios" name="mascota" id="mascota" required>
                             <option value="perro">Perro</option>
-                            <option value="gatos">Gatos</option>
-                            <option value="roedores">Roedores</option>
-                            <option value="aves">Aves</option>
+                            <option value="gato">Gato</option>
+                            <option value="roedor">Roedor</option>
+                            <option value="ave">Ave</option>
+                            <option value="otro">Otro</option>
                         </select>
                     </div>
                 </div>
-
+        
                 <div class="con-servicios">
                     <div class="productos-servis-derecho servicios-vacunas">
                         <h2 class="h2-servicios">Vacunas</h2>
                         <div id="formularios-productos">
                             <div>
-                                <input type="checkbox" name="rabia" value="500">Vacuna contra la rabia - RD$500
+                                <input type="checkbox" name="vacunas[]" value="1">Vacuna contra la rabia - RD$500
                             </div>
                             <div>
-                                <input type="checkbox" name="parvovirus" value="500">Vacuna contra el parvovirus - RD$500
+                                <input type="checkbox" name="vacunas[]" value="2">Vacuna contra el parvovirus - RD$500
                             </div>
                             <div>
-                                <input type="checkbox" name="moquillo" value="500">Vacuna contra el moquillo - RD$500
+                                <input type="checkbox" name="vacunas[]" value="3">Vacuna contra el moquillo - RD$500
                             </div>
                             <div>
-                                <input type="checkbox" name="polivalente" value="500">Vacuna refuerzo a polivalente - RD$500
+                                <input type="checkbox" name="vacunas[]" value="4">Vacuna refuerzo a polivalente - RD$500
                             </div>
                             <div>
-                                <input type="checkbox" name="Lyme" value="2000">Vacuna contra Lyme - RD$2,000
+                                <input type="checkbox" name="vacunas[]" value="5">Vacuna contra Lyme - RD$2,000
                             </div>
                         </div>
                     </div>
@@ -171,26 +166,29 @@
                         <h2 class="h2-servicios">Servicios</h2>
                         <div>
                             <div>
-                                <input type="checkbox" id="baño" name="baño" value="1500">Baño a domicilio - RD$1,500
+                                <input type="checkbox" name="servicios[]" value="1">Baño a domicilio - RD$1,500
                             </div>
                             <div>
-                                <input type="checkbox" id="paseos" name="servicios" value="1000">Paseos a mascotas - RD$1,000
+                                <input type="checkbox" name="servicios[]" value="2">Paseos a mascotas - RD$1,000
                             </div>
                             <div>
-                                <input type="checkbox" id="corte" name="servicios" value="1000">Corte de uñas - RD$1,000
+                                <input type="checkbox" name="servicios[]" value="3">Corte de uñas - RD$1,000
                             </div>
                             <div>
-                                <input type="checkbox" id="revisiones" name="servicios" value="2000">Revisiones físicas - RD$2,000
+                                <input type="checkbox" name="servicios[]" value="4">Revisiones físicas - RD$2,000
                             </div>
                         </div>
                     </div>
                 </div>
                 <p class="Total">Total: <span id="totalPrecio" name="totalPrecios">0</span></p>
-                <button class="pedir" type="submit" value="Pedir">Pedir</button>
-                <button  class="pedir" type="button" class="anchoE" onclick="verCitas()">Ver Citas</button>
-
+                <button class="pedir" type="submit">Pedir</button>
+                <button class="pedir" type="button" class="anchoE" onclick="verCitas()">Ver Citas</button>
             </div>
         </form>
+        
+        
+        
+        
     </main>
     <script src="{{ url_for('static', filename='js/calculo.js') }}"></script>
     <script src="{{ url_for('static', filename='js/header.js') }}"></script>
