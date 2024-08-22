@@ -1,8 +1,28 @@
-import mysql.connector
-from flask import Flask, render_template, request, redirect, session, url_for, g
-from werkzeug.utils import secure_filename
+# Incluir el Framework Flask
 import os
+from flask import Flask
+
+# Importar la plantilla HTML. Para guardar datos desde el formulario importamos request, redirect y session (variable de sesión).
+from flask import render_template, request, redirect, session, url_for, g
+
+# Importar el enlace a base de datos MySQL
+from flaskext.mysql import MySQL
+
+# Importar controlador del tiempo
+from datetime import datetime
+
+# Importar para obtener información de la imagen
+from flask import send_from_directory
+
+# 'mysql.connector' es un módulo que proporciona una interfaz para conectarse a una base de datos MySQL.
+import mysql.connector
+
+# 'secure_filename' se utiliza para asegurar que un nombre de archivo sea seguro para  usar en un sistema de archivos.
+from werkzeug.utils import secure_filename
+
+# 'wraps' se utiliza para preservar la identidad de la función original cuando se usa un decorador.
 from functools import wraps
+
 
 # Crear la aplicación Flask
 app = Flask(__name__)
@@ -110,7 +130,6 @@ def admin_required(f):
 
 
 # HECHO POR TIARA
-
 # Ruta para la página de inicio, redirige a la página de inicio de sesión
 @app.route('/')
 def Index():
@@ -164,7 +183,6 @@ def login():
 
 
 # HECHO POR TIARA
-
 @app.route('/index/registro_usuario/', methods=['GET', 'POST'])
 def u_registrousuario():
     # Verifica si la solicitud es de tipo POST y que todos los campos requeridos están presentes en el formulario
@@ -209,6 +227,9 @@ def u_registrousuario():
     # Si la solicitud es GET o si el formulario no tiene todos los campos requeridos, renderiza el formulario
     return render_template('usuario/u_registrousuario.html')
 
+
+
+
 @app.route('/agendarcitas/usuario/', methods=['GET', 'POST'])
 @login_required
 def agendar_cita():
@@ -250,14 +271,14 @@ def agendar_cita():
             connection.close()
             
             # Redirige al usuario a la página de perfil de citas agendadas.
-            return redirect(url_for('u_agendarCita'))
+        return redirect(url_for('agendar_cita'))
+
     
     # Renderiza el formulario de agendar cita si la solicitud es GET o si no se ha enviado una cita.
     return render_template('usuario/u_agendarCita.html')
 
 
 # HECHO POR TIARA
-
 @app.route('/citas/agendadas/usuario/')
 @login_required
 def u_citasAgendada():
@@ -288,7 +309,6 @@ def u_citasAgendada():
 
     # Renderiza la plantilla con los datos de las citas agendadas
     return render_template('usuario/u_citasAgendadas.html', citas=citas_agendadas)
-
 
 
 @app.route('/guarderia/usuario/', methods=['GET', 'POST'])
@@ -328,8 +348,8 @@ def u_guarderia():
             return redirect(url_for('u_guarderia'))
 
     return render_template('usuario/u_guarderia.html')
-# HECHO POR TIARA
 
+# HECHO POR TIARA
 @app.route('/guarderia/cita/usuario/')
 @login_required
 def u_guarderia_cita():
@@ -362,8 +382,6 @@ def u_guarderia_cita():
     return render_template('usuario/u_guarderiaCita.html', guarderia=guarderia_citas)
 
 
-
-
 @app.route('/home/usuario/')
 @login_required
 def indexUsuario():
@@ -373,14 +391,6 @@ def indexUsuario():
 @login_required
 def u_adopcion():
      return render_template('usuario/u_adopcion.html')
-
-
-
-
-
-
-
-
 
 @app.route('/citasAdomicilio/', methods=['GET', 'POST'])
 @login_required
@@ -432,17 +442,6 @@ def u_citasAdomicialio():
 
 
 
-
-
-
-
-@app.route('/citasAgendadas/guarderia/usuario/')
-@login_required
-def u_citasAgendadasGuarderia():
-    return render_template('usuario/u_citasAgendadasGuarderia.html')
-
-
-
 @app.route('/servicios/solicitados/usuario/')
 @login_required
 def u_servicio_solicitados():
@@ -452,12 +451,9 @@ def u_servicio_solicitados():
 @admin_required
 def indexAdmin():
     return render_template('admin/index.html')
+
+
 # Hecho por yohan adopcion
-
-
-
-
-
 @app.route('/admin/adopcion/', methods=['GET', 'POST'])
 @admin_required
 def a_adopcion():
@@ -489,17 +485,6 @@ def a_adopcion():
 
     return render_template('admin/a_adopcion.html', adopciones=adopciones)
 
-# @app.route('/admin/adopcion/delete/<int:id_adopcion>', methods=['POST'])
-# @admin_required
-# def delete_adopcion(id_adopcion):
-#     connection = get_db_connection()
-#     cursor = connection.cursor()
-#     cursor.execute('DELETE FROM adopcion WHERE id_adopcion = ?', (id_adopcion,))
-#     connection.commit()
-#     cursor.close()
-#     connection.close()
-#     return redirect(url_for('a_adopcion'))
-
 @app.route('/admin/adopcion/eliminar/<int:id_adopcion>', methods=['POST'])
 def eliminar_adopcion(id_adopcion):
     connection = get_db_connection()
@@ -511,52 +496,6 @@ def eliminar_adopcion(id_adopcion):
     connection.close()
     
     return redirect(url_for('a_adopcion'))  # Redirigir después de la eliminación
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@app.route('/citas/agendadas/usuario/')
-
-def tablaadopc():
-    # Conecta a la base de datos
-    connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
-
-    # Obtén el ID del usuario desde la sesión
- 
-
-    # Ejecuta la consulta SQL para obtener las citas agendadas del usuario
-    cursor.execute('''
-        SELECT * FROM adopcion ORDER BY
-                
-    ''')
-    
-    # Obtiene todos los resultados de la consulta
-    citas_agendadas = cursor.fetchall()
-
-    # Cierra el cursor y la conexión
-    cursor.close()
-    connection.close()
-
-    # Renderiza la plantilla con los datos de las citas agendadas
-    return render_template('admin/a_adopcion.html', citas=citas_agendadas)
-
-
 
 
 # HECHO POR TIARA
@@ -582,61 +521,6 @@ def a_servicios():
     connection.close()
     
     return render_template('admin/a_citas.html', citas=citas_pendientes)
-
-
-# @app.route('/admin/adopcion/', methods=['GET', 'POST'])
-# @admin_required
-# def a_adopcion():
-#   if request.method == 'POST' and all(k in request.form for k in ['foto_mascota', 'nombre', 'descripcion', 'edad', 'sexo']):
-#         foto_mascota = request.files['foto_mascota']
-#         nombre = request.form['nombre']
-#         descripcion = request.form['descripcion']
-#         edad = request.form['edad']
-#         sexo = request.form['sexo']
-#         peso = request.form['peso']
-
-#         # Guardar la foto de la mascota
-#         filename = secure_filename(foto_mascota.filename)
-#         foto_mascota.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
-#         connection = get_db_connection()
-#         cursor = connection.cursor()
-
-#         cursor.execute('SELECT * FROM adopcion WHERE nombre = %s', (nombre,))
-#         account = cursor.fetchone()
-#         if account:
-#             connection.close()
-#             return render_template('admin/a_adopcion.html', message='El registro ya existe.')
-#         else:
-#             cursor.execute('INSERT INTO adopcion (foto_mascota, nombre, descripcion, edad, sexo, peso) VALUES (%s, %s, %s, %s, %s, %s)',
-#                            (filename, nombre, descripcion, edad, sexo, peso))
-#             connection.commit()
-#             connection.close()
-#             return redirect(url_for('admin/a_adopcion.html'))
-        
-
-
-# @app.route('/admin/citas/')
-# @admin_required
-# def a_citas():
-#     connection = get_db_connection()
-#     cursor = connection.cursor(dictionary=True)
-#     cursor.execute("SELECT c.fecha, c.tanda, u.nombre AS usuario_nombre, u.apellido AS usuario_apellido, m.tipoMascota AS mascota_tipo, s.nombre_servicio, c.descripcion FROM citas c JOIN usuario u ON c.id_usuario = u.id_usuario JOIN mascota m ON c.id_mascota = m.id_mascota JOIN servicios s ON c.id_servicio = s.id_servicio WHERE DATE(c.fecha) = CURDATE()")
-#     citas = cursor.fetchall()
-#     cursor.close()
-#     connection.close()
-#     return render_template('admin/a_citas.html', citas=citas)
-
-# @app.route('/admin/adopcion/<int:id>', methods=['GET', 'POST'])
-# @admin_required
-# def eliminar_adopcion(id):
-#     connection = get_db_connection()
-#     cursor = connection.cursor()
-#     cursor.execute('DELETE FROM adopcion WHERE id = %s', (id,))
-#     connection.commit()
-#     cursor.close()
-#     connection.close()
-#     return redirect(url_for('a_adopcion'))
 
 @app.route('/admin/servicios/')
 @admin_required
@@ -670,14 +554,5 @@ def a_guarderia():
     # Renderiza la plantilla con los datos de las citas de guardería
     return render_template('admin/a_AgendadasGuarderia.html', guarderia=citas_guarderia)
 
-
-
-
-
-
-
-
-
-# Inicia la aplicación
 if __name__ == "__main__":
     app.run(port=3307, debug=True)
