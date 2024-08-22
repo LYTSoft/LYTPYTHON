@@ -91,8 +91,7 @@ INSERT INTO `citas` (`id_citas`, `id_usuario`, `fecha`, `tanda`, `id_mascota`, `
 
 --
 -- Estructura de tabla para la tabla `domicilio`
---sql
-
+--
 
 CREATE TABLE `domicilio` (
   `id_adomicilio` int(11) NOT NULL,
