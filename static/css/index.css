@@ -15,7 +15,7 @@
 }
 
 .imagen-fomulario {
-    background-image: url("../imagenes/imagenPrincipal.jpg");/* Imagen desde css */
+    background-image: url("../img/imagenPrincipal.jpg");/* Imagen desde css */
     background-position: center center; /* para que la img se centre  */
     background-size: cover; /* cover: que la imagen se adapte al cotenedor padre, osea al imagen-formulario */
     flex: 65%; /* flex es la la propiedad resumida que indica la capacidad de un elemento flexible para alterar sus dimensiones y llenar el espacio disponible. 

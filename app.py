@@ -26,7 +26,7 @@ from functools import wraps
 
 # Crear la aplicación Flask
 app = Flask(__name__)
-
+app.config['UPLOAD_FOLDER'] = 'static/img/' 
 # Configurar la aplicación
 app.secret_key = 'lytpython'  # Clave secreta para sesiones
 
@@ -35,6 +35,11 @@ app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'petvet'
 
+
+@app.route('/img/<foto_mascota>')
+def imagenes(foto_mascota):
+    print(foto_mascota)
+    return send_from_directory(os.path.join('static/img'), foto_mascota)
 
 
 # HECHO POR TIARA
@@ -479,21 +484,34 @@ def indexAdmin():
 
 
 # Hecho por yohan adopcion
+
 @app.route('/admin/adopcion/', methods=['GET', 'POST'])
 @admin_required
 def a_adopcion():
     if request.method == 'POST':
         # Manejo de formulario
-        foto_mascota = request.form['foto_mascota']
+        foto_mascota = request.files['foto_mascota']
         nombre = request.form['nombre']
         descripcion = request.form['descripcion']
         edad = request.form['edad']
         sexo = request.form['sexo']
+
+        # Guardar la imagen
+        if foto_mascota and foto_mascota.filename != "":
+            horaActual = datetime.now().strftime("%Y%m%d%H%M%S")
+            nuevoNombre = f"{horaActual}_{foto_mascota.filename}"
+            archivo_path = os.path.join(app.config['UPLOAD_FOLDER'], nuevoNombre)
+            foto_mascota.save(archivo_path)
+            foto_mascota_url = url_for('static', filename=f'img/{nuevoNombre}')
+        else:
+            foto_mascota_url = None
         
         connection = get_db_connection()
         cursor = connection.cursor()
-        cursor.execute('INSERT INTO adopcion (foto_mascota, nombre, descripcion, edad, sexo) VALUES (%s, %s, %s, %s, %s)',
-                       (foto_mascota, nombre, descripcion, edad, sexo))
+        cursor.execute(
+            'INSERT INTO adopcion (foto_mascota, nombre, descripcion, edad, sexo) VALUES (%s, %s, %s, %s, %s)',
+            (foto_mascota_url, nombre, descripcion, edad, sexo)
+        )
         connection.commit()
         cursor.close()
         connection.close()
@@ -509,6 +527,65 @@ def a_adopcion():
     connection.close()
 
     return render_template('admin/a_adopcion.html', adopciones=adopciones)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# @app.route('/admin/adopcion/', methods=['GET', 'POST'])
+# @admin_required
+# def a_adopcion():
+#     if request.method == 'POST':
+#         # Manejo de formulario
+#         foto_mascota = request.files['foto_mascota']
+#         nombre = request.form['nombre']
+#         descripcion = request.form['descripcion']
+#         edad = request.form['edad']
+#         sexo = request.form['sexo']
+        
+#          if _archivo.filename != "":
+#         nuevoNombre = horaActual + "_" + _archivo.filename
+#         _archivo.save("templates/sitio/img/" + nuevoNombre)
+
+
+#         connection = get_db_connection()
+#         cursor = connection.cursor()
+#         cursor.execute('INSERT INTO adopcion (foto_mascota, nombre, descripcion, edad, sexo) VALUES (%s, %s, %s, %s, %s)',
+#                        (foto_mascota, nombre, descripcion, edad, sexo))
+#         connection.commit()
+#         cursor.close()
+#         connection.close()
+        
+#         return redirect(url_for('a_adopcion'))
+
+#     # GET Request: Muestra el formulario y la tabla con los datos
+#     connection = get_db_connection()
+#     cursor = connection.cursor()
+#     cursor.execute('SELECT id_adopcion, foto_mascota, nombre, descripcion, edad, sexo FROM adopcion')
+#     adopciones = cursor.fetchall()
+#     cursor.close()
+#     connection.close()
+
+#     return render_template('admin/a_adopcion.html', adopciones=adopciones)
 
 @app.route('/admin/adopcion/eliminar/<int:id_adopcion>', methods=['POST'])
 def eliminar_adopcion(id_adopcion):

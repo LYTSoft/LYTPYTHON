@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar sesión | Petvet</title>
-    <link rel="icon" href="{{ url_for('static', filename='imagenes/icon.png') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 </head>
 <body>
@@ -12,7 +12,7 @@
         <div class="imagen-fomulario"></div>
         <form id="login-form" class="formulario" method="POST" action="{{ url_for('login') }}">
             <div class="input">
-                <img class="logo" src="{{ url_for('static', filename='imagenes/logo.png') }}" alt="Logo">
+                <img class="logo" src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo">
                 <label for="nombre-sesion">Nombre de usuario :</label>
                 <br>
                 <input placeholder="Ingresa tu nombre de usuario" type="text" id="nombre-sesion" name="nombre-sesion" required>

@@ -40,7 +40,7 @@
             <p class="p">¡Dale a un perro la oportunidad de encontrar un hogar amoroso!</p>
         </div>
 
-        <form class="form-container" method="post">
+        <form class="form-container" method="post" enctype="multipart/form-data">
             <div class="form-group form-group-image">
                 <label for="foto_mascota">Subir imagen</label>
                 <input type="file" id="foto_mascota" name="foto_mascota" required>
@@ -87,7 +87,9 @@
             {% for adopcion in adopciones %}
             <tr>
                 <td>{{ adopcion[0] }}</td>
-                <td><img src="{{ url_for('static', filename=adopcion[1]) }}" alt="Foto de la Mascota" width="100"></td>
+                
+               <td><img src="{{ adopcion[1] }}" alt="Foto de {{ adopcion.nombre }}" style="width:100px;"></td>
+                
                 <td>{{ adopcion[2] }}</td>
                 <td>{{ adopcion[3] }}</td>
                 <td>{{ adopcion[4] }}</td>
