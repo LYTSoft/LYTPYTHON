@@ -643,142 +643,145 @@ table{
 }
 
 /* estilos de adopcion admin trabajado por laura  */
+/* Estilo general del cuerpo */
+.body-adop {
+    font-family: 'Abhaya Libre', serif;
+    background-color: #ffffff; /* Fondo blanco */
+    color: #333; /* Color de texto gris oscuro para buen contraste */
+    margin: 0;
+    padding: 0;
+}
 
-.adopt-container {
-    background: #fff; /* Fondo blanco */
-    border: 1px solid #ddd; /* Borde delgado */
-    border-radius: 8px; /* Bordes redondeados */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+/* Estilo del encabezado */
+.header-adop {
+    /* background-color: #0033A0; Azul oscuro para el encabezado */
+    color: #ffffff; /* Texto blanco en el encabezado */
+    padding: 15px 20px;
+}
+
+.header-adop .alto-admi {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-adop .logo {
+    max-width: 120px;
+}
+
+
+
+ 
+.header .con-botones .icons img {
+    display: flex;
+    justify-content: end;
+    width: 50px;
+    height: 50px;
+}
+
+/* Estilo principal del contenedor de la adopción */
+.main-adop {
     padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px; /* Espaciado entre los elementos */
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
-/* Estilos para el título principal */
-.adopt-container h1 {
-    font-size: 2em; /* Tamaño del texto grande */
-    color: #193A6A; /* Azul oscuro */
-    margin-bottom: 10px; /* Margen inferior ajustado */
+main .texto {
     text-align: center;
+    margin-bottom: 20px;
 }
 
-/* Estilos para el párrafo */
-.adopt-container p {
-    font-size: 1em; /* Tamaño del texto ajustado */
-    color: #333; /* Color del texto oscuro */
-    margin-bottom: 20px; /* Margen inferior ajustado */
-    text-align: center;
+main .h1 {
+    
+    font-size: 3rem;
+    color: #193A6A;
+    margin: 0;
 }
 
-/* Estilos para el formulario */
+main .p {
+    color: #555; /* Gris para el párrafo */
+    font-size: 1rem;
+}
+
+/* Estilo del formulario */
 .form-container {
-    display: flex;
-    flex-wrap: wrap; /* Permite que los elementos se ajusten si es necesario */
-    gap: 16px; /* Espaciado entre los elementos */
+    background-color: #f9f9f9; /* Fondo gris claro para el formulario */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 30px;
 }
 
-/* Estilos para los grupos de formulario */
 .form-group {
-    flex: 1 1 calc(50% - 16px); /* Ocupa la mitad del contenedor menos el espaciado */
-    display: flex;
-    flex-direction: column;
+    margin-bottom: 15px;
 }
 
-/* Estilos para las etiquetas del formulario */
 .form-group label {
-    font-weight: bold;
-    margin-bottom: 6px; /* Margen inferior reducido */
-    color: #193A6A; /* Azul oscuro */
+    display: block;
+    margin-bottom: 5px;
+    /* color: #0033A0; Etiquetas en azul oscuro */
 }
 
-/* Estilos para los campos del formulario */
-.form-group input[type="text"],
-.form-group input[type="number"],
-.form-group select,
-.form-group input[type="file"],
-.form-group textarea {
+.form-group input,
+.form-group textarea,
+.form-group select {
     width: 100%;
-    padding: 10px; /* Padding ajustado */
+    padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 0.9em; /* Tamaño del texto ajustado */
+    font-size: 1rem;
 }
 
-/* Estilos para el textarea */
 .form-group textarea {
-    resize: vertical; /* Permite cambiar el tamaño verticalmente */
+    resize: vertical;
 }
 
-/* Estilos para el botón de enviar */
 .form-group button {
-    background-color: #193A6A; /* Azul oscuro */
-    color: #fff;
+    background-color: #193A6A; /* Botón azul oscuro */
+    color: #ffffff; /* Texto blanco en el botón */
     border: none;
-    padding: 12px 16px; /* Padding ajustado */
+    padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 12px; /* Tamaño del texto ajustado */
-    text-align: center;
-    display: block;
-    width: 100%;
-    margin-top: 6px; /* Margen superior para separar del último campo */
-    transition: background-color 0.3s; /* Transición suave */
+    font-size: 1rem;
 }
 
-.form-group button:hover {
-    background-color: #0e2c54; /* Azul más oscuro al pasar el ratón */
-}
 
-/* Estilos para el campo de archivo */
-.form-group-image {
-    background: #f9f9f9; /* Fondo claro */
-    border: 1px solid #ddd; 
-    border-radius: 4px; /* Bordes redondeados */
-    padding: 5px; /* Padding ajustado */
-}
 
-/* Estilos para la tabla */
+/* Estilo de la tabla */
 table {
-    width: 100%; /* Ancho completo */
-    border-collapse: collapse; /* Sin espacios entre las celdas */
-    margin-top: 20px; /* Margen superior */
-}
-
-th, td {
-    padding: 10px; /* Espaciado dentro de las celdas */
-    text-align: center; /* Alinear texto al centro */
-    border: 1px solid #ddd; /* Borde de las celdas */
-}
-
-th {
-    background-color: #f2f2f2; /* Color de fondo para el encabezado */
-    color: #193A6A; /* Color de texto para el encabezado */
-}
-
-/* Estilos para los botones de eliminación */
-table button {
-    background-color: #c9302c; /* Color de fondo rojo */
-    color: #fff; /* Color del texto en blanco */
     border: none;
-    padding: 8px 12px; /* Espaciado del botón */
-    border-radius: 4px; /* Bordes redondeados */
-    cursor: pointer;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
 }
 
-table button:hover {
-    background-color: #a71d22; /* Color más oscuro al pasar el ratón */
+table th,
+table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
 }
 
-.descripcion {
-  font-size: clamp(0.8rem, 1.5vw, 1.5rem); /* Tamaño de fuente adaptable entre 0.8rem y 1.5rem */
-  white-space: normal; /* Permite el ajuste de línea para el texto largo */
-  overflow: hidden; /* Oculta el texto que no cabe dentro de la celda */
-  word-break: break-word; /* Rompe las palabras largas para que no se desborden */
-  max-width: 100%; /* Asegura que la celda no se expanda más allá del contenedor */
+table th {
+    background-color: #193A6A; /* Encabezado de tabla azul oscuro */
+    color: #ffffff; /* Texto blanco en el encabezado de tabla */
 }
 
+table td img {
+    max-width: 100px;
+    height: auto;
+    border-radius: 4px;
+}
+
+.adop-elimi{
+    background-color: #da0303;
+    border: none;
+    padding: 10px;
+    color: #fff;
+    border-radius: 5px;
+
+}
 /* Media queries */
 
 /* a_administrador */

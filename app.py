@@ -36,10 +36,10 @@ app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'petvet'
 
 
-@app.route('/img/<foto_mascota>')
-def imagenes(foto_mascota):
-    print(foto_mascota)
-    return send_from_directory(os.path.join('static/img'), foto_mascota)
+# @app.route('/img/<foto_mascota>')
+# def imagenes(foto_mascota):
+#     print(foto_mascota)
+#     return send_from_directory(os.path.join('static/img'), foto_mascota)
 
 
 # HECHO POR TIARA
@@ -417,10 +417,10 @@ def u_guarderia_cita():
 def indexUsuario():
      return render_template('usuario/index.html')
 
-@app.route('/adopcion/usuario/')
-@login_required
-def u_adopcion():
-     return render_template('usuario/u_adopcion.html')
+# @app.route('/adopcion/usuario/')
+# @login_required
+# def u_adopcion():
+#      return render_template('usuario/u_adopcion.html')
 
 @app.route('/citasAdomicilio/', methods=['GET', 'POST'])
 @login_required
@@ -529,6 +529,18 @@ def a_adopcion():
     return render_template('admin/a_adopcion.html', adopciones=adopciones)
 
 
+@app.route('/adopcion/usuario/')
+@login_required
+def u_adopcion():
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute('SELECT foto_mascota, nombre, descripcion, edad, sexo FROM adopcion')
+    useradopciones = cursor.fetchall()
+    cursor.close()
+    connection.close()
+
+    return render_template('usuario/u_adopcion.html', useradopciones=useradopciones)
 
 
 
@@ -539,53 +551,6 @@ def a_adopcion():
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-# @app.route('/admin/adopcion/', methods=['GET', 'POST'])
-# @admin_required
-# def a_adopcion():
-#     if request.method == 'POST':
-#         # Manejo de formulario
-#         foto_mascota = request.files['foto_mascota']
-#         nombre = request.form['nombre']
-#         descripcion = request.form['descripcion']
-#         edad = request.form['edad']
-#         sexo = request.form['sexo']
-        
-#          if _archivo.filename != "":
-#         nuevoNombre = horaActual + "_" + _archivo.filename
-#         _archivo.save("templates/sitio/img/" + nuevoNombre)
-
-
-#         connection = get_db_connection()
-#         cursor = connection.cursor()
-#         cursor.execute('INSERT INTO adopcion (foto_mascota, nombre, descripcion, edad, sexo) VALUES (%s, %s, %s, %s, %s)',
-#                        (foto_mascota, nombre, descripcion, edad, sexo))
-#         connection.commit()
-#         cursor.close()
-#         connection.close()
-        
-#         return redirect(url_for('a_adopcion'))
-
-#     # GET Request: Muestra el formulario y la tabla con los datos
-#     connection = get_db_connection()
-#     cursor = connection.cursor()
-#     cursor.execute('SELECT id_adopcion, foto_mascota, nombre, descripcion, edad, sexo FROM adopcion')
-#     adopciones = cursor.fetchall()
-#     cursor.close()
-#     connection.close()
-
-#     return render_template('admin/a_adopcion.html', adopciones=adopciones)
 
 @app.route('/admin/adopcion/eliminar/<int:id_adopcion>', methods=['POST'])
 def eliminar_adopcion(id_adopcion):

@@ -474,6 +474,10 @@ select.form-input {
 
 /* ANUNCIO DE LA ADPCION */
 
+
+.foto-adopcion{
+    height: 1000px;
+}
 .adopt-container {
     text-align: center;/* centrar el texto */
     padding: 20px;
