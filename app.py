@@ -3,7 +3,7 @@ import os
 from flask import Flask
 
 # Importar la plantilla HTML. Para guardar datos desde el formulario importamos request, redirect y session (variable de sesión).
-from flask import render_template, request, redirect, session, url_for, g
+from flask import render_template, request, redirect, session, url_for, g, flash
 
 # Importar el enlace a base de datos MySQL
 from flaskext.mysql import MySQL
@@ -22,6 +22,7 @@ from werkzeug.utils import secure_filename
 
 # 'wraps' se utiliza para preservar la identidad de la función original cuando se usa un decorador.
 from functools import wraps
+
 
 
 # Crear la aplicación Flask
@@ -234,6 +235,7 @@ def u_registrousuario():
 
 
 # Ruta para agendar citas para el usuario, maneja tanto solicitudes GET como POST
+# Ruta para agendar citas para el usuario, maneja tanto solicitudes GET como POST
 @app.route('/agendarcitas/usuario/', methods=['GET', 'POST'])
 @login_required
 def agendar_cita():
@@ -250,6 +252,8 @@ def agendar_cita():
             id_mascota = request.form['mascota']
             id_servicios = request.form['servicios']
             descripcion = request.form['descripcion']
+
+            
             
             # Obtiene la conexión a la base de datos
             connection = get_db_connection()
@@ -267,50 +271,51 @@ def agendar_cita():
                 return render_template('usuario/u_agendarCita.html', message='Ya tienes una cita agendada para esa fecha.')
             
             # Si no existe una cita para la misma fecha, inserta la nueva cita en la base de datos
-            cursor.execute('INSERT INTO citas (id_usuario, fecha, tanda, id_mascota, id_servicios, descripcion) VALUES (%s, %s, %s, %s, %s, %s)',
+            cursor.execute(''' INSERT INTO citas (id_usuario, fecha, tanda, id_mascota, id_servicios, descripcion) VALUES (%s, %s, %s, %s, %s, %s)''', 
                            (id_usuario, fecha, tanda, id_mascota, id_servicios, descripcion))
+
             
-            # Confirma los cambios en la base de datos
+             # Obtener el ID de la nueva cita
+            id_citas = cursor.lastrowid
+            
+            if id_citas:
+                cursor.execute('INSERT INTO admin (id_citas) VALUES (%s)', (id_citas,))
+                # Insertar el ID de la cita en la tabla `admin`
+
+             # Realiza la confirmación de la transacción.
             connection.commit()
             cursor.close()
             connection.close()
-            
             # Redirige al usuario a la misma página para mostrar la nueva cita o para limpiar el formulario
             return redirect(url_for('agendar_cita'))
 
     # Si la solicitud es GET o si no se ha enviado un formulario, renderiza el formulario de agendar cita
     return render_template('usuario/u_agendarCita.html')
 
+
 # Ruta para mostrar las citas agendadas del usuario
 @app.route('/citas/agendadas/usuario/')
 @login_required
 def u_citasAgendada():
-    # Conecta a la base de datos
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
 
-    # Obtiene el ID del usuario desde la sesión
     id_usuario = session['user_id']
 
-    # Ejecuta una consulta SQL para obtener las citas agendadas del usuario
     cursor.execute('''
         SELECT c.fecha, c.tanda, m.tipoMascota, s.servicio, c.descripcion
         FROM citas c
-        JOIN usuario u ON c.id_usuario = u.id_usuario
-        JOIN mascota m ON u.id_mascota = m.id_mascota
+        JOIN mascota m ON c.id_mascota = m.id_mascota
         JOIN servicio s ON c.id_servicios = s.id_servicios
         WHERE c.id_usuario = %s
         ORDER BY c.fecha DESC
     ''', (id_usuario,))
     
-    # Obtiene todos los resultados de la consulta
     citas_agendadas = cursor.fetchall()
 
-    # Cierra el cursor y la conexión a la base de datos
     cursor.close()
     connection.close()
 
-    # Renderiza la plantilla con los datos de las citas agendadas del usuario
     return render_template('usuario/u_citasAgendadas.html', citas=citas_agendadas)
 
 
@@ -359,8 +364,15 @@ def u_guarderia():
             # Si no se encuentra un registro existente, inserta el nuevo registro en la base de datos.
             cursor.execute('INSERT INTO guarderia (id_usuario, id_servicios, desde, hasta, id_mascota, descripcion) VALUES (%s, %s, %s, %s, %s, %s)',
                            (id_usuario, id_servicios, desde, hasta, mascota, descripcion))
+            
+             # Obtener el ID de la nueva cita
+            id_guarderia = cursor.lastrowid
+            
+            if id_guarderia:
+                # Insertar el ID de la cita en la tabla `admin`
+                cursor.execute('INSERT INTO admin (id_guarderia) VALUES (%s)', (id_guarderia,))
 
-            # Realiza la confirmación de la transacción.
+             # Realiza la confirmación de la transacción.
             connection.commit()
             cursor.close()
             connection.close()
@@ -421,13 +433,10 @@ def u_adopcion():
 @login_required
 def u_citasAdomicialio():
     if request.method == 'POST':
-        print("Datos recibidos:", request.form)
-
-        required_fields = ['id_adomicilio', 'id_usuario', 'fecha', 'direccion', 'tanda', 'mascota']
-
-        if all(k in request.form for k in required_fields):
-            id_adomicilio = request.form.get('id_adomicilio')
-            id_usuario = request.form.get('id_usuario')
+        connection = None
+        cursor = None
+        try:
+            # Obtener datos del formulario
             fecha = request.form.get('fecha')
             direccion = request.form.get('direccion')
             tanda = request.form.get('tanda')
@@ -435,34 +444,56 @@ def u_citasAdomicialio():
             vacunas = request.form.getlist('vacunas[]')
             servicios = request.form.getlist('servicios[]')
 
+            # Validar campos requeridos
+            if not all([fecha, direccion, tanda, mascota, vacunas, servicios]):
+                flash('Por favor, complete todos los campos requeridos y seleccione al menos una vacuna y un servicio.', 'error')
+                return redirect(url_for('u_citasAdomicialio'))
+
+            # Validar fecha
             try:
-                connection = get_db_connection()
-                cursor = connection.cursor()
+                fecha = datetime.strptime(fecha, '%Y-%m-%d').date()
+            except ValueError:
+                flash('Formato de fecha inválido.', 'error')
+                return redirect(url_for('u_citasAdomicialio'))
 
-                cursor.execute('SELECT * FROM domicilio WHERE id_adomicilio = %s AND id_usuario = %s AND fecha = %s AND direccion = %s AND tanda = %s AND id_mascota = %s',
-                               (id_adomicilio, id_usuario, fecha, direccion, tanda, mascota))
-                existing_record = cursor.fetchone()
+            # Validar que mascota, vacuna y servicio sean números
+            if not mascota.isdigit() or not all(v.isdigit() for v in vacunas) or not all(s.isdigit() for s in servicios):
+                flash('ID de mascota, vacuna o servicio inválido.', 'error')
+                return redirect(url_for('u_citasAdomicialio'))
 
-                if existing_record:
-                    return render_template('usuario/u_servicioAdomicilio.html', message='El registro ya existe.')
+            # Conectar a la base de datos
+            connection = get_db_connection()
+            cursor = connection.cursor()
 
-                for vacuna in vacunas:
-                    for servicio in servicios:
-                        cursor.execute('INSERT INTO domicilio (id_adomicilio, id_usuario, fecha, direccion, tanda, id_mascota, id_vacuna, id_servicio) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)',
-                                       (id_adomicilio, id_usuario, fecha, direccion, tanda, mascota, vacuna, servicio))
+            # Preparar datos para inserción
+            vacunas_str = ','.join(vacunas)
+            servicios_str = ','.join(servicios)
 
-                connection.commit()
+            # Insertar en la tabla adomicilio
+            cursor.execute('''
+                INSERT INTO adomicilio (id_usuario, fecha, direccion, tanda, id_mascota, id_vacuna, id_servicio) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ''', (g.user['id_usuario'], fecha, direccion, tanda, int(mascota), vacunas_str, servicios_str))
 
-            except Exception as e:
-                print("Error:", e)
+            # Confirmar la transacción
+            connection.commit()
+            flash('Cita a domicilio registrada exitosamente.', 'success')
+            return redirect(url_for('u_citasAdomicialio'))
+
+        except mysql.connector.Error as err:
+            if connection:
                 connection.rollback()
-            
-            finally:
+            app.logger.error(f"Error de base de datos: {err}")
+            flash('Ocurrió un error al procesar su solicitud. Por favor, inténtelo de nuevo.', 'error')
+            return redirect(url_for('u_citasAdomicialio'))
+
+        finally:
+            if cursor:
                 cursor.close()
+            if connection and connection.is_connected():
                 connection.close()
 
-            return redirect(url_for('u_servicioAdomicilio'))
-
+    # Si es GET, simplemente renderizar la plantilla
     return render_template('usuario/u_servicioAdomicilio.html')
 
 
