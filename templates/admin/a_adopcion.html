@@ -5,16 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Agenda fácilmente citas para el cuidado de tus mascotas en PetVet. Ofrecemos un proceso simple y eficiente para proporcionar la mejor atención veterinaria a tus animales. Confía en nosotros para simplificar el cuidado de tus seres queridos.">
     <title>Sistema del administrador</title>
-    <link rel="icon" href="{{ url_for('static', filename='imagenes/icon.png') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos_tiara.css') }}">
     <script src="{{ url_for('static', filename='js/ponerFoto.js') }}"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body class="body-adop">
 
      <header class="alto-admi">
       <div >
-      <figure> <img src="{{ url_for('static', filename='imagenes/logo.png') }}" class="logo" alt="Logo petvet" title="Logo"></figure>
+      <figure> <img src="{{ url_for('static', filename='img/logo.png') }}" class="logo" alt="Logo petvet" title="Logo"></figure>
       </div>
 
       <div class="bajo-header">
@@ -24,23 +25,23 @@
 
       <div class="con-botones">
       <a href="/admin/">
-      <figure class="icons"> <img class="botones"  src="{{ url_for('static', filename='imagenes/a-home.png') }}" alt="Inicio" title="Inicio"></figure>
+      <figure class="icons"> <img class="botones"  src="{{ url_for('static', filename='img/a-home.png') }}" alt="Inicio" title="Inicio"></figure>
       </a>
     
       <a href="/">
-      <figure class="icons"><img class="botones" src="{{ url_for('static', filename='imagenes/a-saalir.png') }}" alt="Cerrar Sesion" title="Cerrar Sesion"></figure>
+      <figure class="icons"><img class="botones" src="{{ url_for('static', filename='img/a-saalir.png') }}" alt="Cerrar Sesion" title="Cerrar Sesion"></figure>
       </a>
       </div>
       </div>
     </header>
     
-    <main class="adopt-container main-adop">
+    <main class="main-adop">
         <div class="texto">
             <h1 class="h1">¡Adopta un Amigo Fiel!</h1>
             <p class="p">¡Dale a un perro la oportunidad de encontrar un hogar amoroso!</p>
         </div>
 
-        <form class="form-container" method="post">
+        <form class="form-container" method="post" enctype="multipart/form-data">
             <div class="form-group form-group-image">
                 <label for="foto_mascota">Subir imagen</label>
                 <input type="file" id="foto_mascota" name="foto_mascota" required>
@@ -74,7 +75,7 @@
             </div>
         </form>
 
-        <table>
+        <table border="">
             <tr>
                 <th>ID</th>
                 <th>Foto de la Mascota</th>
@@ -87,14 +88,16 @@
             {% for adopcion in adopciones %}
             <tr>
                 <td>{{ adopcion[0] }}</td>
-                <td><img src="{{ url_for('static', filename=adopcion[1]) }}" alt="Foto de la Mascota" width="100"></td>
+                
+               <td><img src="{{ adopcion[1] }}" alt="Foto de {{ adopcion[1] }}" width="100px"  class="foto-adopcion" height=""></td>
+                
                 <td>{{ adopcion[2] }}</td>
                 <td>{{ adopcion[3] }}</td>
                 <td>{{ adopcion[4] }}</td>
                 <td>{{ adopcion[5] }}</td>
                   <td>
                 <form method="POST" action="{{ url_for('eliminar_adopcion', id_adopcion=adopcion[0]) }}">
-                    <button type="submit">Eliminar</button>
+                    <button type="submit" class="adop-elimi">Eliminar</button>
                 </form>
             </td>
             </tr>

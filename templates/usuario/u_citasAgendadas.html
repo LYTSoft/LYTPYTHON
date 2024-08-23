@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+g<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +6,7 @@
     <meta name="description" content="Página para visualizar citas pendientes en Petvet">
     <title>Citas pendientes</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos-yohan.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='imagenes/icon.png') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}">
 </head>
 <body class="body-agandadas">
     <header>
@@ -16,7 +16,7 @@
         <div class="barra-lateral">
             <div>
                 <div class="logo-pagina">
-                    <img src="{{ url_for('static', filename='imagenes/icon.png') }}" id="logo" alt="Logo PetVet">
+                    <img src="{{ url_for('static', filename='img/icon.png') }}" id="logo" alt="Logo PetVet">
                     <span>Petvet</span>
                 </div>
                 <button class="boton-cita" onclick="agendarCita()">
@@ -70,7 +70,7 @@
 
             <div class="usuario">
                 <a href="#" onclick="abrirModal()">
-                   <img src="{{ url_for('static', filename='imagenes/user.png') }}" alt="">
+                   <img src="{{ url_for('static', filename='img/user.png') }}" alt="">
                     <div class="info-usuario">
                         <div class="nombre-email">
                             <span class="nombre">{{ g.user.nombre }} {{ g.user.apellido }}</span>
@@ -86,7 +86,7 @@
                     <div class="perfil-container">
                         <div class="perfil-header">
                             <div class="perfil-foto-container">
-                              <img src="{{ url_for('static', filename='imagenes/user.png') }}" alt="">
+                              <img src="{{ url_for('static', filename='img/user.png') }}" alt="">
                             </div>
                             <div class="perfil-info">
                                 <h1>{{ g.user.nombre }} {{ g.user.apellido }}</h1>
