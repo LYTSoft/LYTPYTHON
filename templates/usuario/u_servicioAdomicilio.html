@@ -98,9 +98,11 @@ g<!DOCTYPE html>
                             </div>
                         </div>
                         <div class="accion">
-                            <input type="file" id="subir-foto" accept="image/*" onchange="changeProfilePic()">
+                            <form method="post" action="/cerrar_sesion" id="cerrar">
+                                <input type="file" id="subir-foto" accept="image/*" onchange="changeProfilePic()">
                             <label for="subir-foto">Cambiar foto de perfil</label>
-                            <button class="boton-cs-perfil" id="cerrar-sesion">Cerrar Sesión</button>
+                            <button class="boton-cs-perfil" id="cerrarsesion">Cerrar Sesión</button>
+                            </form>
                         </div>
                     </div>
                 </div>
