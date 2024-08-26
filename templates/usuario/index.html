@@ -74,8 +74,8 @@
                    <img src="{{ url_for('static', filename='img/user.png') }}" alt="">
                     <div class="info-usuario">
                         <div class="nombre-email">
-                            <span class="nombre">{{ g.user.nombre }} {{ g.user.apellido }}</span>
-                            <span class="email">{{ g.user.correo }}</span>
+                            <span class="nombre">{{ user.nombre }} {{ user.apellido }}</span>
+                            <span class="email">{{ user.correo }}</span>
                         </div>
                     </div>
                 </a>
@@ -90,10 +90,10 @@
                                <img src="{{ url_for('static', filename='img/user.png') }}" alt="">
                             </div>
                             <div class="perfil-info">
-                                <h1>{{ g.user.nombre }} {{ g.user.apellido }}</h1>
-                                <p>Email: <span id="email">{{ g.user.correo }}</span></p>
-                                <p>Teléfono: <span id="telefono">{{ g.user.telefono }}</span></p>
-                                <p>Mascota: <span id="mascota">{{ g.user.mascota_nombre }}</span></p>
+                                <h1>{{ user.nombre }} {{ user.apellido }}</h1>
+                                <p>Email: <span id="email">{{ user.correo }}</span></p>
+                                <p>Teléfono: <span id="telefono">{{ user.telefono }}</span></p>
+                                <p>Mascota: <span id="mascota">{{ user.tipoMscota }}</span></p>
                             </div>
                         </div>
                        <div class="accion">
