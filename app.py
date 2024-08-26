@@ -76,14 +76,6 @@ def load_logged_in_user():
         connection.close()
 
 
-# Codigo para cerrar sesion.
-        
-@app.route('/cerrar_sesion', methods=['POST'])
-def cerrar_sesion():
-    # Elimina todas las variables de sesión
-    session.clear()
-    return redirect(url_for('login'))
-
 # Función para obtener el tipo de mascota basado en el ID de la mascota
 def get_mascota_tipo(id_mascota):
     # Establece una conexión con la base de datos
