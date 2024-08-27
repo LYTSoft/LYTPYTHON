@@ -82,13 +82,13 @@ function cerrarModal() {
 }
 
 
-// Función para cerrar sesión
-const cerrarSesionBtn = document.getElementById('cerrar-sesion');
-cerrarSesionBtn.addEventListener('click', function() {
-    const confirmacion = confirm('¿Estás seguro de que deseas cerrar sesión?');
+// // Función para cerrar sesión
+// const cerrarSesionBtn = document.getElementById('cerrar-sesion');
+// cerrarSesionBtn.addEventListener('click', function() {
+//     const confirmacion = confirm('¿Estás seguro de que deseas cerrar sesión?');
 
-    if (confirmacion) {
-        alert('Has cerrado sesión correctamente.');
-        window.location.href = "/"; // Redirigir a la página de inicio de sesión
-    }
-});
+//     if (confirmacion) {
+//         alert('Has cerrado sesión correctamente.');
+//         window.location.href = "/"; // Redirigir a la página de inicio de sesión
+//     }
+// });

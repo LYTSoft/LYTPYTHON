@@ -94,10 +94,17 @@
                                 <p>Mascota: <span id="mascota">{{ user.id_mascota }}</span></p>
                             </div>
                         </div>
+<<<<<<< HEAD
                        <div class="accion">
                             <input type="file" id="subir-foto" accept="image/*" onchange="changeProfilePic()">
+=======
+                        <div class="accion">
+                            <form method="post" action="/cerrar_sesion" id="cerrar">
+                                <input type="file" id="subir-foto" accept="image/*" onchange="changeProfilePic()">
+>>>>>>> 963510d26570674246005946f494931eaf932d12
                             <label for="subir-foto">Cambiar foto de perfil</label>
-                            <button class="boton-cs-perfil" id="cerrar-sesion">Cerrar Sesión</button>
+                            <button class="boton-cs-perfil" id="cerrarsesion">Cerrar Sesión</button>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -475,9 +475,7 @@ select.form-input {
 /* ANUNCIO DE LA ADPCION */
 
 
-.foto-adopcion{
-    height: 1000px;
-}
+
 .adopt-container {
     text-align: center;/* centrar el texto */
     padding: 20px;
@@ -529,24 +527,12 @@ select.form-input {
     cursor: pointer;
 }
 
-.hijo__preview img {
-    width: 100%;
-    height: 85%;
-}
 .hijo__preview1 img {
-    width: 100%;
-    height: 90%;
+     width: 100%; 
+    height: 200px;
+    margin-bottom: 15px;
+    
 }
-.hijo__preview2 img {
-    width: 100%;
-    height: 95%;
-}
-.hijo__preview3 img {
-    width: 100%;
-    height: 90%;
-}
-
-
 
 
 .hijo__content {
@@ -555,16 +541,6 @@ select.form-input {
     margin-top: -75px;
 }
 .hijo__content1 {
-    padding: 1.25rem;
-    font-size: 15px;
-    margin-top: -65px;
-}
-.hijo__content2 {
-    padding: 1.25rem;
-    font-size: 15px;
-    margin-top: -50px;
-}
-.hijo__content3 {
     padding: 1.25rem;
     font-size: 15px;
     margin-top: -65px;

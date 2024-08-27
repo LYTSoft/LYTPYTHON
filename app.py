@@ -238,7 +238,7 @@ def u_citasAgendada():
 
 @app.route('/guarderia/usuario/', methods=['GET', 'POST'])
 def u_guarderia():
-    # Verificar si el usuario está logueadoo
+    # Verificar si el usuario está logueado 
     if 'loggedin' not in session:
         return redirect(url_for('login'))
     

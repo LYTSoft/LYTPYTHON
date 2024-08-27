@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Descubre los servicios excepcionales de PetVet, tu clínica veterinaria de confianza. Ofrecemos atención médica integral para tus mascotas, desde consultas generales y vacunas hasta cirugías especializadas. Nuestro equipo dedicado está comprometido con el bienestar animal, proporcionando cuidados personalizados y servicios de calidad. Confía en PetVet para mantener a tus mascotas felices y saludables en cada etapa de sus vidas.">
     <title>Página de los Servicios</title>
-    <link rel="icon" href="{{ url_for('static', filename='imagenes/icon.png') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/estilosL.css') }}">
 </head>
 
@@ -17,7 +17,7 @@
         <div class="barra-lateral">
             <div>
                 <div class="logo-pagina">
-                    <img src="{{ url_for('static', filename='imagenes/icon.png') }}" id="logo" alt="Logo PetVet">
+                    <img src="{{ url_for('static', filename='img/icon.png') }}" id="logo" alt="Logo PetVet">
                     <span>Petvet</span>
                 </div>
                 <button class="boton-cita" onclick="agendarCita()">
@@ -71,8 +71,8 @@
 
            <div class="usuario">
                 <a href="#" onclick="abrirModal()">
-                   <img src="{{ url_for('static', filename='img/user.png') }}" alt="">
-                    <div class="info-usuario">
+                    <img src="{{ url_for('static', filename='img/user.png') }}" alt="">
+
                         <div class="nombre-email">
                             <span class="nombre">{{ user.nombre }} {{ user.apellido }}</span>
                             <span class="email">{{ user.correo }}</span>
@@ -96,10 +96,12 @@
                                 <p>Mascota: <span id="mascota">{{ user.id_mascota }}</span></p>
                             </div>
                         </div>
-                       <div class="accion">
-                            <input type="file" id="subir-foto" accept="image/*" onchange="changeProfilePic()">
+                        <div class="accion">
+                            <form method="post" action="/cerrar_sesion" id="cerrar">
+                                <input type="file" id="subir-foto" accept="image/*" onchange="changeProfilePic()">
                             <label for="subir-foto">Cambiar foto de perfil</label>
-                            <button class="boton-cs-perfil" id="cerrar-sesion">Cerrar Sesión</button>
+                            <button class="boton-cs-perfil" id="cerrarsesion">Cerrar Sesión</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -120,7 +122,7 @@
             {% for adopcion in useradopciones %}
             <article class="hijo">
                 <div class="hijo__preview1">
-                     <img src="{{ adopcion[0] }}" alt="Foto de {{ adopcion[1] }}" width="100px" >
+                     <img src="{{ adopcion[0] }}" alt="Foto de {{ adopcion[1] }}" class="foto-adopcion" >
                     
                 </div>
                 <div class="hijo__content1">
