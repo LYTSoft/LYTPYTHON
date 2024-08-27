@@ -441,7 +441,7 @@ def u_adopcion():
     cursor.close()
     connection.close()
 
-    return render_template('usuario/u_adopcion.html', useradopciones=useradopciones)
+    return render_template('usuario/u_adopcion.html', useradopciones=useradopciones, user=user)
 
 
 @app.route('/admin/adopcion/eliminar/<int:id_adopcion>', methods=['POST'])
