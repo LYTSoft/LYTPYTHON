@@ -1,47 +1,47 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Citas pendientes</title>
-    <link rel="icon" href="{{ url_for('static', filename='imagenes/icon.png') }}">
-      <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos_tiara.css') }}">
+    <title class="titulo-pagina">Citas pendientes</title>
+    <link rel="icon" href="{{ url_for('static', filename='imagenes/icon.png') }}" class="icono-pagina">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos.css') }}" class="estilos-css">
 </head>
 
 <body class="body-admin">
-    <header class="alto-admi">
-        <div>
-            <figure>
-                <img src="{{ url_for('static', filename='img/logo.png') }}" class="logo" alt="Logo petvet" title="Logo">
+    <header class="header-admin">
+        <div class="header-logo">
+            <figure class="logo-figure">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" class="logo-img" alt="Logo petvet" title="Logo">
             </figure>
         </div>
 
-        <div class="bajo-header">
+        <div class="header-bottom">
             <div class="text-pag-b">
-                <h1>Citas pendientes - Administrador</h1>
+                <h1 class="titulo-pag">Citas pendientes - Administrador</h1>
             </div>
 
             <div class="con-botones">
-                <a href="/admin/">
-                    <figure class="icons">
-                        <img class="botones" src="{{ url_for('static', filename='img/a-home.png') }}" alt="Inicio" title="Inicio">
+                <a href="/admin/" class="enlace-boton">
+                    <figure class="icon-figure">
+                        <img class="boton-img" src="{{ url_for('static', filename='img/a-home.png') }}" alt="Inicio" title="Inicio">
                     </figure>
                 </a>
             
-                <a href="/">
-                    <figure class="icons">
-                        <img class="botones" src="{{ url_for('static', filename='img/a-saalir.png') }}" alt="Cerrar Sesión" title="Cerrar Sesión">
+                <a href="/" class="enlace-boton">
+                    <figure class="icon-figure">
+                        <img class="boton-img" src="{{ url_for('static', filename='img/a-saalir.png') }}" alt="Cerrar Sesión" title="Cerrar Sesión">
                     </figure>
                 </a>
             </div>
         </div>
     </header>  
+
     <main class="main-agen-admin">
         <div class="div-tabla">
-            <table>
-                <thead>
+            <table class="tabla-citas">
+                <thead class="thead-tabla">
                     <tr class="tabla-arriba">
                         <th class="alto-tabla">ID</th>
                         <th class="alto-tabla">Fecha</th>
@@ -52,87 +52,23 @@
                         <th class="alto-tabla">Servicio</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="tbody-tabla">
                     {% for cita in citas %}
-                    <tr>
-                        <td>{{ cita.id_citas }}</td>
-                        <td>{{ cita.fecha }}</td>
-                        <td>{{ cita.tanda }}</td>
-                        <td class="descripcion">{{ cita.descripcion }}</td>
-                        <td>{{ cita.usuario }}</td>
-                        <td>{{ cita.mascota }}</td>
-                        <td>{{ cita.servicio }}</td>
+                    <tr class="fila-cita">
+                        <td class="campo-id">{{ cita.id_citas }}</td>
+                        <td class="campo-fecha">{{ cita.fecha }}</td>
+                        <td class="campo-tanda">{{ cita.tanda }}</td>
+                        <td class="campo-descripcion">{{ cita.descripcion }}</td>
+                        <td class="campo-usuario">{{ cita.usuario }}</td>
+                        <td class="campo-mascota">{{ cita.mascota }}</td>
+                        <td class="campo-servicio">{{ cita.servicio }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-  
-
-<style>
-
-.bajo-header{
-    display: flex;
-    height: 50px;
-   justify-content: space-between;
-   align-items: center;
-   background-color: #193A6A;
-}
-
-.con-botones{
-    display: flex;
-    justify-content: space-between;
-}
-.text-pag-b{
-    font-size: 0.9vw;
-    margin-left: 10px;
-}
- .main-agen-admin {
-        padding: 10px; /* Ajustado para reducir el espacio */
-    }
-
-    .con-tabla {
-        background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        overflow: hidden;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    .tabla-arriba {
-        background-color: #1e3a8a;
-        color: white;
-    }
-
-    .alto-tabla {
-        padding: 12px;
-        text-align: left;
-    }
-
-    tbody tr:nth-child(even) {
-        background-color: #f3f4f6;
-    }
-
-    tbody tr:nth-child(odd) {
-        background-color: white;
-    }
-
-    td {
-        padding: 12px;
-        border-bottom: 1px solid #e5e7eb;
-    }
-
-    .descripcion {
-        max-width: 200px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-</style>
-</html>
     </main>
-</body
+
+
+</body>
+</html>
