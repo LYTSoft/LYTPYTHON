@@ -153,127 +153,90 @@
 .botones-de-cita .cita-adomicilio:hover {
     background-color:#246997;
 }
+/* fin */
 
 
-/* LOGIN TIARA */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
-/* HECHO POR LAURA */
+/* LOGIN LAURA */
 
+/* Este codigo afecta el header hay que ver porq */
 
-.contenedor {
-    margin: 0 auto; /* el 0, arriba y abajo */   /* el auto, izquierda y derecha */
-    margin-left: 1px; /* Que la imagen cubra todo el espacio hacia la izquierda */
-    max-width: 1200px; /* No puede pasar de los 1200px */
-    width: 300%;  /* el 100% de la imagen */
-}
-
-.imagen-fomulario {
-    background-image: url("../img/imagenPrincipal.jpg");/* Imagen desde css */
-    background-position: center center; /* para que la img se centre  */
-    background-size: cover; /* cover: que la imagen se adapte al cotenedor padre, osea al imagen-formulario */
-    flex: 65%; /* flex es la la propiedad resumida que indica la capacidad de un elemento flexible para alterar sus dimensiones y llenar el espacio disponible. 
-    Puse 65% para que cubra ese espacio y los 35 que quedan para el formulario,*/
-    margin-bottom: -150px; 
-    /* para que quede ajustada haci abajo */
-}
-
-
-.imagen-fomulario{
-    height: auto;  /* que la imagen se coloque en su lugar con la altura */
-    background-position: right;  /* Para que la imagen se coloque a la derecha  */
-}
-
-.contenedor-formulario {
-    display: flex; 
-    margin-bottom: 90px;
-    /*para que el contenedor se ponga  flexible y este en su lugar */
-}
-
-
-.formulario {
-    margin-left: 30px;
-    margin-top: 30px;
-    padding: 5px; /* para que el formulario tenga el espacio de todos los lados */
-}
-
-.input label, .inicio, a{
-    /* color: #193A6A; */
-    color:#1D1D1D;
-    /* color de letra para el usuario la contraseña y el iniciaio de seccion azul */
-    text-decoration: none; /* Quitarle el enlace (la rayita que sale debajo) */
-    
-}
-
-
-.input {
-    font-size: 20px; /* Tamano de letra */
-    font-weight: bold;  /* letra en negrita */
-    margin: 20px 10px; /* Espacio arriba, abajo y izquierda de las letras  */
-}
-
-.input input{
-    width: 129%;  /* Ancho de los cuadritos */
-    padding: 10px 16px; /* espacio de los cuadros y de lo que esta dentro */
-    margin-top: 5px; /* Espacio de arriba entre los cuadros */
-    height: 3.120rem;
-    border-radius: 0.5rem;
-    border: 1px solid #1D1D1D;
-
-}
-
-
-.iniciarSeccion{
-    cursor: pointer;
-    text-align: center;
-     width: 124%;
-     padding: 16px 130px; /* espacio de los cuadros y de lo que esta dentro */
-     border-radius: 10px; /* bordes redondos en las esquinas */
-     background-color: #193A6A;  /* Fondo color azul */
-     margin-left: 10px;
-       /* Para centrar el cuadrito con los demas */
-}
-
- .iniciarSeccion a{
-    color: white;  /* Ponerle color blanco al iniciar seccion, ya que hay 3 enlaces, Y no pueden ir de color blanco, si no azul */
-}
-
-.registrate {
-    text-decoration: none; /* Quitarle el enlace (la rayita que sale debajo) */
-    margin-top: 25px; /* Espacio de arriba, para que no quede tan pegado de (INICIAR SECCION) */
-    color: rgb(81, 79, 79);
-    /* color: gray; */
-    margin-bottom: 10px; /* Espacio de abajo para que no quede tan pegado de (¿Olvidaste tu contraseña?) */
-}
-
-.password-olvidada, a {
+/* .texto2 .h2 {
     color: #193A6A;
-    font-size: 16px;
-    margin-top: 20px;
-    text-decoration: none;  /* Quitarle el enlace (la rayita que sale debajo) */
+    font-size: 3em;
+    margin-top: 20;
+    text-align: center;
 }
 
-.logo{
-    margin-bottom: -50px;
-    margin-left: 20%;
-    margin-bottom: 15px;
-     width: 350px;
-    height: auto; 
+.texto2 .p2 {
+    text-align: center;
+    color: #333;
+    font-size: 1.5em;
+    margin: 10px 0;
+}
+
+
+
+
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+
+.form-input {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+select.form-input {
+  background-size: 18px 18px;
+  padding-right: 40px;
+}
+
+.mss {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  min-height: 150px;
 }
 
 .ancho {
   display: block;
   width: 100%;
+  padding: 10px;
   background-color: #193A6A;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
+
+
+
+
+
+.anchoE{
+    display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #193A6A;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+
+} */
 
 
 /* ADOPCION LAURA */
