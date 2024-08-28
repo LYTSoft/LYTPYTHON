@@ -1,3 +1,386 @@
+/* INDEX TIARA */
+
+.servicio-adomicilio {
+  background-color: #f2f2f2;
+  padding: 40px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.servicio-adomicilio h2 {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.servicio-adomicilio p {
+  font-size: 18px;
+  color: #666;
+  line-height: 1.5;
+  max-width: 600px;
+}
+
+.servicio-contenedor {
+  margin: 10%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+}
+
+.servicio-titulo {
+  color: #193A6A;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.servicio-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 10px;
+  max-width: 300px;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+.servicio-card img {
+  width: 50px;
+  margin-bottom: 20px;
+}
+
+.servicio-card h2 {
+  color: #2C7CBE;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.servicio-card p {
+  color: #666;
+  margin-bottom: 20px;
+  font-size: 17px;
+}
+
+.icon-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+}
+
+.icon-img img {
+  width: 60px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  padding: 0;
+}
+
+.lista ul {
+  padding: 0;
+  list-style: none;
+}
+
+.lista li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.lista li img {
+  margin-right: 10px;
+  width: 39px;
+  height: auto;
+}
+
+.lista li a {
+  color: #2C7CBE;
+  text-decoration: none;
+}
+
+.lista li a:hover {
+  text-decoration: underline;
+}
+
+
+.botones-de-cita button {
+    padding: 5px 20px; 
+    margin: 0 10px; 
+    font-size: 16px; 
+    cursor: pointer; 
+    border: 2px solid #2C7CBE; 
+    background-color:  #2C7CBE;
+    color: #fff; 
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: background-color 0.3s, color 0.3s; 
+}
+
+.botones-de-cita button:hover {
+    background-color: #246997; 
+}
+
+    
+.botones-de-cita .cita-adomicilio {
+    border-color: #2C7CBE;
+    background-color: #2C7CBE;
+}
+
+.botones-de-cita .cita-adomicilio:hover {
+    background-color:#246997;
+}
+
+
+/* LOGIN TIARA */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* HECHO POR LAURA */
+
+
+.contenedor {
+    margin: 0 auto; /* el 0, arriba y abajo */   /* el auto, izquierda y derecha */
+    margin-left: 1px; /* Que la imagen cubra todo el espacio hacia la izquierda */
+    max-width: 1200px; /* No puede pasar de los 1200px */
+    width: 300%;  /* el 100% de la imagen */
+}
+
+.imagen-fomulario {
+    background-image: url("../img/imagenPrincipal.jpg");/* Imagen desde css */
+    background-position: center center; /* para que la img se centre  */
+    background-size: cover; /* cover: que la imagen se adapte al cotenedor padre, osea al imagen-formulario */
+    flex: 65%; /* flex es la la propiedad resumida que indica la capacidad de un elemento flexible para alterar sus dimensiones y llenar el espacio disponible. 
+    Puse 65% para que cubra ese espacio y los 35 que quedan para el formulario,*/
+    margin-bottom: -150px; 
+    /* para que quede ajustada haci abajo */
+}
+
+
+.imagen-fomulario{
+    height: auto;  /* que la imagen se coloque en su lugar con la altura */
+    background-position: right;  /* Para que la imagen se coloque a la derecha  */
+}
+
+.contenedor-formulario {
+    display: flex; 
+    margin-bottom: 90px;
+    /*para que el contenedor se ponga  flexible y este en su lugar */
+}
+
+
+.formulario {
+    margin-left: 30px;
+    margin-top: 30px;
+    padding: 5px; /* para que el formulario tenga el espacio de todos los lados */
+}
+
+.input label, .inicio, a{
+    /* color: #193A6A; */
+    color:#1D1D1D;
+    /* color de letra para el usuario la contraseña y el iniciaio de seccion azul */
+    text-decoration: none; /* Quitarle el enlace (la rayita que sale debajo) */
+    
+}
+
+
+.input {
+    font-size: 20px; /* Tamano de letra */
+    font-weight: bold;  /* letra en negrita */
+    margin: 20px 10px; /* Espacio arriba, abajo y izquierda de las letras  */
+}
+
+.input input{
+    width: 129%;  /* Ancho de los cuadritos */
+    padding: 10px 16px; /* espacio de los cuadros y de lo que esta dentro */
+    margin-top: 5px; /* Espacio de arriba entre los cuadros */
+    height: 3.120rem;
+    border-radius: 0.5rem;
+    border: 1px solid #1D1D1D;
+
+}
+
+
+.iniciarSeccion{
+    cursor: pointer;
+    text-align: center;
+     width: 124%;
+     padding: 16px 130px; /* espacio de los cuadros y de lo que esta dentro */
+     border-radius: 10px; /* bordes redondos en las esquinas */
+     background-color: #193A6A;  /* Fondo color azul */
+     margin-left: 10px;
+       /* Para centrar el cuadrito con los demas */
+}
+
+ .iniciarSeccion a{
+    color: white;  /* Ponerle color blanco al iniciar seccion, ya que hay 3 enlaces, Y no pueden ir de color blanco, si no azul */
+}
+
+.registrate {
+    text-decoration: none; /* Quitarle el enlace (la rayita que sale debajo) */
+    margin-top: 25px; /* Espacio de arriba, para que no quede tan pegado de (INICIAR SECCION) */
+    color: rgb(81, 79, 79);
+    /* color: gray; */
+    margin-bottom: 10px; /* Espacio de abajo para que no quede tan pegado de (¿Olvidaste tu contraseña?) */
+}
+
+.password-olvidada, a {
+    color: #193A6A;
+    font-size: 16px;
+    margin-top: 20px;
+    text-decoration: none;  /* Quitarle el enlace (la rayita que sale debajo) */
+}
+
+.logo{
+    margin-bottom: -50px;
+    margin-left: 20%;
+    margin-bottom: 15px;
+     width: 350px;
+    height: auto; 
+}
+
+.ancho {
+  display: block;
+  width: 100%;
+  background-color: #193A6A;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+/* ADOPCION LAURA */
+
+.adopt-container {
+    text-align: center;/* centrar el texto */
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.texto .h1 {
+    color: #193A6A;
+    font-size: 3em;
+    margin-top: 20;
+}
+
+.texto .p {
+    color: #333;
+    font-size: 1.5em;
+    margin: 10px 0;
+}
+
+
+.padre {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.hijo {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 6px;
+    display: flex;
+    width: 16rem;
+    height: 29rem;
+    flex-direction: column;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.hijo__preview1 img {
+     width: 100%; 
+    height: 200px;
+    margin-bottom: 15px;
+    
+}
+
+
+.hijo__content {
+    padding: 1.25rem;
+    font-size: 15px;
+    margin-top: -75px;
+}
+.hijo__content1 {
+    padding: 1.25rem;
+    font-size: 15px;
+    margin-top: -65px;
+}
+
+
+.hijo__title{
+    font-size: 20px;
+    margin-right: 140px;
+    color: #193A6A;
+    margin-top: 25px;
+}
+
+.hijo__descrip {
+    
+    margin-top: 0.5rem;
+    margin-bottom: 20px;
+    max-height: 60px ;  
+     
+}
+
+.whatsapp-icon {
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+.whatsapp-icon img {
+    width: 50px; 
+    border-radius: 200px;
+    margin-right: -10px; /* Espacio entre el ícono y el borde derecho */
+    /* margin-top: 10px; */
+}
+
+.whatsapp-icon1 {
+    display: flex;
+    justify-content: flex-end;
+}
+.whatsapp-icon1 img {
+    width: 50px; 
+    border-radius: 200px;
+    margin-right: -10px; /* Espacio entre el ícono y el borde derecho */
+    /* margin-top: 20px; */
+}
+
+
+
+
+
+
 
 /* HECHO POR TIARA */
 
@@ -120,6 +503,89 @@
 .accion .boton-cs-perfil {
     background-color: #193A6A;
 } 
+
+
+/* FORMULARIOS LAURA */
+.texto2 .h2 {
+    color: #193A6A;
+    font-size: 3em;
+    margin-top: 20;
+    text-align: center;
+}
+
+.texto2 .p2 {
+    text-align: center;
+    color: #333;
+    font-size: 1.5em;
+    margin: 10px 0;
+}
+
+
+
+
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+
+.form-input {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+select.form-input {
+  background-size: 18px 18px;
+  padding-right: 40px;
+}
+
+.mss {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  min-height: 150px;
+}
+
+.ancho {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #193A6A;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+
+
+
+.anchoE{
+    display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #193A6A;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+
+}
+
+
+
+
 
 /* Estilos del header */
 
@@ -383,8 +849,11 @@ main.min-main {
 
 
 
-/* Esta parte esta siendo trabajada por yohan */
 
+
+
+
+/* a_AgendadasGuarderia  Tiara */
 
 /* Contenedor principal */
 .petvet-container {
@@ -495,77 +964,8 @@ main.min-main {
 
 
 
-/* Opcional: Ajustes para dispositivos móviles */
-@media (max-width: 600px) {
-    .petvet-content {
-        flex-direction: column;
-    }
-}
 
-  
-
-figure{
-      height: 24%;
-      width:45% ;
-     
-}
-.logo, .logo img{
-    /* tamaños del las imagenes de el logo */
-     height: 40%;
-    width: 40%;
-    margin-left:20px ;    
-     cursor: pointer;  /*Presenta la manita cuando estes en el logo */ 
-
-}
-a{
-    text-decoration: none;
-    color: #fff;
-}
-
-
-
-.usr a{
-    display: flex;
-    align-items: center;
-    margin-left: 30px;
-
-}
-
-.usr img{
-    margin-right: 10px;
-}
-
-.agen {
-    color: #ff0000;
-    width: 90%;
-    margin-top: 20px;
-    /* background-color: #193A6A; */
-    display: flex;
-
-    justify-content:end;
-
-    
-} 
-.agen button{
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* background-color: #193A6A; */
-    font-size: clamp(1.10em, 2vw,1em );
-    border: none;
-    height: 50px;
-    border-radius: 5px;
-    width: 15%;
-    background: linear-gradient(315deg, #17345f, #1b3e71);
-
-    
-}
-
-/* Estilos para el contenedor de la tabla */
-
-
-/* Estilos para el contenedor de la tabla */
+/* HECHO POR YOHAN LAS TABLAS DEL USER  */
 .con-tabla {
     margin-top: 2%;
     width: 100%;
@@ -599,6 +999,23 @@ table {
     width: 90%;
     border-collapse: collapse; /* Fusionar los bordes */
 }
+
+/* Estilo para las celdas */
+td {
+ 
+  padding: 20px; /* Espaciado interno de las celdas */
+  vertical-align: top; /* Alinea el texto al tope de la celda */
+}
+
+/* Estilo para las filas alternas */
+tbody tr:nth-child(odd) {
+  background-color:#ffffff;  
+}
+
+tbody tr:nth-child(even) {
+  background-color: rgb(228, 227, 227) 
+}
+
 
 /* Opcional: Bordes de las celdas y filas para evitar líneas innecesarias */
 th, td {
@@ -656,10 +1073,6 @@ tbody tr{
   max-width: 100%; /* Asegura que la celda no se expanda más allá del contenedor */
 }
 
-
-
-/* u_registroMascotas.html y  u_registrousuario.html  Hecho por tiara*/
-
 /* Estilo base para la tabla */
 table {
   width: 100%;
@@ -673,339 +1086,31 @@ td {
   vertical-align: top; /* Alinea el texto al tope de la celda */
 }
 
-/* Estilo para las filas alternas */
-tbody tr:nth-child(odd) {
-  background-color:#ffffff;  
-}
-
-tbody tr:nth-child(even) {
-  background-color: rgb(228, 227, 227) 
-}
-
-
-.body-admin {
-    background-color: #fff;
-}
-
-.container {
-    background-color: white;
-    padding: 20px;
-    margin-top: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    max-width: 600px;
-    width: 100%;
-}
-.medioRegistro {
+.agen {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    width: 100%;
-    background-color: #19396a15;
-    /* background-color: #0a6bfd67; */
+    justify-content: flex-end;
+    margin-top: 30px;
 }
 
-.medio {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.medio img {
-    max-width: 200px;
-    margin-bottom: 10px;
-}
-
-.medio h1 {
-    font-size: 25px;
-    color: #003366;
-    margin: 0;
-}
-
-.formulario .form-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-.formulario .form-group {
-    margin-bottom: 15px;
-    padding: 0 10px;
-    box-sizing: border-box;
-    flex: 1 1 45%;
-}
-
-.formulario label {
-    display: block;
-    margin-bottom: 5px;
-    color: #333;
-}
-
-.formulario input, .formulario select, .formulario button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-}
-
-.formulario button {
-    background-color: #003366;
+.agen button {
+    background-color: #193A6A;
     color: white;
     border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
     transition: background-color 0.3s ease;
 }
 
-.formulario button:hover {
-    background-color: #0055cc;
-}
-
-.formulario .form-group p {
-    margin: 0;
-}
-
-.formulario .form-group a {
-    color: #0055cc;
-    text-decoration: none;
-}
-
-.formulario .form-group a:hover {
-    text-decoration: underline;
-}
-
-
-
-/* Estilos de listado de mascotas y usuarios ------------------------------------------------------------------*/
 
 
 
 
-.a-hed {
-  
-    display: flex;
-    justify-content: space-between;
-    
-} 
 
-.botones-lis{
-    display: flex;
-    justify-content: space-around;
-    align-items: end;
-   
-}
-
-.botones-lis .icons img{
-      width: 45px;
-    margin: 0 10px;
-    transition: all 0.3s ease;
-}
-
-.titulo-listas{
-    background-color: #193A6A;
-    color: #fff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-
-.galeria article {
-    display: inline-block;
-    margin-right: 50px;
-    
-}
-
-.galeria article img {
-    width: 250px; 
-    height: auto; 
-   
-}
-
-.galeria article img:hover {
-    transform: scale(1.1);
-}
-
-.pie {
-    text-align: center;
-    color: #102544;
-}
-
-/* Pagina de servicios a domicilio------------------------------------------------------------ */
-
-.serviAdomi-alto{
-    text-align: center;/* centrar el texto */
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 1rem;
-}
-.serviAdomi-alto .h1 {
-    color: #193A6A;
-    font-size: 3em;
-    margin-top: 20;
-}
-.serviAdomi-alto.p {
-    color: #333;
-    font-size: 1.5em;
-    margin: 10px 0;
-}
-.label-servicios{
-     display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-.input-servicios{
-    display: block;
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-.con-servicios{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    width: 80%;
-    margin-left: 10%;
-}
-
-.servicios-vacunas{
-    margin-top: 20px;
-}
-.enviar{
-    background-color: #193A6A;
-    padding: 20px;
-    border: solid 0;
-    color: #fff;
-    border-radius: 7px;
-    width: 15%;
-    font-size: 20px;
-} 
-
-.Total{
-    font-size: 24px;
-    margin-left: 8%;
-    margin-top: 20px;
-}
-.pedir{
-  width: 100%;
-  margin-top: 20px;
-  padding: 10px;
-  background-color: #5cb85c;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  
-}
-
-
-     
-    /* media queries del header */
-
-  @media (max-height: 600px) {
-
-     
-    /* media queries del header */
-    .barra-lateral .logo-pagina {
-        margin-bottom: 5px;
-    }
-}
-
+/* Opcional: Ajustes para dispositivos móviles */
 @media (max-width: 600px) {
-   
-    .barra-lateral {
-        position: fixed;
-        left: -250px;
-    }
-
-    .max-barra-lateral {
-        left: 0;
-    }
-
-    .menu {
-        display: flex;
-    }
-
-    main {
-        margin-left: 0;
-        padding: 20px; /* Ajuste del padding para pantallas pequeñas */
-    }
-
-    main.min-main {
-        margin-left: 0;
-    }
-
-    .servicio-contenedor {
-        margin-left: 0; /* Ajuste del margen para pantallas pequeñas */
-    }
-
-    /* Tabla de citas agendadas */
-     th,td{
-     /* font-size: clamp(0.6em, 0.9vw, 1.5em ); */
-     font-size: 12px;
-     padding-right: 3px;
-     padding-left:3px;
-
-    }
-       .agen a{
-        font-size: clamp(0.9em, 1vw, 4em );
-        height: 30px;
-        width: 80px;
+    .petvet-content {
+        flex-direction: column;
     }
 }
-   
-
-
-
-  @media (max-height: 600px) {
-    .barra-lateral .logo-pagina {
-        margin-bottom: 5px;
-    }
-}
-
-
-@media (max-width: 600px) {
-    .barra-lateral {
-        position: fixed;
-        left: -250px;
-    }
-
-    .max-barra-lateral {
-        left: 0;
-    }
-
-    .menu {
-        display: flex;
-    }
-
-    main {
-        margin-left: 0;
-        padding: 20px; /* Ajuste del padding para pantallas pequeñas */
-    }
-
-    main.min-main {
-        margin-left: 0;
-    }
-
-    
-
-    th,td{
-     font-size: clamp(0.6em, 0.9vw, 1.5em );
-     /* font-size: 8px; */
-     padding-right: 3px;
-     padding-left:3px;
-
-    }
-    .agen a{
-        font-size: clamp(0.9em, 1vw, 4em );
-        height: 30px;
-        width: 80px;
-    }
-}
-    
-
- 

@@ -7,7 +7,7 @@
     <title>Servicios a domicilio</title>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos-yohan.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}">
 </head>
 <body>
@@ -100,8 +100,8 @@
                         <div class="accion">
                             <form method="post" action="/cerrar_sesion" id="cerrar">
                                 <input type="file" id="subir-foto" accept="image/*" onchange="changeProfilePic()">
-                            <label for="subir-foto">Cambiar foto de perfil</label>
-                            <button class="boton-cs-perfil" id="cerrarsesion">Cerrar Sesión</button>
+                                <label for="subir-foto">Cambiar foto de perfil</label>
+                                <button class="boton-cs-perfil" id="cerrarsesion">Cerrar Sesión</button>
                             </form>
                         </div>
                     </div>
@@ -111,87 +111,66 @@
         </div>
     </header>
     
-    <main>
-        <div class="serviAdomi-alto">
-            <h1 class="h1">¡Por favor de llenar!</h1>
-            <p class="p">¡Completa este formulario para que podamos cumplir con tu servicio a domicilio! </p>
-        </div>
-        <form class="formulario" method="POST" action="/citasAdomicilio/">
-            <div class="con-main-servicios">
-                <div class="formularios-servicios">
-                    <div class="formulario-servicios">
-                        <label class="label-servicios" for="fecha">Fecha:</label>
-                        <input class="input-servicios" type="date" id="fecha" name="fecha" required><br>
-                        <label class="label-servicios" for="direccion">Dirección:</label>
-                        <input class="input-servicios" type="text" id="direccion" name="direccion" placeholder="Escriba su dirección" required maxlength="200"><br>
-                    </div>
-                    <div class="formulario-servicios">
-                        <label class="label-servicios" for="tanda">Tanda:</label>
-                        <select class="input-servicios" name="tanda" id="tanda" required>
-                            <option value="">-Elija una opción</option>
-                            <option value="Mañana">Mañana</option>
-                            <option value="Tarde">Tarde</option>
-                        </select><br>
-                        <label class="label-servicios" for="mascota">Mascota:</label>
-                        <select class="input-servicios" name="mascota" id="mascota" required>
-                            <option value="perro">Perro</option>
-                            <option value="gato">Gato</option>
-                            <option value="roedor">Roedor</option>
-                            <option value="ave">Ave</option>
-                            <option value="otro">Otro</option>
-                        </select>
-                    </div>
-                </div>
+   <main>
+        <div class="petvet-container">
+        <h1 class="petvet-title">Servicios y Vacunas a Domicilio</h1>
+        <p class="petvet-intro ">Ofrecemos una variedad de servicios a domicilio para el cuidado de tus mascotas. A continuación, te detallamos lo que podemos ofrecerte:</p>
         
-                <div class="con-servicios">
-                    <div class="productos-servis-derecho servicios-vacunas">
-                        <h2 class="h2-servicios">Vacunas</h2>
-                        <div id="formularios-productos">
-                            <div>
-                                <input type="checkbox" name="vacunas[]" value="1">Vacuna contra la rabia - RD$500
-                            </div>
-                            <div>
-                                <input type="checkbox" name="vacunas[]" value="2">Vacuna contra el parvovirus - RD$500
-                            </div>
-                            <div>
-                                <input type="checkbox" name="vacunas[]" value="3">Vacuna contra el moquillo - RD$500
-                            </div>
-                            <div>
-                                <input type="checkbox" name="vacunas[]" value="4">Vacuna refuerzo a polivalente - RD$500
-                            </div>
-                            <div>
-                                <input type="checkbox" name="vacunas[]" value="5">Vacuna contra Lyme - RD$2,000
-                            </div>
-                        </div>
-                    </div>
-                    <div class="productos-servis-izquierdo servicios-vacunas">
-                        <h2 class="h2-servicios">Servicios</h2>
-                        <div>
-                            <div>
-                                <input type="checkbox" name="servicios[]" value="1">Baño, peluquería y corte de uñas - RD$1,500
-                            </div>
-                            <div>
-                                <input type="checkbox" name="servicios[]" value="2">Paseos a mascotas - RD$1,000
-                            </div>
-                            <div>
-                                <input type="checkbox" name="servicios[]" value="3">Revisiones físicas - RD$1,000
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <p class="Total">Total: <span id="totalPrecio" name="totalPrecios">0</span></p>
-                <button class="pedir" type="submit">Pedir</button>
-                <button class="pedir" type="button" class="anchoE" onclick="verCitas()">Ver Citas</button>
+        <div class="petvet-content">
+            <div class="petvet-column">
+                <h2 class="petvet-subtitle">Servicios</h2>
+                <ul class="petvet-list">
+                    <li class="petvet-item">
+                        <span>Baño, Peluquería y Corte de Uñas</span>
+                        <span class="petvet-price">$700</span>
+                    </li>
+                    <li class="petvet-item">
+                        <span>Paseos a Mascotas</span>
+                        <span class="petvet-price">$100/hora</span>
+                    </li>
+                    <li class="petvet-item">
+                        <span>Revisiones Físicas</span>
+                        <span class="petvet-price">$1000</span>
+                    </li>
+                </ul>
             </div>
-        </form>
-        
-        
-        
-        
-    </main>
-    <script src="{{ url_for('static', filename='js/calculo.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/header.js') }}"></script>
-  
 
+            <div class="petvet-column">
+                <h2 class="petvet-subtitle">Vacunas</h2>
+                <ul class="petvet-list">
+                    <li class="petvet-item">
+                        <span>Vacuna contra la rabia</span>
+                        <span class="petvet-price">$500</span>
+                    </li>
+                    <li class="petvet-item">
+                        <span>Vacuna contra el parvovirus</span>
+                        <span class="petvet-price">$500</span>
+                    </li>
+                    <li class="petvet-item">
+                        <span>Vacuna contra el moquillo</span>
+                        <span class="petvet-price">$500</span>
+                    </li>
+                    <li class="petvet-item">
+                        <span>Vacuna refuerzo a polivalente</span>
+                        <span class="petvet-price">$600</span>
+                    </li>
+                    <li class="petvet-item">
+                        <span>Vacuna contra Lyme</span>
+                        <span class="petvet-price">$800</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        
+        <div class="whatsapp-icon">
+                        <a href="https://wa.me/18498544639?text=¡Gracias por interesarte en adoptar una de nuestras mascotas! Si tienes alguna pregunta o quieres saber más,
+                         no dudes en enviarnos un mensaje. ¡Estamos aquí para ayudarte!" 
+                     target="_blank"><img src="{{ url_for('static', filename='img/imagen-whatsapp.jpg') }}" alt="WhatsApp"></a>
+                    </div>
+    </a>
+    </div>
+    </main>
+     <script src="{{ url_for('static', filename='js/header.js') }}"></script>
 </body>
 </html>

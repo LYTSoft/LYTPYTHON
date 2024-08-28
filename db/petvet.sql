@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-08-2024 a las 23:14:28
+-- Tiempo de generación: 27-08-2024 a las 23:38:29
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.2.13
 
@@ -50,8 +50,23 @@ CREATE TABLE `adomicilio` (
   `tanda` varchar(15) COLLATE utf8_spanish_ci NOT NULL,
   `id_mascota` int(11) NOT NULL,
   `id_vacuna` int(11) NOT NULL,
-  `id_servicio` int(11) NOT NULL
+  `id_servicios` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `adopción`
+--
+
+CREATE TABLE `adopción` (
+  `id_adopcion` int(11) NOT NULL,
+  `nombre` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
+  `descripcion` varchar(120) COLLATE utf8_spanish2_ci NOT NULL,
+  `foto_mascota` varchar(255) COLLATE utf8_spanish2_ci NOT NULL,
+  `sexo` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
+  `edad` varchar(2) COLLATE utf8_spanish2_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 -- --------------------------------------------------------
 
@@ -68,13 +83,6 @@ CREATE TABLE `citas` (
   `id_servicios` int(11) NOT NULL,
   `descripcion` varchar(200) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `citas`
---
-
-INSERT INTO `citas` (`id_citas`, `id_usuario`, `fecha`, `tanda`, `id_mascota`, `id_servicios`, `descripcion`) VALUES
-(29, 1, '2024-08-17', 'Tarde', 5, 1, 'nfeuifehuhqeghuh');
 
 -- --------------------------------------------------------
 
@@ -222,10 +230,16 @@ ALTER TABLE `admin`
 --
 ALTER TABLE `adomicilio`
   ADD PRIMARY KEY (`id_adomicilio`),
-  ADD KEY `id_usuario` (`id_usuario`,`id_mascota`,`id_vacuna`,`id_servicio`),
+  ADD KEY `id_usuario` (`id_usuario`,`id_mascota`,`id_vacuna`,`id_servicios`),
   ADD KEY `id_vacuna` (`id_vacuna`),
-  ADD KEY `id_servicio` (`id_servicio`),
+  ADD KEY `id_servicio` (`id_servicios`),
   ADD KEY `id_mascota` (`id_mascota`);
+
+--
+-- Indices de la tabla `adopción`
+--
+ALTER TABLE `adopción`
+  ADD PRIMARY KEY (`id_adopcion`);
 
 --
 -- Indices de la tabla `citas`
@@ -288,31 +302,37 @@ ALTER TABLE `vacuna`
 -- AUTO_INCREMENT de la tabla `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id_pendientesAdmin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_pendientesAdmin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `adomicilio`
 --
 ALTER TABLE `adomicilio`
-  MODIFY `id_adomicilio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_adomicilio` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `adopción`
+--
+ALTER TABLE `adopción`
+  MODIFY `id_adopcion` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `citas`
 --
 ALTER TABLE `citas`
-  MODIFY `id_citas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id_citas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `guarderia`
 --
 ALTER TABLE `guarderia`
-  MODIFY `id_guarderia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_guarderia` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `mascota`
 --
 ALTER TABLE `mascota`
-  MODIFY `id_mascota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_mascota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -324,7 +344,7 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `servicio`
 --
 ALTER TABLE `servicio`
-  MODIFY `id_servicios` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_servicios` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
@@ -349,7 +369,7 @@ ALTER TABLE `adomicilio`
   ADD CONSTRAINT `adomicilio_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`),
   ADD CONSTRAINT `adomicilio_ibfk_2` FOREIGN KEY (`id_vacuna`) REFERENCES `vacuna` (`id_vacuna`),
   ADD CONSTRAINT `adomicilio_ibfk_3` FOREIGN KEY (`id_mascota`) REFERENCES `mascota` (`id_mascota`),
-  ADD CONSTRAINT `adomicilio_ibfk_4` FOREIGN KEY (`id_servicio`) REFERENCES `servicio` (`id_servicios`);
+  ADD CONSTRAINT `adomicilio_ibfk_4` FOREIGN KEY (`id_servicios`) REFERENCES `servicio` (`id_servicios`);
 
 --
 -- Filtros para la tabla `citas`

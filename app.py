@@ -3,7 +3,7 @@ import os
 from flask import Flask
 
 # Importar la plantilla HTML. Para guardar datos desde el formulario importamos request, redirect y session (variable de sesión).
-from flask import render_template, request, redirect, session, url_for, g, flash
+from flask import render_template, request, redirect, session, url_for
 
 # Importar el enlace a base de datos MySQL
 from flaskext.mysql import MySQL
@@ -148,6 +148,24 @@ def u_registrousuario():
     return render_template('usuario/u_registrousuario.html')
 
 
+@app.route('/citasAdomicilio/', methods=['GET', 'POST'])
+def citaAdomicilio():
+    # Verificar si el usuario está logueado
+    if 'loggedin' not in session:
+        return redirect(url_for('login'))
+    
+    user_id = session['user_id']
+    
+    # Obtener información del usuario
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute('SELECT nombre, apellido, correo, telefono, id_mascota FROM usuario WHERE id_usuario = %s', (user_id,))
+    user = cursor.fetchone()
+
+    return render_template('usuario/u_servicioAdomicilio.html', user=user)
+
+
+
 # Ruta para agendar citas para el usuario, maneja tanto solicitudes GET como POST
 @app.route('/agendarcitas/usuario/', methods=['GET', 'POST'])
 def agendar_cita():
@@ -167,7 +185,8 @@ def agendar_cita():
 
     if request.method == 'POST':
         # Verificar que todos los campos requeridos están presentes
-        if all(k in request.form for k in ['fecha', 'tanda', 'mascota', 'servicios', 'descripcion']):
+        if all(k in request.form for k in ['id_usuario', 'fecha', 'tanda', 'mascota', 'servicios', 'descripcion']):
+            id_usuario = request.form['id_usuario']
             fecha = request.form['fecha']
             tanda = request.form['tanda']
             id_mascota = request.form['mascota']
@@ -188,7 +207,7 @@ def agendar_cita():
 
             # Insertar nueva cita
             cursor.execute('INSERT INTO citas (id_usuario, fecha, tanda, id_mascota, id_servicios, descripcion) VALUES (%s, %s, %s, %s, %s, %s)', 
-                           (user_id, fecha, tanda, id_mascota, id_servicios, descripcion))
+                           (id_usuario, fecha, tanda, id_mascota, id_servicios, descripcion))
             id_citas = cursor.lastrowid
             
             if id_citas:
@@ -217,6 +236,7 @@ def u_citasAgendada():
     cursor.execute('SELECT nombre, apellido, correo, telefono, id_mascota FROM usuario WHERE id_usuario = %s', (user_id,))
     user = cursor.fetchone()
     
+    id_usuario = session['user_id']
     # Obtener citas agendadas del usuario
     cursor.execute('''
         SELECT c.fecha, c.tanda, m.tipoMascota, s.servicio, c.descripcion
@@ -225,7 +245,7 @@ def u_citasAgendada():
         JOIN servicio s ON c.id_servicios = s.id_servicios
         WHERE c.id_usuario = %s
         ORDER BY c.fecha DESC
-    ''', (user_id,))
+    ''', (id_usuario,))
     
     citas_agendadas = cursor.fetchall()
 
@@ -433,7 +453,9 @@ def u_adopcion():
     user = cursor.fetchone()
     cursor.close()
     connection.close()
+ 
 
+# ADOPCION
     connection = get_db_connection()
     cursor = connection.cursor()
     cursor.execute('SELECT foto_mascota, nombre, descripcion, edad, sexo FROM adopcion')

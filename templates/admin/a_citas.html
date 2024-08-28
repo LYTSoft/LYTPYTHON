@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Citas pendientes</title>
     <link rel="icon" href="{{ url_for('static', filename='imagenes/icon.png') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos_tiara.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos_tiara.css') }}">
 </head>
 
 <body class="body-admin">
@@ -36,8 +37,7 @@
                 </a>
             </div>
         </div>
-    </header>
-    
+    </header>  
     <main class="main-agen-admin">
         <div class="div-tabla">
             <table>
@@ -67,6 +67,72 @@
                 </tbody>
             </table>
         </div>
-    </main>
-</body>
+  
+
+<style>
+
+.bajo-header{
+    display: flex;
+    height: 50px;
+   justify-content: space-between;
+   align-items: center;
+   background-color: #193A6A;
+}
+
+.con-botones{
+    display: flex;
+    justify-content: space-between;
+}
+.text-pag-b{
+    font-size: 0.9vw;
+    margin-left: 10px;
+}
+ .main-agen-admin {
+        padding: 10px; /* Ajustado para reducir el espacio */
+    }
+
+    .con-tabla {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .tabla-arriba {
+        background-color: #1e3a8a;
+        color: white;
+    }
+
+    .alto-tabla {
+        padding: 12px;
+        text-align: left;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f3f4f6;
+    }
+
+    tbody tr:nth-child(odd) {
+        background-color: white;
+    }
+
+    td {
+        padding: 12px;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .descripcion {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+</style>
 </html>
+    </main>
+</body
