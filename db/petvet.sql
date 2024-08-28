@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-08-2024 a las 23:14:28
+-- Tiempo de generación: 28-08-2024 a las 19:38:04
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.2.13
 
@@ -52,6 +52,29 @@ CREATE TABLE `adomicilio` (
   `id_vacuna` int(11) NOT NULL,
   `id_servicio` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `adopcion`
+--
+
+CREATE TABLE `adopcion` (
+  `id_adopcion` int(11) NOT NULL,
+  `nombre` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `descripcion` varchar(120) COLLATE utf8_spanish_ci NOT NULL,
+  `foto_mascota` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `sexo` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `edad` varchar(2) COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `adopcion`
+--
+
+INSERT INTO `adopcion` (`id_adopcion`, `nombre`, `descripcion`, `foto_mascota`, `sexo`, `edad`) VALUES
+(1, 'rocky', 'es un buen can', '/static/img/20240828133617_p2.jpg', 'macho', '2'),
+(2, 'rosi', 'es genial mascotaaa', '/static/img/20240828133705_perfil-masco.png', 'macho', '2');
 
 -- --------------------------------------------------------
 
@@ -228,6 +251,12 @@ ALTER TABLE `adomicilio`
   ADD KEY `id_mascota` (`id_mascota`);
 
 --
+-- Indices de la tabla `adopcion`
+--
+ALTER TABLE `adopcion`
+  ADD PRIMARY KEY (`id_adopcion`);
+
+--
 -- Indices de la tabla `citas`
 --
 ALTER TABLE `citas`
@@ -295,6 +324,12 @@ ALTER TABLE `admin`
 --
 ALTER TABLE `adomicilio`
   MODIFY `id_adomicilio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `adopcion`
+--
+ALTER TABLE `adopcion`
+  MODIFY `id_adopcion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `citas`
