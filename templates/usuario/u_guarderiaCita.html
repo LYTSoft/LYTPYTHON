@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}">
 </head>
-<body class="body-agandadas">
+<body class="body-agendadas">
     <header>
         <div class="menu">
             <img src="{{ url_for('static', filename='recursos/icon/menu.svg') }}" alt="Menú">
@@ -45,7 +45,7 @@
                             <span>Citas Guardería</span>
                         </a>
                     </li>
-                     <li>
+                    <li>
                         <a href="/citasAdomicilio/">
                             <img src="{{ url_for('static', filename='recursos/icon/servicios-solicitado.svg') }}" alt="Servicios Solicitados" class="icon">
                             <span>Servicios a domicilio </span>
@@ -118,6 +118,7 @@
                         <th>Mascota</th>
                         <th>Servicio</th>
                         <th>Descripción</th>
+                        <th>Acción</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -127,7 +128,12 @@
                         <td>{{ cita.hasta }}</td>
                         <td>{{ cita.tipoMascota }}</td>
                         <td>{{ cita.servicio }}</td>
-                        <td  class="descripcion">{{ cita.descripcion }}</td>
+                        <td class="descripcion">{{ cita.descripcion }}</td>
+                        <td>
+                            <form action="{{ url_for('eliminar_guarderia', id_guarderia=cita.id_guarderia) }}" method="post">
+                                <button type="submit">Eliminar</button>
+                            </form>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
