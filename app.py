@@ -24,6 +24,7 @@ from werkzeug.utils import secure_filename
 
 # Crear la aplicación Flask
 app = Flask(__name__)
+
 app.config['UPLOAD_FOLDER'] = 'static/img/' 
 # Configurar la aplicación
 app.secret_key = 'lytpython'  # Clave secreta para sesiones
@@ -148,6 +149,7 @@ def u_registrousuario():
     return render_template('usuario/u_registrousuario.html')
 
 
+# informacion del perfil mostrada en la pantalla 
 @app.route('/citasAdomicilio/', methods=['GET', 'POST'])
 def citaAdomicilio():
     # Verificar si el usuario está logueado
@@ -163,6 +165,7 @@ def citaAdomicilio():
     user = cursor.fetchone()
 
     return render_template('usuario/u_servicioAdomicilio.html', user=user)
+
 
 
 
@@ -222,38 +225,91 @@ def agendar_cita():
 
 
 
+
 @app.route('/citas/agendadas/usuario/')
 def u_citasAgendada():
-    # Verificar si el usuario está logueado
+    # Verifica si el usuario está logueado. Si no está logueado, redirige a la página de login.
     if 'loggedin' not in session:
         return redirect(url_for('login'))
     
-    user_id = session['user_id']
+    # Obtiene el ID del usuario desde la sesión.
+    user_id = session.get('user_id')
     
-    # Obtener información del usuario
+    # Si no se encuentra el ID del usuario en la sesión, redirige a la página de login.
+    if not user_id:
+        return redirect(url_for('login'))
+    
+    # Establece una conexión a la base de datos y crea un cursor para ejecutar consultas SQL.
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
+    
+    # Ejecuta una consulta SQL para obtener información del usuario (nombre, apellido, correo, teléfono, ID de mascota) basado en el ID del usuario.
     cursor.execute('SELECT nombre, apellido, correo, telefono, id_mascota FROM usuario WHERE id_usuario = %s', (user_id,))
     user = cursor.fetchone()
     
-    id_usuario = session['user_id']
-    # Obtener citas agendadas del usuario
+    # Si no se encuentra el usuario en la base de datos, cierra el cursor y la conexión, y devuelve un error 404.
+    if not user:
+        cursor.close()
+        connection.close()
+        return "Usuario no encontrado", 404
+    
+    # Ejecuta una consulta SQL para obtener las citas agendadas del usuario, uniendo las tablas 'citas', 'mascota' y 'servicio' para obtener detalles completos.
+    # Ordena los resultados por fecha en orden descendente.
     cursor.execute('''
-        SELECT c.fecha, c.tanda, m.tipoMascota, s.servicio, c.descripcion
+        SELECT id_citas, c.fecha, c.tanda, m.tipoMascota, s.servicio, c.descripcion
         FROM citas c
         JOIN mascota m ON c.id_mascota = m.id_mascota
         JOIN servicio s ON c.id_servicios = s.id_servicios
         WHERE c.id_usuario = %s
         ORDER BY c.fecha DESC
-    ''', (id_usuario,))
+    ''', (user_id,))
     
+    # Obtiene todos los resultados de la consulta.
     citas_agendadas = cursor.fetchall()
 
+    # Cierra el cursor y la conexión a la base de datos.
     cursor.close()
     connection.close()
 
-    # Renderizar la plantilla con la información del usuario y las citas agendadas
+    # Renderiza la plantilla 'u_citasAgendadas.html' con los datos del usuario y las citas agendadas.
     return render_template('usuario/u_citasAgendadas.html', user=user, citas=citas_agendadas)
+
+@app.route('/eliminar_cita/<int:id_cita>/', methods=['POST'])
+def eliminar_cita(id_cita):
+    # Verifica si el usuario está logueado. Si no está logueado, redirige a la página de login.
+    if 'loggedin' not in session:
+        return redirect(url_for('login'))
+    
+    # Obtiene el ID del usuario desde la sesión.
+    user_id = session.get('user_id')
+    
+    # Si no se encuentra el ID del usuario en la sesión, redirige a la página de login.
+    if not user_id:
+        return redirect(url_for('login'))
+    
+    # Establece una conexión a la base de datos y crea un cursor para ejecutar consultas SQL.
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    
+    # Verifica si la conexión y el cursor están disponibles antes de proceder.
+    if connection and cursor:
+        # Ejecuta la consulta SQL para eliminar la cita de la base de datos basada en el ID de la cita y el ID del usuario.
+        cursor.execute('DELETE FROM citas WHERE id_citas = %s AND id_usuario = %s', (id_cita, user_id))
+        
+        # Verifica si se realizó alguna modificación en la base de datos.
+        if cursor.rowcount > 0:
+            # Confirma los cambios en la base de datos.
+            connection.commit()
+       
+        
+        # Cierra el cursor y la conexión a la base de datos.
+        cursor.close()
+        connection.close()
+    
+        # Redirige a la página de citas agendadas después de eliminar la cita.
+        return redirect(url_for('u_citasAgendada'))
+     
+
 
 
 @app.route('/guarderia/usuario/', methods=['GET', 'POST'])
@@ -270,6 +326,11 @@ def u_guarderia():
     cursor.execute('SELECT nombre, apellido, correo, telefono, id_mascota FROM usuario WHERE id_usuario = %s', (user_id,))
     user = cursor.fetchone()
 
+    if not user:
+        cursor.close()
+        connection.close()
+        return render_template('usuario/u_guarderia.html', message='Usuario no encontrado.')
+
     if request.method == 'POST':
         required_fields = ['id_usuario', 'desde', 'hasta', 'mascota', 'descripcion', 'id_servicios']
         
@@ -281,8 +342,15 @@ def u_guarderia():
             descripcion = request.form['descripcion']
             id_servicios = request.form['id_servicios']
 
-            connection = get_db_connection()
-            cursor = connection.cursor()
+            # Verificar si el id_usuario existe
+            cursor.execute('SELECT id_usuario FROM usuario WHERE id_usuario = %s', (id_usuario,))
+            existing_user = cursor.fetchone()
+
+            if not existing_user:
+                cursor.close()
+                connection.close()
+                return render_template('usuario/u_guarderia.html', user=user, message='El usuario no existe.')
+
             cursor.execute('SELECT * FROM guarderia WHERE desde = %s AND hasta = %s AND id_usuario = %s AND id_servicios = %s',
                            (desde, hasta, id_usuario, id_servicios))
             existing_record = cursor.fetchone()
@@ -309,46 +377,101 @@ def u_guarderia():
 
 
 
-# HECHO POR TIARA
-# Ruta para mostrar las citas de guardería del usuario
+
+# # HECHO POR TIARA
+# # Ruta para mostrar las citas de guardería del usuario
+# @app.route('/guarderia/cita/usuario/')
+# def u_guarderia_cita():
+#       # Verificar si el usuario está logueado
+#     if 'loggedin' not in session:
+#         return redirect(url_for('login'))
+    
+#     user_id = session['user_id']
+    
+#     # Obtener información del usuario
+#     connection = get_db_connection()
+#     cursor = connection.cursor(dictionary=True)
+#     cursor.execute('SELECT nombre, apellido, correo, telefono, id_mascota FROM usuario WHERE id_usuario = %s', (user_id,))
+#     user = cursor.fetchone()
+#     # Obtén el ID del usuario desde la sesión
+#     id_usuario = session['user_id']
+
+#     # Ejecuta la consulta SQL para obtener las citas de guardería del usuario
+#     cursor.execute('''
+#         SELECT c.desde, c.hasta, m.tipoMascota, s.servicio, c.descripcion
+#         FROM guarderia c
+#         JOIN usuario u ON c.id_usuario = u.id_usuario
+#         JOIN mascota m ON c.id_mascota = m.id_mascota
+#         JOIN servicio s ON c.id_servicios = s.id_servicios
+#         WHERE c.id_usuario = %s
+#         ORDER BY c.desde DESC
+#     ''', (id_usuario,))
+
+#     # Obtiene todos los resultados de la consulta
+#     guarderia_citas = cursor.fetchall()
+
+#     # Cierra el cursor y la conexión a la base de datos
+#     cursor.close()
+#     connection.close()
+
+#     # Renderiza la plantilla con los datos de las citas de guardería
+#     return render_template('usuario/u_guarderiaCita.html', guarderia=guarderia_citas, user=user)
+
+
+
+
 @app.route('/guarderia/cita/usuario/')
 def u_guarderia_cita():
-      # Verificar si el usuario está logueado
+    # Verifica si el usuario está logueado. Si no está logueado, redirige a la página de login.
     if 'loggedin' not in session:
         return redirect(url_for('login'))
     
-    user_id = session['user_id']
+    # Obtiene el ID del usuario desde la sesión.
+    user_id = session.get('user_id')
     
-    # Obtener información del usuario
+    # Si no se encuentra el ID del usuario en la sesión, redirige a la página de login.
+    if not user_id:
+        return redirect(url_for('login'))
+    
+    # Establece una conexión a la base de datos y crea un cursor para ejecutar consultas SQL.
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
+    
+    # Ejecuta una consulta SQL para obtener información del usuario (nombre, apellido, correo, teléfono, ID de mascota) basado en el ID del usuario.
     cursor.execute('SELECT nombre, apellido, correo, telefono, id_mascota FROM usuario WHERE id_usuario = %s', (user_id,))
     user = cursor.fetchone()
-    # Obtén el ID del usuario desde la sesión
-    id_usuario = session['user_id']
-
-    # Ejecuta la consulta SQL para obtener las citas de guardería del usuario
+    
+    # Si no se encuentra el usuario en la base de datos, cierra el cursor y la conexión, y devuelve un error 404.
+    if not user:
+        cursor.close()
+        connection.close()
+        return "Usuario no encontrado", 404
+    
+    # Ejecuta una consulta SQL para obtener las citas agendadas del usuario, uniendo las tablas 'citas', 'mascota' y 'servicio' para obtener detalles completos.
+    # Ordena los resultados por fecha en orden descendente.
     cursor.execute('''
         SELECT c.desde, c.hasta, m.tipoMascota, s.servicio, c.descripcion
-        FROM guarderia c
-        JOIN usuario u ON c.id_usuario = u.id_usuario
-        JOIN mascota m ON c.id_mascota = m.id_mascota
-        JOIN servicio s ON c.id_servicios = s.id_servicios
-        WHERE c.id_usuario = %s
-        ORDER BY c.desde DESC
-    ''', (id_usuario,))
+         FROM guarderia c
+         JOIN usuario u ON c.id_usuario = u.id_usuario
+         JOIN mascota m ON c.id_mascota = m.id_mascota
+         JOIN servicio s ON c.id_servicios = s.id_servicios
+         WHERE c.id_usuario = %s
+         ORDER BY c.desde DESC
+    ''', (user_id,))
+    
+    # Obtiene todos los resultados de la consulta.
+    guarderia_agendadas = cursor.fetchall()
 
-    # Obtiene todos los resultados de la consulta
-    guarderia_citas = cursor.fetchall()
-
-    # Cierra el cursor y la conexión a la base de datos
+    # Cierra el cursor y la conexión a la base de datos.
     cursor.close()
     connection.close()
 
-    # Renderiza la plantilla con los datos de las citas de guardería
-    return render_template('usuario/u_guarderiaCita.html', guarderia=guarderia_citas, user=user)
+    # Renderiza la plantilla 'u_citasAgendadas.html' con los datos del usuario y las citas agendadas.
+    return render_template('usuario/u_guarderiaCita.html', user=user, guarderia=guarderia_agendadas)
 
 
+
+#Funcion que muestra la informacion del usuario en el perfil
 @app.route('/home/usuario/')
 def indexUsuario():
    # Verificar si el usuario está logueado
@@ -393,7 +516,6 @@ def indexAdmin():
     return render_template('admin/index.html')
 
 
-# Hecho por yohan adopcion
 
 @app.route('/admin/adopcion/', methods=['GET', 'POST'])
 def a_adopcion():
@@ -406,13 +528,24 @@ def a_adopcion():
         sexo = request.form['sexo']
 
         # Guardar la imagen
+        # Verificar si se ha subido una foto de mascota y si el nombre del archivo no está vacío
         if foto_mascota and foto_mascota.filename != "":
+            # Obtener la hora actual en formato 'AÑO-MES-DÍA-HORA-MINUTO-SEGUNDO'
             horaActual = datetime.now().strftime("%Y%m%d%H%M%S")
+            
+            # Generar un nuevo nombre para el archivo que incluye la hora actual y el nombre original del archivo
             nuevoNombre = f"{horaActual}_{foto_mascota.filename}"
+            
+            # Construir la ruta completa del archivo en el directorio de carga usando el nuevo nombre
             archivo_path = os.path.join(app.config['UPLOAD_FOLDER'], nuevoNombre)
+            
+            # Guardar el archivo subido en el directorio especificado con el nuevo nombre
             foto_mascota.save(archivo_path)
+            
+            # Generar la URL para acceder al archivo guardado, usando la ruta de los archivos estáticos
             foto_mascota_url = url_for('static', filename=f'img/{nuevoNombre}')
         else:
+            # Si no se ha subido una foto o el nombre del archivo está vacío, establecer la URL como None
             foto_mascota_url = None
         
         connection = get_db_connection()
@@ -427,7 +560,7 @@ def a_adopcion():
         
         return redirect(url_for('a_adopcion'))
 
-    # GET Request: Muestra el formulario y la tabla con los datos
+#    Muestra el formulario y la tabla con los datos
     connection = get_db_connection()
     cursor = connection.cursor()
     cursor.execute('SELECT id_adopcion, foto_mascota, nombre, descripcion, edad, sexo FROM adopcion')
@@ -438,6 +571,9 @@ def a_adopcion():
     return render_template('admin/a_adopcion.html', adopciones=adopciones)
 
 
+
+
+# Funcion que muestra las mascotas en adopcion en el usuario 
 @app.route('/adopcion/usuario/')
 def u_adopcion():
    # Verificar si el usuario está logueado
@@ -455,7 +591,7 @@ def u_adopcion():
     connection.close()
  
 
-# ADOPCION
+# Muestra las adopcion 
     connection = get_db_connection()
     cursor = connection.cursor()
     cursor.execute('SELECT foto_mascota, nombre, descripcion, edad, sexo FROM adopcion')
@@ -466,6 +602,8 @@ def u_adopcion():
     return render_template('usuario/u_adopcion.html', useradopciones=useradopciones, user=user)
 
 
+
+# Permite eliminar las adopciones de la mascota al admin y asi no aparzcan al usuario 
 @app.route('/admin/adopcion/eliminar/<int:id_adopcion>', methods=['POST'])
 def eliminar_adopcion(id_adopcion):
     connection = get_db_connection()
@@ -479,8 +617,8 @@ def eliminar_adopcion(id_adopcion):
     return redirect(url_for('a_adopcion'))  # Redirigir después de la eliminación
 
 
-# HECHO POR TIARA
-        
+# Muestra la citas que tiene pendiente el admin.
+
 @app.route('/admin/citas/')# Este decorador asegura que solo los usuarios con privilegios de administrador puedan acceder a esta ruta
 def a_servicios():
 
@@ -506,9 +644,9 @@ def a_servicios():
     return render_template('admin/a_citas.html', citas=citas_pendientes)
 
 
-@app.route('/admin/servicios/')
-def a_servicio():
-    return render_template('admin/a_sevicio.html')
+
+# Muestra las citas de guarderia  que tiene pendiente el admin.
+
 
 @app.route('/admin/guarderia/')
 def a_guarderia():
@@ -538,6 +676,9 @@ def a_guarderia():
 
     # Renderiza la plantilla HTML 'admin/a_AgendadasGuarderia.html', pasando los datos de las citas de guardería como una variable.
     return render_template('admin/a_AgendadasGuarderia.html', guarderia=citas_guarderia)
+
+
+
 
 if __name__ == "__main__":
     app.run(port=3307, debug=True)
