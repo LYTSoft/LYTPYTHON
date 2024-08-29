@@ -117,18 +117,24 @@
                         <th>Mascota</th>
                         <th>Servicio</th>
                         <th>Descripción</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for cita in citas %}
-                    <tr>
-                        <td>{{ cita.fecha }}</td>
-                        <td>{{ cita.tanda }}</td>
-                        <td>{{ cita.tipoMascota }}</td>
-                        <td>{{ cita.servicio }}</td>
-                        <td class="descripcion">{{ cita.descripcion }}</td>
-                    </tr>
-                    {% endfor %}
+            <tr>
+                <td>{{ cita.fecha }}</td>
+                <td>{{ cita.tanda }}</td>
+                <td>{{ cita.tipoMascota }}</td>
+                <td>{{ cita.servicio }}</td>
+                <td>{{ cita.descripcion }}</td>
+                <td>
+                    <form action="{{ url_for('eliminar_cita', id_cita=cita.id_citas) }}" method="post">
+                        <button type="submit">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
                 </tbody>
             </table>
         </div>
