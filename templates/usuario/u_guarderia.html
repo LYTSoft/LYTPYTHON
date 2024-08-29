@@ -101,7 +101,7 @@
                             </div>
                         </div>
                        <div class="accion">
-                       <form method="post" action="/cerrar_sesion" id="cerrar">
+                       <form action="{{ url_for('cerrar_sesion') }}" method="GET">
                                 <input type="file" id="subir-foto" accept="image/*" onchange="changeProfilePic()">
                             <label for="subir-foto">Cambiar foto de perfil</label>
                             <button class="boton-cs-perfil" id="cerrarsesion">Cerrar Sesión</button>

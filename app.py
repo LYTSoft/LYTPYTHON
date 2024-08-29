@@ -148,6 +148,11 @@ def u_registrousuario():
     # Si la solicitud es GET o si el formulario no tiene todos los campos requeridos, renderiza el formulario
     return render_template('usuario/u_registrousuario.html')
 
+@app.route('/cerrar-sesion', methods=['GET'])
+def cerrar_sesion():
+    session.clear()  # Borra todos los datos de la sesión
+    return redirect(url_for('login'))  # Redirige a la página de inicio de sesión
+
 
 # informacion del perfil mostrada en la pantalla 
 @app.route('/citasAdomicilio/', methods=['GET', 'POST'])
