@@ -378,44 +378,6 @@ def u_guarderia():
 
 
 
-# # HECHO POR TIARA
-# # Ruta para mostrar las citas de guardería del usuario
-# @app.route('/guarderia/cita/usuario/')
-# def u_guarderia_cita():
-#       # Verificar si el usuario está logueado
-#     if 'loggedin' not in session:
-#         return redirect(url_for('login'))
-    
-#     user_id = session['user_id']
-    
-#     # Obtener información del usuario
-#     connection = get_db_connection()
-#     cursor = connection.cursor(dictionary=True)
-#     cursor.execute('SELECT nombre, apellido, correo, telefono, id_mascota FROM usuario WHERE id_usuario = %s', (user_id,))
-#     user = cursor.fetchone()
-#     # Obtén el ID del usuario desde la sesión
-#     id_usuario = session['user_id']
-
-#     # Ejecuta la consulta SQL para obtener las citas de guardería del usuario
-#     cursor.execute('''
-#         SELECT c.desde, c.hasta, m.tipoMascota, s.servicio, c.descripcion
-#         FROM guarderia c
-#         JOIN usuario u ON c.id_usuario = u.id_usuario
-#         JOIN mascota m ON c.id_mascota = m.id_mascota
-#         JOIN servicio s ON c.id_servicios = s.id_servicios
-#         WHERE c.id_usuario = %s
-#         ORDER BY c.desde DESC
-#     ''', (id_usuario,))
-
-#     # Obtiene todos los resultados de la consulta
-#     guarderia_citas = cursor.fetchall()
-
-#     # Cierra el cursor y la conexión a la base de datos
-#     cursor.close()
-#     connection.close()
-
-#     # Renderiza la plantilla con los datos de las citas de guardería
-#     return render_template('usuario/u_guarderiaCita.html', guarderia=guarderia_citas, user=user)
 
 
 
