@@ -72,7 +72,7 @@
 
             <div class="usuario">
                 <a href="#" onclick="abrirModal()">
-                   <img src="{{ url_for('static', filename='img/user.png') }}" alt="">
+                   
                     <div class="info-usuario">
                         <div class="nombre-email">
                             <span class="nombre">{{ user.nombre }} {{ user.apellido }}</span>
@@ -87,20 +87,17 @@
                     <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
                     <div class="perfil-container">
                         <div class="perfil-header">
-                            <div class="perfil-foto-container">
-                               <img src="{{ url_for('static', filename='img/user.png') }}" alt="">
-                            </div>
+                            
                             <div class="perfil-info">
                                 <h1>{{ user.nombre }} {{ user.apellido }}</h1>
                                 <p>Email: <span id="email">{{ user.correo }}</span></p>
                                 <p>Teléfono: <span id="telefono">{{ user.telefono }}</span></p>
-                                <p>Mascota: <span id="mascota">{{ user.id_mascota }}</span></p>
+                    
                             </div>
                         </div>
                         <div class="accion">
                             <form action="{{ url_for('cerrar_sesion') }}" method="GET">
-                                <input type="file" id="subir-foto" accept="image/*" onchange="changeProfilePic()">
-                                <label for="subir-foto">Cambiar foto de perfil</label>
+                                
                                 <button class="boton-cs-perfil" id="cerrarsesion">Cerrar Sesión</button>
                             </form>
                         </div>
