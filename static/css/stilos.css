@@ -1095,7 +1095,147 @@ td {
 
 
 
+/* Estilos de adopcion en el admin */
 
+/* Estilo general del cuerpo */
+.body-adop {
+    font-family: 'Abhaya Libre', serif;
+    background-color: #ffffff; /* Fondo blanco */
+    color: #333; /* Color de texto gris oscuro para buen contraste */
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo del encabezado */
+.header-adop {
+    /* background-color: #0033A0; Azul oscuro para el encabezado */
+    color: #ffffff; /* Texto blanco en el encabezado */
+    padding: 15px 20px;
+}
+
+.header-adop .alto-admi {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-adop .logo {
+    max-width: 120px;
+}
+
+
+
+ 
+.header .con-botones .icons img {
+    display: flex;
+    justify-content: end;
+    width: 50px;
+    height: 50px;
+}
+
+/* Estilo principal del contenedor de la adopción */
+.main-adop {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+main .texto {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+main .h1 {
+    
+    font-size: 3rem;
+    color: #193A6A;
+    margin: 0;
+}
+
+main .p {
+    color: #555; /* Gris para el párrafo */
+    font-size: 1rem;
+}
+
+/* Estilo del formulario */
+.form-container {
+    background-color: #f9f9f9; /* Fondo gris claro para el formulario */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    /* color: #0033A0; Etiquetas en azul oscuro */
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.form-group button {
+    background-color: #193A6A; /* Botón azul oscuro */
+    color: #ffffff; /* Texto blanco en el botón */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+
+
+/* Estilo de la tabla */
+table {
+    border: none;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table-adop th,
+.table-adop td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.table-adop th {
+    background-color: #193A6A; /* Encabezado de tabla azul oscuro */
+    color: #ffffff; /* Texto blanco en el encabezado de tabla */
+}
+
+.table-adop td img {
+    max-width: 100px;
+    height: auto;
+    border-radius: 4px;
+}
+
+.adop-elimi{
+    background-color: #da0303;
+    border: none;
+    padding: 10px;
+    color: #fff;
+    border-radius: 5px;
+
+}
 
 
 
