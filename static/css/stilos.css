@@ -411,40 +411,11 @@ thead {
 }
 
 
-.blanco{
-    background-color: #fff;
-}
-.gris{
-    background-color: #e7e6e6;
-}
-tbody tr{
-    padding: 20px;
-}
 
-.verde{
-   color: #4AD818;
-   font-weight: 900;
-}
+
+
 /*  */
-.roja{
-    /* border-left: solid 2px #302e2e; */
-    /* padding-left: 6px; */
-   color:#FF0000 ;
-   font-weight: 900;
-}
 
-/* .verde:hover{
-    color: #4AD818;
-    border-bottom: solid 2px #4AD818;
-    
-} */
-
-.roja:hover{
-    color:#FF0000 ;
-      border-bottom: solid 2px #FF0000;
-    
-
-}
 
 /* Estilo para la celda de descripción */
 .descripcion {
@@ -1006,11 +977,9 @@ main.min-main {
 
 /* ESTILOS DE LOS ESTILO DE LAS PAGINAS DEL  ADMINISTRADOR */
 
-/* a_citas */
 
-/* .main-agen-admin {
-    padding: 20px;
-} */
+
+
 /*  Estilos del header del admin  */
 .body-admin{
     display: flex;
@@ -1043,6 +1012,10 @@ main.min-main {
 
 
 /* Cuerpo de la pagina principal del admin  */
+.body-inde{
+    background-color: #fff;
+
+}
 .galeria{
     /* width: 100%; */
     margin-left: 0;
@@ -1071,10 +1044,7 @@ a {
     text-decoration: none;
 }
 
-/* .h3-modida{
-    transform: translate(-10px);
 
-} */
 /* Fin del cuerpo de la pagina principal del admin */
 
 
@@ -1110,7 +1080,7 @@ a {
 .alto-tabla {
     padding: 12px;
     
-    /* text-align: left; */
+    
 }
 
 
