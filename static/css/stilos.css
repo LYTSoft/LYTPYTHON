@@ -973,7 +973,77 @@ main.min-main {
 
 /* a_citas */
 
- .body-admin {
+/* .main-agen-admin {
+    padding: 20px;
+} */
+
+.body-admin{
+    display: flex;
+    flex-direction: column;
+    background-color:#193A6A ;
+}
+
+.alto-admi{
+    background-color: #4AD818;
+}
+
+.con-tabla {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla-arriba {
+    background-color: #1e3a8a;
+    color: white;
+}
+
+.alto-tabla {
+    padding: 12px;
+    text-align: left;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f3f4f6;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: white;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.descripcion {
+    max-width: 200px;
+    overflow: hidden;
+    /* text-overflow: ellipsis; */
+    white-space: nowrap;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /* .body-admin {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -1059,7 +1129,7 @@ main.min-main {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-        }
+        } */
 
 /* FIN ESTILOS DE LOS ESTILO DE LAS PAGINAS DEL  ADMINISTRADOR */
 

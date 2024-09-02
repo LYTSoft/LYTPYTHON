@@ -512,6 +512,7 @@ def a_adopcion():
         descripcion = request.form['descripcion']
         edad = request.form['edad']
         sexo = request.form['sexo']
+        raza = request.form['raza']
 
         # Guardar la imagen
         # Verificar si se ha subido una foto de mascota y si el nombre del archivo no está vacío
@@ -537,8 +538,8 @@ def a_adopcion():
         connection = get_db_connection()
         cursor = connection.cursor()
         cursor.execute(
-            'INSERT INTO adopcion (foto_mascota, nombre, descripcion, edad, sexo) VALUES (%s, %s, %s, %s, %s)',
-            (foto_mascota_url, nombre, descripcion, edad, sexo)
+            'INSERT INTO adopcion (foto_mascota, nombre, descripcion, edad, sexo, raza) VALUES (%s, %s, %s, %s, %s,%s)',
+            (foto_mascota_url, nombre, descripcion, edad, sexo,raza)
         )
         connection.commit()
         cursor.close()
@@ -549,7 +550,7 @@ def a_adopcion():
 #    Muestra el formulario y la tabla con los datos
     connection = get_db_connection()
     cursor = connection.cursor()
-    cursor.execute('SELECT id_adopcion, foto_mascota, nombre, descripcion, edad, sexo FROM adopcion')
+    cursor.execute('SELECT id_adopcion, foto_mascota, nombre, descripcion, edad, sexo, raza FROM adopcion')
     adopciones = cursor.fetchall()
     cursor.close()
     connection.close()
@@ -580,7 +581,7 @@ def u_adopcion():
 # Muestra las adopcion 
     connection = get_db_connection()
     cursor = connection.cursor()
-    cursor.execute('SELECT foto_mascota, nombre, descripcion, edad, sexo FROM adopcion')
+    cursor.execute('SELECT foto_mascota, nombre, descripcion, edad, sexo, raza FROM adopcion')
     useradopciones = cursor.fetchall()
     cursor.close()
     connection.close()
