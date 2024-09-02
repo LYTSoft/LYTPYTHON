@@ -12,13 +12,13 @@ from flaskext.mysql import MySQL
 from datetime import datetime
 
 # Importar para obtener información de la imagen
-from flask import send_from_directory
+# from flask import send_from_directory
 
 # 'mysql.connector' es un módulo que proporciona una interfaz para conectarse a una base de datos MySQL.
 import mysql.connector
 
 # 'secure_filename' se utiliza para asegurar que un nombre de archivo sea seguro para  usar en un sistema de archivos.
-from werkzeug.utils import secure_filename
+# from werkzeug.utils import secure_filename
 
 
 
