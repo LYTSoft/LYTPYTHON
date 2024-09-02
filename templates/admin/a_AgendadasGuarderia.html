@@ -7,40 +7,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Citas pendientes con guarderia</title>
     <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos.css') }}" >
+
 </head>
 <body class="body-admin">
-    <header class="alto-admi">
-        <div>
-            <figure>
-                <img src="{{ url_for('static', filename='img/logo.png') }}" class="logo" alt="Logo petvet" title="Logo">
+    <header class="header-admin alto-admi">
+        <div class="header-logo">
+            <figure class="logo-figure">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" class="logo-img" alt="Logo petvet" title="Logo">
             </figure>
         </div>
 
-        <div class="bajo-header">
+        <div class="header-bottom">
             <div class="text-pag-b">
-                <h1>Citas Guarderia - Administrador</h1>
+                <h1 class="titulo-pag">Citas pendientes - Administrador</h1>
             </div>
 
             <div class="con-botones">
-                <a href="/admin/">
-                    <figure class="icons">
-                        <img class="botones" src="{{ url_for('static', filename='img/a-home.png') }}" alt="Inicio" title="Inicio">
-                    </figure>
-                </a>
+            <a href="/admin/">
+                <figure ><img class="icons-admin" src="{{ url_for('static', filename='img/a-home.png') }}" alt="Inicio" title="Inicio"></figure>
+            </a>
 
-                <a href="/">
-                    <figure class="icons">
-                        <img class="botones" src="{{ url_for('static', filename='img/a-saalir.png') }}" alt="Cerrar Sesion" title="Cerrar Sesion">
-                    </figure>
-                </a>
-            </div>
+            <a href="/">
+                <figure ><img class="icons-admin" src="{{ url_for('static', filename='img/a-saalir.png') }}" alt="Cerrar Sesion" title="Cerrar Sesion"></figure>
+            </a>
+        </div>
         </div>
     </header>
     <main class="main-agen-admin">
-       <div class="con-tabla">
-        <table>
-            <thead>
+       <div class="div-tabla">
+        <table class="tabla-citas" >
+            <thead class="thead-tabla">
                 <tr class="tabla-arriba">
                     <th class="alto-tabla">ID</th>
                     <th class="alto-tabla">Desde</th>
@@ -69,5 +66,4 @@
     </main>
 </body>
 
-</style>
 </html>

@@ -51,10 +51,14 @@
                 <label for="nombre">Nombre:</label><br>
                 <input type="text" id="nombre" placeholder="Nombre" name="nombre" required>
             </div>
+            <div class="form-group"> 
+                <label for="raza">Raza:</label><br>
+                <input type="text" id="raza" placeholder="raza" name="raza" >
+            </div>
 
             <div class="form-group">
                 <label for="descripcion">Descripción</label>
-                <textarea class="descripcion" id="descripcion" name="descripcion" rows="4" required></textarea>
+                <textarea class="descripcion" id="descripcion" name="descripcion"  required></textarea>
             </div>
 
             <div class="form-group">
@@ -83,6 +87,7 @@
                 <th>Descripción</th>
                 <th>Edad</th>
                 <th>Sexo</th>
+                <th>Raza</th>
                 <th>Acciones</th>
             </tr>
             {% for adopcion in adopciones %}
@@ -95,6 +100,8 @@
                 <td>{{ adopcion[3] }}</td>
                 <td>{{ adopcion[4] }}</td>
                 <td>{{ adopcion[5] }}</td>
+                <td>{{ adopcion[6] }}</td>
+
                   <td>
                 <form method="POST" action="{{ url_for('eliminar_adopcion', id_adopcion=adopcion[0]) }}">
                     <button type="submit" class="adop-elimi">Eliminar</button>

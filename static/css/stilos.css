@@ -1008,95 +1008,136 @@ main.min-main {
 
 /* a_citas */
 
- .body-admin {
+/* .main-agen-admin {
+    padding: 20px;
+} */
+/*  Estilos del header del admin  */
+.body-admin{
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    /* background-color:#193A6A ; */
+}
+.logo-img{
+    width:20%;
+}
+.text-pag-b{
+    background-color: #193A6A;
+    color: #fff;
+    font-size: 13px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+.alto-admi .con-botones{
+    display: flex;
+    justify-content: end;
+
+}
+.icons-admin{
+    width: 50px;
+    transform: translate(0,-100px);
+
+}
+/* Fin de estilos del header del admin */
+
+
+
+/* Cuerpo de la pagina principal del admin  */
+.galeria{
+    /* width: 100%; */
+    margin-left: 0;
+    margin-top: 40px;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+
 }
 
- .header-admin {
-            background-color: #193A6A;
-            padding: 10px;
-        }
 
-        .header-logo {
-            display: flex;
-            justify-content: center;
-        }
+.imagen-admin{
+    height: 220px;
 
-        .logo-figure {
-            margin: 0;
-        }
+}
+.h3-admi{
+    color: #193A6A;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 800;
+    margin-top: 20px;
+    /* list-style-type: none; */
+}
+a {
+    text-decoration: none;
+}
 
-        .logo-img {
-            height: 50px;
-        }
+/* .h3-modida{
+    transform: translate(-10px);
 
-        .header-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+} */
+/* Fin del cuerpo de la pagina principal del admin */
 
-        .text-pag-b {
-            font-size: 0.9vw;
-            margin-left: 10px;
-        }
 
-        .con-botones {
-            display: flex;
-            gap: 10px;
-        }
 
-        .enlace-boton {
-            text-decoration: none;
-        }
 
-        .boton-img {
-            width: 24px;
-        }
 
-        .main-agen-admin {
-            padding: 10px;
-            flex: 1;
-        }
 
-        .tabla-citas {
-            width: 100%;
-            border-collapse: collapse;
-        }
+/* Cuerpo de citas-agendadas del admin y citas de la guarderia  */
+.main-agen-admin{
+    margin-left: 0px;
+    /* background-color: #2C7CBE; */
+}
 
-        .thead-tabla {
-            background-color: #1e3a8a;
-            color: white;
-        }
+.con-tabla {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    /* overflow: hidden; */
+}
 
-        .alto-tabla {
-            padding: 12px;
-            text-align: left;
-        }
+.tabla-citas {
+    transform: translate(0,-70px);
+    width: 95%;
+    border-collapse: collapse;
+}
 
-        .tbody-tabla tr:nth-child(even) {
-            background-color: #f3f4f6;
-        }
+.tabla-arriba {
+    background-color: #193A6A;
+    color: white;
+    border-radius: 20px;
+}
 
-        .tbody-tabla tr:nth-child(odd) {
-            background-color: white;
-        }
+.alto-tabla {
+    padding: 12px;
+    
+    /* text-align: left; */
+}
 
-        .fila-cita td {
-            padding: 12px;
-            border-bottom: 1px solid #e5e7eb;
-        }
 
-        .campo-descripcion {
-            max-width: 200px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
 
-/* FIN ESTILOS DE LOS ESTILO DE LAS PAGINAS DEL  ADMINISTRADOR */
+td {
+    padding: 12px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.descripcion {
+    max-width: 200px;
+    overflow: hidden;
+    /* text-overflow: ellipsis; */
+    white-space: nowrap;
+}
+/* Fin del cuerpo de citas y guarderia  */
+
+
+
+
+
+
+
+
+
+
+
 
 /* Opcional: Ajustes para dispositivos móviles */
 @media (max-width: 600px) {
