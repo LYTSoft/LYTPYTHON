@@ -69,7 +69,6 @@
              <div class="linea"></div>
                     <div class="usuario">
                 <a href="#" onclick="abrirModal()">
-                   <img src="{{ url_for('static', filename='img/user.png') }}" alt="">
                     <div class="info-usuario">
                         <div class="nombre-email">
                             <span class="nombre">{{ user.nombre }} {{ user.apellido }}</span>
@@ -106,6 +105,8 @@
 
     <main class="con-agendadas">
         <div class="con-tabla">
+              <h1 class="header-title">Tus citas pendientes </h1>
+               
     <table id="citasTable">
                 <thead>
                     <tr>
@@ -126,9 +127,10 @@
                 <td>{{ cita.servicio }}</td>
                 <td>{{ cita.descripcion }}</td>
                 <td>
+                     <div class="agen-dos">
                     <form action="{{ url_for('eliminar_cita', id_cita=cita.id_citas) }}" method="post">
                         <button type="submit">Eliminar</button>
-                    </form>
+                    </form></div>
                 </td>
             </tr>
             {% endfor %}
