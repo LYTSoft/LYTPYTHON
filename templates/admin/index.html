@@ -6,31 +6,30 @@
     <meta name="description" content="Agenda fácilmente citas para el cuidado de tus mascotas en PetVet. Ofrecemos un proceso simple y eficiente para proporcionar la mejor atención veterinaria a tus animales. Confía en nosotros para simplificar el cuidado de tus seres queridos.">
     <title>Sistema del administrador</title>
     <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos_tiara.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos.css') }}">
 </head>
 <body class="body-admin">
 
-<header class="alto-admi">
-    <div>
-        <figure><img src="{{ url_for('static', filename='img/logo.png') }}" class="logo" alt="Logo petvet" title="Logo"></figure>
-    </div>
-
-    <div class="bajo-header">
-        <div class="text-pag-b">
-            <h1>Panel de Administrador</h1>
+<header class="header-admin alto-admi">
+        <div class="header-logo">
+            <figure class="logo-figure">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" class="logo-img" alt="Logo petvet" title="Logo">
+            </figure>
         </div>
 
-        <div class="con-botones">
-            <a href="/admin/">
-                <figure class="icons"><img class="botones" src="{{ url_for('static', filename='img/a-home.png') }}" alt="Inicio" title="Inicio"></figure>
-            </a>
+        <div class="header-bottom">
+            <div class="text-pag-b">
+                <h1 class="titulo-pag">Citas pendientes - Administrador</h1>
+            </div>
+
+            <div class="con-botones">
 
             <a href="/">
-                <figure class="icons"><img class="botones" src="{{ url_for('static', filename='img/a-saalir.png') }}" alt="Cerrar Sesion" title="Cerrar Sesion"></figure>
+                <figure ><img class="icons-admin" src="{{ url_for('static', filename='img/a-saalir.png') }}" alt="Cerrar Sesion" title="Cerrar Sesion"></figure>
             </a>
         </div>
-    </div>
-</header>
+        </div>
+    </header>  
 
 <main class="galeria">
     <div class="admin-cuerpo">

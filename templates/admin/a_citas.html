@@ -5,12 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title class="titulo-pagina">Citas pendientes</title>
-    <link rel="icon" href="{{ url_for('static', filename='imagenes/icon.png') }}" class="icono-pagina">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos.css') }}" class="estilos-css">
+    <link rel="icon" href="{{ url_for('static', filename='imagenes/icon.png') }}" >
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos.css') }}" >
 </head>
 
 <body class="body-admin">
-    <header class="header-admin">
+    <!-- header-admin  -->
+    <header class="header-admin alto-admi">
         <div class="header-logo">
             <figure class="logo-figure">
                 <img src="{{ url_for('static', filename='img/logo.png') }}" class="logo-img" alt="Logo petvet" title="Logo">
@@ -23,18 +24,14 @@
             </div>
 
             <div class="con-botones">
-                <a href="/admin/" class="enlace-boton">
-                    <figure class="icon-figure">
-                        <img class="boton-img" src="{{ url_for('static', filename='img/a-home.png') }}" alt="Inicio" title="Inicio">
-                    </figure>
-                </a>
-            
-                <a href="/" class="enlace-boton">
-                    <figure class="icon-figure">
-                        <img class="boton-img" src="{{ url_for('static', filename='img/a-saalir.png') }}" alt="Cerrar Sesión" title="Cerrar Sesión">
-                    </figure>
-                </a>
-            </div>
+            <a href="/admin/">
+                <figure ><img class="icons-admin" src="{{ url_for('static', filename='img/a-home.png') }}" alt="Inicio" title="Inicio"></figure>
+            </a>
+
+            <a href="/">
+                <figure ><img class="icons-admin" src="{{ url_for('static', filename='img/a-saalir.png') }}" alt="Cerrar Sesion" title="Cerrar Sesion"></figure>
+            </a>
+        </div>
         </div>
     </header>  
 

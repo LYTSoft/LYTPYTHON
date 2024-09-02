@@ -976,46 +976,109 @@ main.min-main {
 /* .main-agen-admin {
     padding: 20px;
 } */
-
+/*  Estilos del header del admin  */
 .body-admin{
     display: flex;
     flex-direction: column;
-    background-color:#193A6A ;
+    /* background-color:#193A6A ; */
+}
+.logo-img{
+    width:20%;
+}
+.text-pag-b{
+    background-color: #193A6A;
+    color: #fff;
+    font-size: 13px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+.alto-admi .con-botones{
+    display: flex;
+    justify-content: end;
+
+}
+.icons-admin{
+    width: 50px;
+    transform: translate(0,-100px);
+
+}
+/* Fin de estilos del header del admin */
+
+
+
+/* Cuerpo de la pagina principal del admin  */
+.galeria{
+    /* width: 100%; */
+    margin-left: 0;
+    margin-top: 40px;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+
 }
 
-.alto-admi{
-    background-color: #4AD818;
+
+.imagen-admin{
+    height: 220px;
+
+}
+.h3-admi{
+    color: #193A6A;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 800;
+    margin-top: 20px;
+    /* list-style-type: none; */
+}
+a {
+    text-decoration: none;
+}
+
+/* .h3-modida{
+    transform: translate(-10px);
+
+} */
+/* Fin del cuerpo de la pagina principal del admin */
+
+
+
+
+
+
+/* Cuerpo de citas-agendadas del admin y citas de la guarderia  */
+.main-agen-admin{
+    margin-left: 0px;
+    /* background-color: #2C7CBE; */
 }
 
 .con-tabla {
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
-table {
-    width: 100%;
+.tabla-citas {
+    transform: translate(0,-70px);
+    width: 95%;
     border-collapse: collapse;
 }
 
 .tabla-arriba {
-    background-color: #1e3a8a;
+    background-color: #193A6A;
     color: white;
+    border-radius: 20px;
 }
 
 .alto-tabla {
     padding: 12px;
-    text-align: left;
+    
+    /* text-align: left; */
 }
 
-tbody tr:nth-child(even) {
-    background-color: #f3f4f6;
-}
 
-tbody tr:nth-child(odd) {
-    background-color: white;
-}
 
 td {
     padding: 12px;
@@ -1028,9 +1091,7 @@ td {
     /* text-overflow: ellipsis; */
     white-space: nowrap;
 }
-
-
-
+/* Fin del cuerpo de citas y guarderia  */
 
 
 
