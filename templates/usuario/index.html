@@ -71,7 +71,6 @@
 
             <div class="usuario">
                 <a href="#" onclick="abrirModal()">
-                   <img src="{{ url_for('static', filename='img/user.png') }}" alt="">
                     <div class="info-usuario">
                         <div class="nombre-email">
                             <span class="nombre">{{ user.nombre }} {{ user.apellido }}</span>
@@ -87,7 +86,6 @@
                     <div class="perfil-container">
                         <div class="perfil-header">
                             <div class="perfil-foto-container">
-                               <img src="{{ url_for('static', filename='img/user.png') }}" alt="">
                             </div>
                             <div class="perfil-info">
                                 <h1>{{ user.nombre }} {{ user.apellido }}</h1>
@@ -109,7 +107,7 @@
     </header>
     <main>
         <section class="servicio-adomicilio">
-            <h2>¡Disfruta de nuestros servicios </h2>
+            <h2>Disfruta de nuestros servicios </h2>
             <p>Queremos hacer más conveniente para ti y tus mascotas el acceso a los cuidados veterinarios. No dudes en contactarnos para programar una cita en la comodidad de tu hogar o en nuestra clínica veterinaria.</p>
             <div class="botones-de-cita">
                 <button class="cita-normal" onclick="agendarCita()">Agendar Cita</button>
