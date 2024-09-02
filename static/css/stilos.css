@@ -1047,7 +1047,7 @@ main.min-main {
     /* width: 100%; */
     margin-left: 0;
     margin-top: 40px;
-    background-color: #fff;
+    /* background-color: #fff; */
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
@@ -1132,41 +1132,6 @@ td {
 
 /* Estilos de adopcion en el admin */
 
-/* Estilo general del cuerpo */
-.body-adop {
-    font-family: 'Abhaya Libre', serif;
-    background-color: #ffffff; /* Fondo blanco */
-    color: #333; /* Color de texto gris oscuro para buen contraste */
-    margin: 0;
-    padding: 0;
-}
-
-/* Estilo del encabezado */
-.header-adop {
-    /* background-color: #0033A0; Azul oscuro para el encabezado */
-    color: #ffffff; /* Texto blanco en el encabezado */
-    padding: 15px 20px;
-}
-
-.header-adop .alto-admi {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.header-adop .logo {
-    max-width: 120px;
-}
-
-
-
- 
-.header .con-botones .icons img {
-    display: flex;
-    justify-content: end;
-    width: 50px;
-    height: 50px;
-}
 
 /* Estilo principal del contenedor de la adopción */
 .main-adop {
@@ -1185,11 +1150,6 @@ main .h1 {
     font-size: 3rem;
     color: #193A6A;
     margin: 0;
-}
-
-main .p {
-    color: #555; /* Gris para el párrafo */
-    font-size: 1rem;
 }
 
 /* Estilo del formulario */
@@ -1211,6 +1171,10 @@ main .p {
     /* color: #0033A0; Etiquetas en azul oscuro */
 }
 
+.descripcion-adop{
+    width: 80%;
+    height: 200px;
+}
 .form-group input,
 .form-group textarea,
 .form-group select {
@@ -1238,7 +1202,7 @@ main .p {
 
 
 /* Estilo de la tabla */
-table {
+.table-adop {
     border: none;
     width: 100%;
     border-collapse: collapse;
@@ -1247,15 +1211,12 @@ table {
 
 .table-adop th,
 .table-adop td {
+    
     padding: 10px;
-    border: 1px solid #ddd;
-    text-align: left;
+    
 }
 
-.table-adop th {
-    background-color: #193A6A; /* Encabezado de tabla azul oscuro */
-    color: #ffffff; /* Texto blanco en el encabezado de tabla */
-}
+
 
 .table-adop td img {
     max-width: 100px;
@@ -1284,6 +1245,7 @@ table {
     .petvet-content {
         flex-direction: column;
     }
+
 }
 
 /* Media queries */

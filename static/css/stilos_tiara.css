@@ -379,7 +379,6 @@ main.min-main {
 
 /* a_administrador.html */
 
-@import "reset.css";
 
 
 
@@ -398,84 +397,26 @@ a{
     color: #fff;
 }
 
-
-
-
-/* Estilos del admin  */
-
-/* .bajo-header{
-    display: flex;
-    height: 50px;
-   justify-content: space-between;
-   align-items: center;
-   background-color: #193A6A;
-}
-
-.con-botones{
-    display: flex;
-    justify-content: space-between;
-}
-.text-pag-b{
-    font-size: 0.9vw;
-    margin-left: 10px;
-}
-
-.botones{
-    height: 40px;
-    width: 40px;
-    margin-left: 10px;
-    margin-bottom: 80px;
-    
-} */
-
-/* .bajo-header{
-    display: flex;
-    height: 50px;
-   justify-content: space-between;
-   align-items: center;
-   background-color: #193A6A;
-}
-
-.con-botones{
-    display: flex;
-    justify-content: space-between;
-}
-.text-pag-b{
-    font-size: 0.9vw;
-    margin-left: 10px;
-}
- .main-agen-admin {
-        padding: 10px; /* Ajustado para reducir el espacio */
-   
-
-    .con-tabla {
+.con-tabla {
         background-color: white;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         overflow: hidden;
     }
 
-    table {
+table {
         width: 100%;
         border-collapse: collapse;
     }
 
-    .tabla-arriba {
+.tabla-arriba {
         background-color: #1e3a8a;
         color: white;
     }
 
-    .alto-tabla {
+.alto-tabla {
         padding: 12px;
         text-align: left;
-    }
-
-    tbody tr:nth-child(even) {
-        background-color: #f3f4f6;
-    }
-
-    tbody tr:nth-child(odd) {
-        background-color: white;
     }
 
     td {
