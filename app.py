@@ -6,7 +6,7 @@ from flask import Flask
 from flask import render_template, request, redirect, session, url_for
 
 # Importar el enlace a base de datos MySQL
-from flaskext.mysql import MySQL
+# from flaskext.mysql import MySQL
 
 # Importar controlador del tiempo
 from datetime import datetime

@@ -341,68 +341,48 @@ select.form-input {
 /* HECHO POR YOHAN LAS TABLAS DEL USER  */
 
 /* Estilo para el contenedor de la tabla */
-.con-tabla {
+.con-tabla-citas-agendadas {
     margin-top: 2%;
     width: 100%;
-    overflow-y: auto; /* Agrega scroll vertical si el contenido excede el contenedor */
-    max-height: 400px; /* Ajusta según la altura deseada */
-    /* Elimina el borde para evitar la línea visible al hacer scroll */
+    /* Elimina el overflow para evitar el scroll */
+    overflow-y: visible;
+    max-height: none; /* Permite que el contenedor se expanda según el contenido */
     border: none;
 }
 
 /* Estilo para el h1 */
 .header-title {
-    font-size: 2.5em;/* Tamaño de fuente grande */
+    font-size: 2.5em; /* Tamaño de fuente grande */
     color: #193A6A; /* Color oscuro para el texto */
     margin-bottom: 20px; /* Espacio debajo del título */
     text-align: center; /* Centra el texto */
     padding-bottom: 10px; /* Espacio debajo del texto y la línea */
 }
 
-/* Personalización de la barra de desplazamiento */
-.con-tabla::-webkit-scrollbar {
-    width: 8px; /* Ancho de la barra de desplazamiento */
-}
-
-.con-tabla::-webkit-scrollbar-thumb {
-    background-color: var(--color-scroll); /* Color de la parte que se mueve de la barra de desplazamiento */
-    border-radius: 5px; /* Bordes redondeados */
-}
-
-.con-tabla::-webkit-scrollbar-thumb:hover {
-    background-color: var(--color-scroll-hover); /* Color cuando el usuario pasa el ratón sobre la parte móvil de la barra de desplazamiento */
-}
-
-/* Estilos de la tabla */
-table {
+/* Estilo base para la tabla */
+#citasTable-citas-agendadas {
+    width: 100%;
+    border-collapse: collapse; /* Asegura que las celdas se muestren sin espacio entre ellas */
     font-size: clamp(1em, 1.5vw, 1.3em);
     margin-top: 20px;
     text-align: center;
-    width: 90%;
-    border-collapse: collapse; /* Fusionar los bordes */
-}
-
-/* Estilo para las celdas */
-td {
- 
-  padding: 20px; /* Espaciado interno de las celdas */
-  vertical-align: top; /* Alinea el texto al tope de la celda */
 }
 
 /* Estilo para las filas alternas */
 tbody tr:nth-child(odd) {
-  background-color:#ffffff;  
+    background-color: #ffffff;
 }
 
 tbody tr:nth-child(even) {
-  background-color: rgb(228, 227, 227) 
+    background-color: rgb(228, 227, 227);
 }
-
 
 /* Opcional: Bordes de las celdas y filas para evitar líneas innecesarias */
 th, td {
     padding: 17px;
-    border: none ;/* Borde de las celdas */
+    border: none; /* Borde de las celdas */
+    padding: 20px; /* Espaciado interno de las celdas */
+    vertical-align: top; /* Alinea el texto al tope de la celda */
 }
 
 thead {
@@ -410,35 +390,17 @@ thead {
     color: #fff; /* Color del texto en la cabecera */
 }
 
-
-
-
-
-/*  */
-
-
 /* Estilo para la celda de descripción */
-.descripcion {
-  font-size: clamp(0.8rem, 1.5vw, 1.5rem); /* Tamaño de fuente adaptable entre 0.8rem y 1.5rem */
-  white-space: normal; /* Permite el ajuste de línea para el texto largo */
-  overflow: hidden; /* Oculta el texto que no cabe dentro de la celda */
-  word-break: break-word; /* Rompe las palabras largas para que no se desborden */
-  max-width: 100%; /* Asegura que la celda no se expanda más allá del contenedor */
+.descripcion-citas {
+    font-size: clamp(0.8rem, 1.5vw, 1.5rem); /* Tamaño de fuente adaptable entre 0.8rem y 1.5rem */
+    white-space: normal; /* Permite el ajuste de línea para el texto largo */
+    overflow: visible; /* Asegura que el texto se vea completamente */
+    word-break: break-word; /* Rompe las palabras largas para que no se desborden */
+    max-width: 100%; /* Permite que la celda se expanda para mostrar todo el contenido */
+    text-align: justify; /* Justifica el texto para un aspecto más uniforme */
 }
 
-/* Estilo base para la tabla */
-table {
-  width: 100%;
-  border-collapse: collapse; /* Asegura que las celdas se muestren sin espacio entre ellas */
-}
-
-/* Estilo para las celdas */
-td {
- 
-  padding: 20px; /* Espaciado interno de las celdas */
-  vertical-align: top; /* Alinea el texto al tope de la celda */
-}
-
+/* Estilos para los botones */
 .agen {
     display: flex;
     justify-content: flex-end;
@@ -456,11 +418,9 @@ td {
     transition: background-color 0.3s ease;
 }
 
-
 .agen-dos {
     display: flex;
     justify-content: flex-end;
-    /* margin-top: 30px; */
 }
 
 .agen-dos button {
@@ -473,9 +433,9 @@ td {
     font-size: 16px;
     transition: background-color 0.3s ease;
 }
-/* FIN */
 
 /* FIN */
+
 
 
 
@@ -1058,12 +1018,6 @@ a {
     /* background-color: #2C7CBE; */
 }
 
-.con-tabla {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    /* overflow: hidden; */
-}
 
 .tabla-citas {
     transform: translate(0,-70px);
@@ -1084,18 +1038,12 @@ a {
 }
 
 
-
 td {
     padding: 12px;
     border-bottom: 1px solid #e5e7eb;
 }
 
-.descripcion {
-    max-width: 200px;
-    overflow: hidden;
-    /* text-overflow: ellipsis; */
-    white-space: nowrap;
-}
+
 /* Fin del cuerpo de citas y guarderia  */
 
 
