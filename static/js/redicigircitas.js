@@ -7,3 +7,7 @@ function verCitaGuarderia() {
 function verCita() {
     window.location.href = '/citas/agendadas/usuario/';
 }
+
+function gauderia() {
+    window.location.href = '/citas/agendadas/usuario/';
+}

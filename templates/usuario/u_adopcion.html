@@ -29,7 +29,7 @@
             <nav class="navegacion">
                 <ul>
                     <li>
-                        <a href="/home/usuario/">
+                        <a href="#">
                             <img src="{{ url_for('static', filename='recursos/icon/inicio.svg') }}" alt="Inicio" class="icon">
                             <span>Inicio</span>
                         </a>
@@ -59,7 +59,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="/adopcion/usuario/">
                             <img src="{{ url_for('static', filename='recursos/icon/adopcion.svg') }}" alt="Adopción" class="icon">
                             <span>Adopción</span>
                         </a>
@@ -67,12 +67,11 @@
                 </ul>
             </nav>
 
-            <div class="linea"></div>
+             <div class="linea"></div>
 
-           <div class="usuario">
+            <div class="usuario">
                 <a href="#" onclick="abrirModal()">
-                    
-
+                    <div class="info-usuario">
                         <div class="nombre-email">
                             <span class="nombre">{{ user.nombre }} {{ user.apellido }}</span>
                             <span class="email">{{ user.correo }}</span>
@@ -86,15 +85,14 @@
                     <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
                     <div class="perfil-container">
                         <div class="perfil-header">
-                            
                             <div class="perfil-info">
                                 <h1>{{ user.nombre }} {{ user.apellido }}</h1>
                                 <p>Email: <span id="email">{{ user.correo }}</span></p>
                                 <p>Teléfono: <span id="telefono">{{ user.telefono }}</span></p>
-                              
+                                
                             </div>
                         </div>
-                        <div class="accion">
+                       <div class="accion">
                             <form action="{{ url_for('cerrar_sesion') }}" method="GET">
                                 
                             <button class="boton-cs-perfil" id="cerrarsesion">Cerrar Sesión</button>
@@ -103,7 +101,6 @@
                     </div>
                 </div>
             </div>
-            
         </div>
     </header>
     
