@@ -341,34 +341,33 @@ select.form-input {
 /* HECHO POR YOHAN LAS TABLAS DEL USER  */
 
 /* Estilo para el contenedor de la tabla */
+/* Estilos generales */
 .con-tabla-citas-agendadas {
     margin-top: 2%;
     width: 100%;
-    /* Elimina el overflow para evitar el scroll */
-    overflow-y: visible;
-    max-height: none; /* Permite que el contenedor se expanda según el contenido */
+    overflow-y: visible; /* Elimina el scroll y permite que el contenido se expanda */
+    max-height: none;
     border: none;
 }
 
 /* Estilo para el h1 */
 .header-title {
-    font-size: 2.5em; /* Tamaño de fuente grande */
-    color: #193A6A; /* Color oscuro para el texto */
-    margin-bottom: 20px; /* Espacio debajo del título */
-    text-align: center; /* Centra el texto */
-    padding-bottom: 10px; /* Espacio debajo del texto y la línea */
+    font-size: 2.5em;
+    color: #193A6A;
+    margin-bottom: 20px;
+    text-align: center;
+    padding-bottom: 10px;
 }
 
 /* Estilo base para la tabla */
 #citasTable-citas-agendadas {
     width: 100%;
-    border-collapse: collapse; /* Asegura que las celdas se muestren sin espacio entre ellas */
+    border-collapse: collapse;
     font-size: clamp(1em, 1.5vw, 1.3em);
     margin-top: 20px;
     text-align: center;
 }
 
-/* Estilo para las filas alternas */
 tbody tr:nth-child(odd) {
     background-color: #ffffff;
 }
@@ -377,37 +376,36 @@ tbody tr:nth-child(even) {
     background-color: rgb(228, 227, 227);
 }
 
-/* Opcional: Bordes de las celdas y filas para evitar líneas innecesarias */
 th, td {
     padding: 17px;
-    border: none; /* Borde de las celdas */
-    padding: 20px; /* Espaciado interno de las celdas */
-    vertical-align: top; /* Alinea el texto al tope de la celda */
+    border: none;
+    padding: 20px;
+    vertical-align: top;
 }
 
 thead {
-    background-color: #193A6A; /* Color de fondo para la cabecera de la tabla */
-    color: #fff; /* Color del texto en la cabecera */
+    background-color: #193A6A;
+    color: #fff;
 }
 
 /* Estilo para la celda de descripción */
 .descripcion-citas {
-    font-size: clamp(0.8rem, 1.5vw, 1.5rem); /* Tamaño de fuente adaptable entre 0.8rem y 1.5rem */
-    white-space: normal; /* Permite el ajuste de línea para el texto largo */
-    overflow: visible; /* Asegura que el texto se vea completamente */
-    word-break: break-word; /* Rompe las palabras largas para que no se desborden */
-    max-width: 100%; /* Permite que la celda se expanda para mostrar todo el contenido */
-    text-align: justify; /* Justifica el texto para un aspecto más uniforme */
+    font-size: clamp(0.8rem, 1.5vw, 1.5rem);
+    white-space: normal;
+    overflow: visible;
+    word-break: break-word;
+    max-width: 100%;
+    text-align: justify;
 }
 
 /* Estilos para los botones */
-.agen {
+.agen, .agen-dos {
     display: flex;
     justify-content: flex-end;
     margin-top: 30px;
 }
 
-.agen button {
+.agen button, .agen-dos button {
     background-color: #193A6A;
     color: white;
     border: none;
@@ -418,20 +416,8 @@ thead {
     transition: background-color 0.3s ease;
 }
 
-.agen-dos {
-    display: flex;
-    justify-content: flex-end;
-}
-
 .agen-dos button {
     background-color: #dd0707;
-    color: white;
-    border: none;
-    padding: 7px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
 }
 
 /* FIN */
@@ -1309,6 +1295,57 @@ main .h1 {
        margin: 30px 20px;
     }
   }
+
+
+  /* Estilos responsive para teléfonos (600px y menos) */
+@media  (max-width: 600px) {
+    .header-title {
+        font-size: 1.5em; 
+    }
+
+    #citasTable-citas-agendadas {
+        font-size: 0.9em; 
+    }
+
+    th, td {
+        padding: 10px; 
+    }
+
+    .descripcion-citas {
+        font-size: 0.8rem;
+        max-width: 100%;
+    }
+
+    .agen button, .agen-dos button {
+        padding: 8px 15px; 
+        font-size: 14px; 
+    }
+}
+
+
+@media (min-width: 601px) and (max-width: 1000px) {
+    .header-title {
+        font-size: 2em; 
+    }
+
+    #citasTable-citas-agendadas {
+        font-size: 1em; 
+    }
+
+    th, td {
+        padding: 15px; 
+    }
+
+    .descripcion-citas {
+        font-size: 1rem; 
+        max-width: 100%; 
+    }
+
+    .agen button, .agen-dos button {
+        padding: 9px 18px; 
+        font-size: 15px; 
+    }
+}
   
   /* Media queries para tabletas */
   @media (min-width: 601px) and (max-width: 1000px) {
