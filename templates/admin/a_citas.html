@@ -47,18 +47,19 @@
                         <th class="alto-tabla">Usuario</th>
                         <th class="alto-tabla">Mascota</th>
                         <th class="alto-tabla">Servicio</th>
+                        
                     </tr>
                 </thead>
                 <tbody class="tbody-tabla">
                     {% for cita in citas %}
                     <tr class="fila-cita">
-                        <td class="campo-id">{{ cita.id_citas }}</td>
-                        <td class="campo-fecha">{{ cita.fecha }}</td>
-                        <td class="campo-tanda">{{ cita.tanda }}</td>
-                        <td class="campo-descripcion">{{ cita.descripcion }}</td>
-                        <td class="campo-usuario">{{ cita.usuario }}</td>
-                        <td class="campo-mascota">{{ cita.mascota }}</td>
-                        <td class="campo-servicio">{{ cita.servicio }}</td>
+                        <td >{{ cita.id_citas }}</td>
+                        <td >{{ cita.fecha }}</td>
+                        <td >{{ cita.tanda }}</td>
+                        <td class="descripcion-citas">{{ cita.descripcion }}</td>
+                        <td >{{ cita.usuario }}</td>
+                        <td >{{ cita.mascota }}</td>
+                        <td >{{ cita.servicio }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
