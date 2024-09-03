@@ -106,9 +106,9 @@
     </header>
     
     <main class="con-agendadas">
-        <div class="con-tabla">
+        <div class="con-tabla-citas-agendadas">
             <h1 class="header-title">Tus citas de guarderia pendientes </h1>
-            <table id="guarderiaTable">
+            <table id="citasTable-citas-agendadas">
                 <thead>
                     <tr>
                         <th>Desde</th>
@@ -126,7 +126,7 @@
                         <td>{{ cita.hasta }}</td>
                         <td>{{ cita.tipoMascota }}</td>
                         <td>{{ cita.servicio }}</td>
-                        <td class="descripcion">{{ cita.descripcion }}</td>
+                        <td class="descripcion-citas">{{ cita.descripcion }}</td>
                         <td> 
                             <div class="agen-dos">
                                <form action="{{ url_for('eliminar_guarderia', id_guarderia=cita.id_guarderia) }}" method="post">

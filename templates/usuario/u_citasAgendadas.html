@@ -104,10 +104,10 @@
     </header>
 
     <main class="con-agendadas">
-        <div class="con-tabla">
+        <div class="con-tabla-citas-agendadas">
               <h1 class="header-title">Tus citas pendientes </h1>
                
-    <table id="citasTable">
+    <table id="citasTable-citas-agendadas">
                 <thead>
                     <tr>
                         <th>Fecha</th>
@@ -125,7 +125,7 @@
                 <td>{{ cita.tanda }}</td>
                 <td>{{ cita.tipoMascota }}</td>
                 <td>{{ cita.servicio }}</td>
-                <td>{{ cita.descripcion }}</td>
+                <td class="descripcion-citas">{{ cita.descripcion }}</td>
                 <td>
                      <div class="agen-dos">
                     <form action="{{ url_for('eliminar_cita', id_cita=cita.id_citas) }}" method="post">
