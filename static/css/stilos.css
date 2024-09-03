@@ -984,7 +984,6 @@ main .texto {
 main .h1 {
     
     font-size: 3rem;
-    color: #193A6A;
     margin: 0;
 }
 
@@ -1076,6 +1075,12 @@ main .h1 {
 
 
 /* Estilos de los formularios de citas y guarderia  */
+.box {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+}
 .texto2 .agendar-cita {
     color: #193A6A;
     font-size: 2.5em;
@@ -1087,11 +1092,13 @@ main .h1 {
 font-size: 18px;
   color: #666;
   line-height: 1.5;
-  /* max-width: 600px; */
   text-align: center;
-  /* background-color: #246997; */
 
+}
 
+.form-citas {
+    width: 900px;
+    
 }
 
 .label-form {
@@ -1108,6 +1115,7 @@ font-size: 18px;
   margin-bottom: 15px;
   border-radius: 5px;
   border: 1px solid #ccc;
+  /* background-color: #962121; */
 }
 
 select.form-input {
@@ -1127,22 +1135,26 @@ select.form-input {
 
 .ancho {
   display: block;
-  width: 100%;
+  width: 50%;
   padding: 10px;
   background-color: #193A6A;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-left: 20px;
 }
 
-
+.boton {
+    display: flex;
+    justify-content: space-between;
+}
 
 
 
 .anchoE{
     display: block;
-  width: 100%;
+  width: 10%;
   padding: 10px;
   background-color: #193A6A;
   color: #fff;
@@ -1315,6 +1327,11 @@ select.form-input {
 @media  (max-width: 600px) {
     .header-title {
         font-size: 1.5em; 
+
+    }
+    
+    .tabla-citas {
+       margin-top: 20px;
     }
 
     #citasTable-citas-agendadas {
@@ -1444,6 +1461,5 @@ select.form-input {
         width: 200px;
     }
 }
-
 
 

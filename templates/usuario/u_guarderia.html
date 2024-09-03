@@ -118,7 +118,7 @@
                     <p class="text-cita">¡Completa este formulario antes de tu cita para el mejor cuidado de tu mascota!</p>
                 </div>
             </div>
-        <form class="formulario" method="POST" action="/guarderia/usuario/">
+        <form  method="POST" action="/guarderia/usuario/"  class="form-citas">
 
              <input type="hidden" name="id_usuario" value="{{user['id_usuario'] }}">
 
@@ -153,10 +153,11 @@
               <div>
                  <textarea class="mss" placeholder="Si tienes alguna duda sobre la estadía, háznoslo saber, estaremos pendientes!" name="descripcion"></textarea><br>
              </div>
-
+                    
+             
               <div class="boton">
                  <button type="submit" class="ancho">Enviar</button>
-                 <button type="button" class="anchoE" onclick="verCitaGuarderia()">Ver Citas</button>
+                 <button type="button" class="ancho" onclick="verCitaGuarderia()">Ver Citas</button>
              </div>
      </form>
 

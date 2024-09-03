@@ -120,51 +120,6 @@
 
 
 
-@media screen and (max-width: 600px) {
-    .contenedor {
-        width: 5%;
-    }
-
-    .input {
-        font-size: 18px; /* Tamano de letra */
-    }
-
-    .input input{
-        max-width: 100%;  /* Ancho de los cuadritos */
-       
-    }
-    
-    .logo{
-        margin-left:  -20px;
-        margin-top: -30px;
-         width: 350px;
-        
-    }
-    
-
-    .iniciarSeccion{
-     width: 90%;
-     margin-left: 10px;
-     padding: 10px; /* espacio de los cuadros y de lo que esta dentro */
-    
-}
-
-    .input input{
-    height: 2.50rem;
-}
-
-    .password-olvidada, a {
-    margin-left: 10px;
-   
-}
-
-    
-}
-
-
-
-
-
     .main-agen-admin {
     padding: 20px;
 }
@@ -209,4 +164,100 @@ td {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+
+
+
+@media screen and (max-width: 600px) {
+    .contenedor {
+        width: 5%;
+    }
+
+    .input {
+        font-size: 18px; /* Tamano de letra */
+    }
+
+    .input input{
+        max-width: 100%;  /* Ancho de los cuadritos */
+       
+    }
+    
+    .logo{
+        margin-left:  -20px;
+        margin-top: -30px;
+         width: 350px;
+        
+    }
+    
+
+    .iniciarSeccion{
+     width: 90%;
+     margin-left: 10px;
+     padding: 10px; /* espacio de los cuadros y de lo que esta dentro */
+    
+}
+
+    .input input{
+    height: 2.50rem;
+}
+
+    .password-olvidada, a {
+    margin-left: 10px;
+   
+}
+
+}
+
+/* Tablets */
+@media screen and (max-width: 1024px) and (min-width: 600px) {
+ .contenedor {
+        width: 100%;
+
+    }
+
+    .input {
+        font-size: 19px; /* Tamano de letra */
+    }
+
+    .input input{
+        max-width: 100%;  /* Ancho de los cuadritos */
+        margin-left:  -10px;
+
+    }
+    
+    .logo{
+        margin-left:  50px;
+        margin-top: -30px;
+        width: 350px;
+        
+    }
+
+   #nombre{
+        margin-left:  -10px;
+   }
+
+   .pass{
+    margin-left:  -10px;
+   }
+    
+
+    .iniciarSeccion{
+     width: 97%;
+     margin-left: -6px;
+     padding: 10px;/* espacio de los cuadros y de lo que esta dentro */
+    
+}
+
+    .input input{
+    height: 2.60rem;
+}
+
+    .password-olvidada, a {
+    margin-left: -5px;
+   
+}
+
+
+
 }
