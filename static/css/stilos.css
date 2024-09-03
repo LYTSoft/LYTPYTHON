@@ -852,6 +852,103 @@ main.min-main {
 
 /* FIN DE LOS ESTILOS DE LAS PAGINAS DEL USUARIO */
 
+
+
+
+
+
+
+/* Estilos de registro de usuarios  */
+
+
+.container {
+    background-color: white;
+    padding: 20px;
+    margin-top: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    max-width: 600px;
+    width: 100%;
+}
+.medioRegistro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    width: 100%;
+    background-color: #19396a15;
+    /* background-color: #0a6bfd67; */
+}
+
+.medio {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.medio img {
+    max-width: 200px;
+    margin-bottom: 10px;
+}
+
+.medio h1 {
+    font-size: 25px;
+    color: #003366;
+    margin: 0;
+}
+
+.formulario-regis .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.formulario-regis .form-group {
+    margin-bottom: 15px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    flex: 1 1 45%;
+}
+
+.formulario-regis label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.formulario-regis input, .formulario-regis select, .formulario-regis button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.formulario-regis button {
+    background-color: #003366;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.formulario-regis button:hover {
+    background-color: #0055cc;
+}
+
+.formulario-regis .form-group p {
+    margin: 0;
+}
+
+.formulario-regis .form-group a {
+    color: #0055cc;
+    text-decoration: none;
+}
+
+.formulario-regis .form-group a:hover {
+    text-decoration: underline;
+}
+
 /* ESTILOS DE LOS ESTILO DE LAS PAGINAS DEL  ADMINISTRADOR */
 
 
@@ -861,7 +958,7 @@ main.min-main {
 .body-admin{
     display: flex;
     flex-direction: column;
-    /* background-color:#193A6A ; */
+    background-color:#fff ;
 }
 .logo-img{
     width:20%;
@@ -889,10 +986,6 @@ main.min-main {
 
 
 /* Cuerpo de la pagina principal del admin  */
-.body-inde{
-    background-color: #fff;
-
-}
 .galeria{
     /* width: 100%; */
     margin-left: 0;
@@ -937,6 +1030,7 @@ a {
 
 
 .tabla-citas {
+    margin-top: 17px;
     transform: translate(0,-70px);
     width: 95%;
     border-collapse: collapse;
@@ -982,7 +1076,7 @@ main .texto {
 }
 
 main .h1 {
-    
+    color: #193A6A;
     font-size: 3rem;
     margin: 0;
 }
@@ -1200,7 +1294,7 @@ select.form-input {
     }
 
     .text-pag-b {
-        font-size: 1.2vw;
+        font-size: 1.7vw;
     }
 
     .center {

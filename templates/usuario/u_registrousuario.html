@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Usuario - Vet</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos-yohan.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
@@ -16,7 +16,7 @@
             <h1>Registro de usuario</h1>
         </header>
         
-        <form id="registroForm" class="formulario" method="POST" action="{{ url_for('u_registrousuario') }}">
+        <form id="registroForm" class="formulario-regis" method="POST" action="{{ url_for('u_registrousuario') }}">
             <div class="form-row">
                 <div class="form-group col-6">
                     <label for="nombre">Nombres</label>
