@@ -11,14 +11,9 @@ from flaskext.mysql import MySQL
 # Importar controlador del tiempo
 from datetime import datetime
 
-# Importar para obtener información de la imagen
-# from flask import send_from_directory
-
 # 'mysql.connector' es un módulo que proporciona una interfaz para conectarse a una base de datos MySQL.
 import mysql.connector
 
-# 'secure_filename' se utiliza para asegurar que un nombre de archivo sea seguro para  usar en un sistema de archivos.
-# from werkzeug.utils import secure_filename
 
 
 
@@ -53,7 +48,7 @@ def get_db_connection():
 # Ruta para la página de inicio, redirige a la página de inicio de sesión
 @app.route('/')
 def Index():
-    # Redirige a la vista de inicio de sesión cuando se accede a la página de inicio
+ # Redirige a la vista de inicio de sesión cuando se accede a la página de inicio
     return redirect(url_for('login'))
 
 # Ruta para la página de inicio de sesión, maneja tanto las solicitudes GET como POST
@@ -82,16 +77,17 @@ def login():
         connection.close()
 
         # Si se encuentra una cuenta con las credenciales correctas
+
         if account:
             # Actualiza la sesión con la información del usuario autenticado
             session.update({
                 'loggedin': True,
                 'is_admin': False,
-                'user_id': account['id_usuario'],  # Usamos 'user_id' para referirse al usuario
+                'user_id': account['id_usuario'],  #Usamos 'user_id' para referirse al usuario
                 'id': account['id_usuario'],
                 'nombre': account['nombre'],
                 'apellido': account['apellido'],
-                'telefono': account['telefono'],
+                'telefono': account['telefono'],                             
                 'correo': account['correo'],
                 'id_mascota': account['id_mascota']
             })
@@ -101,6 +97,9 @@ def login():
 
     # Renderiza el formulario de inicio de sesión si la solicitud es GET o las credenciales son incorrectas
     return render_template('usuario/login.html')
+
+
+
 
 # Ruta para el registro de un nuevo usuario
 @app.route('/index/registro_usuario/', methods=['GET', 'POST'])
@@ -227,7 +226,6 @@ def agendar_cita():
             return redirect(url_for('agendar_cita'))
 
     return render_template('usuario/u_agendarCita.html', user=user)
-
 
 
 
