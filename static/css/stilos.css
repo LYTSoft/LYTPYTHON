@@ -989,8 +989,6 @@ main.min-main {
 .galeria{
     /* width: 100%; */
     margin-left: 0;
-    margin-top: 40px;
-    /* background-color: #fff; */
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
@@ -1032,8 +1030,10 @@ a {
 .tabla-citas {
     margin-top: 17px;
     transform: translate(0,-70px);
+    margin-left: 30px;
     width: 95%;
     border-collapse: collapse;
+    text-align: center;
 }
 
 .tabla-arriba {
@@ -1097,7 +1097,8 @@ main .h1 {
 .form-group label {
     display: block;
     margin-bottom: 5px;
-    /* color: #0033A0; Etiquetas en azul oscuro */
+    color: #193A6A;
+    font-weight: 900;
 }
 
 .descripcion-adop{
@@ -1385,6 +1386,19 @@ select.form-input {
         font-size: 15px; 
     }
 
+        .table-adop th,
+.table-adop td {
+    
+    font-size:14px;
+    
+}
+.adop-elimi{
+    width: 70px;
+    font-size: 12px;
+    padding: 10px;
+    
+}
+
   }
 
 
@@ -1540,6 +1554,19 @@ select.form-input {
         width: 90%;
        margin: 30px 20px;
     }
+
+    .table-adop th,
+.table-adop td {
+    
+    font-size:9px;
+    
+}
+.adop-elimi{
+    width: 50px;
+    font-size: 10px;
+    padding: 10px;
+    
+}
 
 }
 
