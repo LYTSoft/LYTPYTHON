@@ -196,7 +196,7 @@
   box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 6px;
   display: flex;
   width: 16rem;
-  height: 29rem;
+  height: 25rem;
   flex-direction: column;
   overflow: hidden;
   cursor: pointer;
@@ -953,6 +953,13 @@ main.min-main {
     flex-direction: column;
     background-color:#fff ;
 }
+
+.titulo-pag {
+ 
+    font-size: 1.7vw;
+}
+
+
 .logo-img{
     width:20%;
 }
@@ -1037,7 +1044,7 @@ a {
 
 .alto-tabla {
     padding: 12px;
-    font-size: 20px;
+    font-size: 2.0vw;
     
     
 }
@@ -1433,6 +1440,14 @@ select.form-input {
         margin-left: 0;
     }
 
+
+    .icons-admin{
+    width: 30px;
+    margin-top: 20px;
+    transform: translate(0,-100px);
+
+}
+
     .servicio-contenedor {
         margin-left: 0; /* Ajuste del margen para pantallas pequeñas */
     }
@@ -1440,6 +1455,10 @@ select.form-input {
         flex-direction: column;
 
     }
+    .titulo-pag {
+ 
+    font-size: 20px;
+}
 
       .petvet-content {
         flex-direction: column;
