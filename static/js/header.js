@@ -30,26 +30,6 @@ logo.addEventListener('click', () => {
 });
 
 
-// CODIGO DE EL HEADER TERMINADO
-
-
-
-// Cambiar la foto de perfil en el header y en el modal
-const subirFoto = document.getElementById('subir-foto'); // Input para subir la foto
-const headerPerfilFoto = document.querySelector('.usuario img'); // Imagen de perfil en el header
-const modalPerfilFoto = document.getElementById('perfil-foto'); // Imagen de perfil en el modal
-
-subirFoto.addEventListener('change', function() {
-    const file = this.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function() {
-            headerPerfilFoto.src = reader.result; // Cambiar la imagen de perfil en el header
-            modalPerfilFoto.src = reader.result; // Cambiar la imagen de perfil en el modal
-        }
-        reader.readAsDataURL(file); // Leer el archivo seleccionado como URL base64
-    }
-});
 
 
 
@@ -62,8 +42,13 @@ function  volverCita () {
     window.location.href = "/guarderia/usuario/";
 }
 
-function volverAlFormulario() {
-    window.location.href = '/agendarcitas/usuario/';
+
+function verCita() {
+    window.location.href = '/citas/agendadas/usuario/';
+}
+
+function guarderiaAgen() {
+    window.location.href = '/guarderia/cita/usuario/';
 }
  
 // Función para abrir el modal
