@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-09-2024 a las 23:37:40
+-- Tiempo de generación: 05-09-2024 a las 21:00:34
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.2.13
 
@@ -48,7 +48,9 @@ INSERT INTO `admin` (`id_pendientesAdmin`, `id_domicilio`, `id_citas`, `id_guard
 (12, 0, 30, 0, 0),
 (13, 0, 31, 0, 0),
 (17, 0, 32, 0, 0),
-(19, 0, 33, 0, 0);
+(19, 0, 33, 0, 0),
+(20, 0, 34, 0, 0),
+(21, 0, 35, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -109,6 +111,14 @@ CREATE TABLE `citas` (
   `id_servicios` int(11) NOT NULL,
   `descripcion` varchar(200) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `citas`
+--
+
+INSERT INTO `citas` (`id_citas`, `id_usuario`, `fecha`, `tanda`, `id_mascota`, `id_servicios`, `descripcion`) VALUES
+(34, 1, '2024-09-27', 'Mañana', 2, 5, 'qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq'),
+(35, 1, '2024-09-13', 'Mañana', 3, 1, 'fneiofiewfninwGIER');
 
 -- --------------------------------------------------------
 
@@ -202,7 +212,6 @@ CREATE TABLE `usuario` (
   `id_mascota` int(11) NOT NULL,
   `correo` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `contraseña` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `verificar_contraseña` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `foto_perfil` varchar(255) COLLATE utf8_spanish2_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
@@ -210,11 +219,12 @@ CREATE TABLE `usuario` (
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `fecha_nacimiento`, `telefono`, `sexo`, `id_mascota`, `correo`, `contraseña`, `verificar_contraseña`, `foto_perfil`) VALUES
-(1, 'Tiara', 'Peña', '2024-08-14', '8298427894', 'femenino', 3, 'tiara12p@gmail.com', '123', '', 'goku.jpg'),
-(2, 'yohan', 'perez', '2024-08-30', '8294890987', 'masculino', 2, 'yohan@gamil.com', '12345', '', NULL),
-(3, 'Camil', 'Cedeno', '2006-06-21', '8298427894', 'femenino', 4, 'camil@gmail.com', '123', '', NULL),
-(4, 'laura', 'cabrera', '2024-08-01', '0987654321', 'femenino', 2, 'la@gamil.com', '12', '', NULL);
+INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `fecha_nacimiento`, `telefono`, `sexo`, `id_mascota`, `correo`, `contraseña`, `foto_perfil`) VALUES
+(1, 'Tiara', 'Peña', '2024-08-14', '8298427894', 'femenino', 3, 'tiara12p@gmail.com', '123', 'goku.jpg'),
+(2, 'yohan', 'perez', '2024-08-30', '8294890987', 'masculino', 2, 'yohan@gamil.com', '12345', NULL),
+(3, 'Camil', 'Cedeno', '2006-06-21', '8298427894', 'femenino', 4, 'camil@gmail.com', '123', NULL),
+(4, 'laura', 'cabrera', '2024-08-01', '0987654321', 'femenino', 2, 'la@gamil.com', '12', NULL),
+(5, 'Dhysmel', 'Peña', '2024-10-03', '8294890987', 'masculino', 2, 'du@gamil.com', '123', NULL);
 
 -- --------------------------------------------------------
 
@@ -330,13 +340,13 @@ ALTER TABLE `vacuna`
 -- AUTO_INCREMENT de la tabla `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id_pendientesAdmin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_pendientesAdmin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `adomicilio`
 --
 ALTER TABLE `adomicilio`
-  MODIFY `id_adomicilio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_adomicilio` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `adopcion`
@@ -348,19 +358,19 @@ ALTER TABLE `adopcion`
 -- AUTO_INCREMENT de la tabla `citas`
 --
 ALTER TABLE `citas`
-  MODIFY `id_citas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id_citas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de la tabla `guarderia`
 --
 ALTER TABLE `guarderia`
-  MODIFY `id_guarderia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_guarderia` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `mascota`
 --
 ALTER TABLE `mascota`
-  MODIFY `id_mascota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_mascota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -378,7 +388,7 @@ ALTER TABLE `servicio`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `vacuna`

@@ -105,7 +105,7 @@ def login():
 @app.route('/index/registro_usuario/', methods=['GET', 'POST'])
 def u_registrousuario():
     # Verifica si la solicitud es POST y si todos los campos requeridos están presentes
-    if request.method == 'POST' and all(k in request.form for k in ['nombre', 'apellido', 'fecha_nacimiento', 'telefono', 'sexo', 'mascota', 'correo', 'contraseña', 'verificar_contraseña']):
+    if request.method == 'POST' and all(k in request.form for k in ['nombre', 'apellido', 'fecha_nacimiento', 'telefono', 'sexo', 'mascota', 'correo', 'contraseña']):
         # Obtiene los valores del formulario de registro
         nombre = request.form['nombre']
         apellido = request.form['apellido']
@@ -115,12 +115,9 @@ def u_registrousuario():
         id_mascota = request.form['mascota']
         correo = request.form['correo']
         contraseña = request.form['contraseña']
-        verificar_contraseña = request.form['verificar_contraseña']
 
-        # Verifica si las contraseñas coinciden
-        if contraseña != verificar_contraseña:
-            # Si las contraseñas no coinciden, renderiza el formulario con un mensaje de error
-            return render_template('usuario/u_registrousuario.html', error="Las contraseñas no coinciden")
+
+        
         
         # Conecta a la base de datos para insertar el nuevo usuario
         connection = get_db_connection()

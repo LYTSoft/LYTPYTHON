@@ -58,10 +58,12 @@ function agendarCita () {
     window.location.href = "/agendarcitas/usuario/";
 }
 
-
+function  volverCita () {
+    window.location.href = "/guarderia/usuario/";
+}
 
 function volverAlFormulario() {
-    window.location.href = '/guarderia/usuario/';
+    window.location.href = '/agendarcitas/usuario/';
 }
  
 // Función para abrir el modal
