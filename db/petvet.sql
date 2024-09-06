@@ -207,8 +207,8 @@ INSERT INTO `servicio` (`id_servicios`, `servicio`, `precio`) VALUES
 (4, 'Hospedaje y cuidado de mascota', 0),
 (5, 'Chequeo General', 0),
 (6, 'Vacunación y Medicación', 0),
-(8, 'Pasadia', 0),
-(9, 'Odontologia', 0);
+(7, 'Pasadia', 0),
+(8, 'Odontologia', 0);
 
 -- --------------------------------------------------------
 
