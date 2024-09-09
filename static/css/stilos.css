@@ -314,12 +314,13 @@ thead {
 
 /* Estilo para la celda de descripción */
 .descripcion-citas {
-    font-size: clamp(0.8rem, 1.5vw, 1.5rem);
+    font-size: 1.4vw;
     white-space: normal;
     overflow: visible;
     word-break: break-word;
     max-width: 100%;
     text-align: justify;
+    
 }
 
 /* Estilos para los botones */
@@ -959,7 +960,9 @@ main.min-main {
     font-size: 1.7vw;
 }
 
-
+.margir-admin{
+     margin-left: 20px;
+}
 .logo-img{
     width:20%;
 }
@@ -1044,7 +1047,7 @@ a {
 
 .alto-tabla {
     padding: 12px;
-    font-size: 2.0vw;
+    font-size: 1.5vw;
     
     
 }
@@ -1398,6 +1401,10 @@ select.form-input {
     padding: 10px;
     
 }
+.margir-admin{
+    font-size: 2.4vw;
+
+}
 
   }
 
@@ -1544,6 +1551,11 @@ select.form-input {
         border-radius: 5px;
         z-index: 1;
     
+    }
+
+    
+    .tabla-citas{
+        margin-left: 0;
     }
     .servicio-card {
       width: 90%;

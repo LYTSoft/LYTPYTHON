@@ -1,12 +1,12 @@
 # Incluir el Framework Flask
 import os
-from flask import Flask
+from flask import Flask 
 
 # Importar la plantilla HTML. Para guardar datos desde el formulario importamos request, redirect y session (variable de sesión).
 from flask import render_template, request, redirect, session, url_for
 
 # Importar el enlace a base de datos MySQL
-# from flaskext.mysql import MySQL
+from flaskext.mysql import MySQL
 
 # Importar controlador del tiempo
 from datetime import datetime
@@ -22,7 +22,7 @@ app = Flask(__name__)
 
 app.config['UPLOAD_FOLDER'] = 'static/img/' 
 # Configurar la aplicación
-app.secret_key = 'lytpython'  # Clave secreta para sesiones
+app.secret_key = 'lytpython'  
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
@@ -31,7 +31,7 @@ app.config['MYSQL_DB'] = 'petvet'
 
 
 
-# HECHO POR TIARA
+
 # Función para obtener una conexión a la base de datos MySQL
 def get_db_connection():
     # Devuelve una nueva conexión a la base de datos MySQL usando el conector de MySQL
@@ -64,15 +64,14 @@ def login():
             # Si el usuario es un administrador, establece las variables de sesión correspondientes
             session['loggedin'] = True
             session['is_admin'] = True
-            session['user_id'] = 'admin'  # ID especial para el administrador
-            # Redirige al administrador a la página principal del administrador
+            session['user_id'] = 'admin'  # aqui se establece que el usuario es el admin y no uno regular 
             return redirect(url_for('indexAdmin'))
 
         # Conecta a la base de datos para verificar las credenciales del usuario
-        connection = get_db_connection()
-        cursor = connection.cursor(dictionary=True)
-        # Ejecuta una consulta para verificar si el usuario existe con las credenciales proporcionadas
-        cursor.execute('SELECT * FROM usuario WHERE nombre = %s AND contraseña = %s', (nombre, password))
+        connection = get_db_connection() # establece una conexión con la base de datos y permite que la aplicación realice consultas SQL y otras operaciones sobre la base de datos.
+
+        cursor = connection.cursor(dictionary=True) # permite ejecutar consultas SQL y manejar los resultados.
+        cursor.execute('SELECT * FROM usuario WHERE nombre = %s AND contraseña = %s', (nombre, password))   # Ejecuta una consulta para verificar si el usuario existe con las credenciales proporcionadas
         account = cursor.fetchone()
         connection.close()
 
@@ -105,6 +104,7 @@ def login():
 @app.route('/index/registro_usuario/', methods=['GET', 'POST'])
 def u_registrousuario():
     # Verifica si la solicitud es POST y si todos los campos requeridos están presentes
+    # usamos , k para  tomar cada valor de la lista.
     if request.method == 'POST' and all(k in request.form for k in ['nombre', 'apellido', 'fecha_nacimiento', 'telefono', 'sexo', 'mascota', 'correo', 'contraseña']):
         # Obtiene los valores del formulario de registro
         nombre = request.form['nombre']
@@ -130,7 +130,8 @@ def u_registrousuario():
         if account:
             # Si el correo ya está registrado, cierra la conexión y renderiza el formulario con un mensaje de error
             connection.close()
-            return render_template('usuario/u_registrousuario.html', error="El correo ya está registrado")
+            return render_template('usuario/u_registrousuario.html')
+       
         else:
             # Si el correo no está registrado, inserta el nuevo usuario en la base de datos
             cursor.execute('INSERT INTO usuario (nombre, apellido, fecha_nacimiento, telefono, sexo, id_mascota, correo, contraseña) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)', 
@@ -154,7 +155,8 @@ def cerrar_sesion():
 @app.route('/citasAdomicilio/', methods=['GET', 'POST'])
 def citaAdomicilio():
     # Verificar si el usuario está logueado
-    if 'loggedin' not in session:
+    if not session.get('loggedin'):
+        # Si no ha iniciado sesión, redirige a la página de login
         return redirect(url_for('login'))
     
     user_id = session['user_id']
@@ -174,7 +176,8 @@ def citaAdomicilio():
 @app.route('/agendarcitas/usuario/', methods=['GET', 'POST'])
 def agendar_cita():
     # Verificar si el usuario está logueado
-    if 'loggedin' not in session:
+    if not session.get('loggedin'):
+        # Si no ha iniciado sesión, redirige a la página de login
         return redirect(url_for('login'))
     
     user_id = session['user_id']
@@ -190,6 +193,7 @@ def agendar_cita():
     if request.method == 'POST':
         # Verificar que todos los campos requeridos están presentes
         if all(k in request.form for k in ['id_usuario', 'fecha', 'tanda', 'mascota', 'servicios', 'descripcion']):
+            
             id_usuario = request.form['id_usuario']
             fecha = request.form['fecha']
             tanda = request.form['tanda']
@@ -207,7 +211,7 @@ def agendar_cita():
             if existing_cita:
                 cursor.close()
                 connection.close()
-                return render_template('usuario/u_agendarCita.html', user=user, message='Ya tienes una cita agendada para esa fecha.')
+                return render_template('usuario/u_agendarCita.html', user=user)
 
             # Insertar nueva cita
             cursor.execute('INSERT INTO citas (id_usuario, fecha, tanda, id_mascota, id_servicios, descripcion) VALUES (%s, %s, %s, %s, %s, %s)', 
@@ -228,10 +232,10 @@ def agendar_cita():
 
 @app.route('/citas/agendadas/usuario/')
 def u_citasAgendada():
-    # Verifica si el usuario está logueado. Si no está logueado, redirige a la página de login.
-    if 'loggedin' not in session:
+    # Verificar si el usuario está logueado
+    if not session.get('loggedin'):
+        # Si no ha iniciado sesión, redirige a la página de login
         return redirect(url_for('login'))
-    
     # Obtiene el ID del usuario desde la sesión.
     user_id = session.get('user_id')
     
@@ -247,11 +251,11 @@ def u_citasAgendada():
     cursor.execute('SELECT nombre, apellido, correo, telefono, id_mascota FROM usuario WHERE id_usuario = %s', (user_id,))
     user = cursor.fetchone()
     
-    # Si no se encuentra el usuario en la base de datos, cierra el cursor y la conexión, y devuelve un error 404.
+    # Si no se encuentra el usuario en la base de datos, cierra el cursor y la conexión, y devuelve un error
     if not user:
         cursor.close()
         connection.close()
-        return "Usuario no encontrado", 404
+        return "Usuario no encontrado"
     
     # Ejecuta una consulta SQL para obtener las citas agendadas del usuario, uniendo las tablas 'citas', 'mascota' y 'servicio' para obtener detalles completos.
     # Ordena los resultados por fecha en orden descendente.
@@ -274,10 +278,13 @@ def u_citasAgendada():
     # Renderiza la plantilla 'u_citasAgendadas.html' con los datos del usuario y las citas agendadas.
     return render_template('usuario/u_citasAgendadas.html', user=user, citas=citas_agendadas)
 
+
+# Eliminar citas agendadas
 @app.route('/eliminar_cita/<int:id_cita>/', methods=['POST'])
 def eliminar_cita(id_cita):
-    # Verifica si el usuario está logueado. Si no está logueado, redirige a la página de login.
-    if 'loggedin' not in session:
+    # Verificar si el usuario está logueado
+    if not session.get('loggedin'):
+        # Si no ha iniciado sesión, redirige a la página de login
         return redirect(url_for('login'))
     
     # Obtiene el ID del usuario desde la sesión.
@@ -314,7 +321,9 @@ def eliminar_cita(id_cita):
 
 @app.route('/guarderia/usuario/', methods=['GET', 'POST'])
 def u_guarderia():
-    if 'loggedin' not in session:
+    # Verificar si el usuario está logueado
+    if not session.get('loggedin'):
+        # Si no ha iniciado sesión, redirige a la página de login
         return redirect(url_for('login'))
     
     user_id = session['user_id']
@@ -326,14 +335,13 @@ def u_guarderia():
     user = cursor.fetchone()
 
     if not user:
-        cursor.close()
-        connection.close()
-        return render_template('usuario/u_guarderia.html', message='Usuario no encontrado.')
+        return render_template('usuario/login.html')
+    
 
     if request.method == 'POST':
-        required_fields = ['id_usuario', 'desde', 'hasta', 'mascota', 'descripcion', 'id_servicios']
+        required_form = ['id_usuario', 'desde', 'hasta', 'mascota', 'descripcion', 'id_servicios']
         
-        if all(k in request.form for k in required_fields):
+        if all(k in request.form for k in required_form):
             id_usuario = request.form['id_usuario']
             desde = request.form['desde']
             hasta = request.form['hasta']
@@ -341,14 +349,6 @@ def u_guarderia():
             descripcion = request.form['descripcion']
             id_servicios = request.form['id_servicios']
 
-            # Verificar si el id_usuario existe
-            cursor.execute('SELECT id_usuario FROM usuario WHERE id_usuario = %s', (id_usuario,))
-            existing_user = cursor.fetchone()
-
-            if not existing_user:
-                cursor.close()
-                connection.close()
-                return render_template('usuario/u_guarderia.html', user=user, message='El usuario no existe.')
 
             cursor.execute('SELECT * FROM guarderia WHERE desde = %s AND hasta = %s AND id_usuario = %s AND id_servicios = %s',
                            (desde, hasta, id_usuario, id_servicios))
@@ -357,7 +357,7 @@ def u_guarderia():
             if existing_record:
                 cursor.close()
                 connection.close()
-                return render_template('usuario/u_guarderia.html', user=user, message='El registro ya existe.')
+                return render_template('usuario/u_guarderia.html', user=user)
 
             # Realizar la inserción
             cursor.execute('INSERT INTO guarderia (id_usuario, id_servicios, desde, hasta, id_mascota, descripcion) VALUES (%s, %s, %s, %s, %s, %s)',
@@ -374,16 +374,14 @@ def u_guarderia():
             connection.close()
 
             return redirect(url_for('u_guarderia'))
-        else:
-            cursor.close()
-            connection.close()
-            return render_template('usuario/u_guarderia.html', user=user, message='Faltan campos obligatorios.')
 
     return render_template('usuario/u_guarderia.html', user=user)
 
 @app.route('/guarderia/cita/usuario/')
 def u_guarderia_cita():
-    if 'loggedin' not in session:
+    # Verificar si el usuario está logueado
+    if not session.get('loggedin'):
+        # Si no ha iniciado sesión, redirige a la página de login
         return redirect(url_for('login'))
     
     user_id = session.get('user_id')
@@ -400,7 +398,7 @@ def u_guarderia_cita():
     if not user:
         cursor.close()
         connection.close()
-        return "Usuario no encontrado", 404
+        return "Usuario no encontrado"
     
     # Agregamos id_guarderia en la consulta
     cursor.execute('''
@@ -423,7 +421,9 @@ def u_guarderia_cita():
 
 @app.route('/eliminar_guarderia/<int:id_guarderia>/', methods=['POST'])
 def eliminar_guarderia(id_guarderia):
-    if 'loggedin' not in session:
+    # Verificar si el usuario está logueado
+    if not session.get('loggedin'):
+        # Si no ha iniciado sesión, redirige a la página de login
         return redirect(url_for('login'))
     
     user_id = session.get('user_id')
@@ -455,8 +455,9 @@ def eliminar_guarderia(id_guarderia):
 #Funcion que muestra la informacion del usuario en el perfil
 @app.route('/home/usuario/')
 def indexUsuario():
-   # Verificar si el usuario está logueado
-    if 'loggedin' not in session:
+    # Verificar si el usuario está logueado
+    if not session.get('loggedin'):
+        # Si no ha iniciado sesión, redirige a la página de login
         return redirect(url_for('login'))
     
     user_id = session['user_id']
@@ -475,31 +476,27 @@ def indexUsuario():
   
 
 
-@app.route('/servicios/solicitados/usuario/')
-def u_servicio_solicitados():
-  # Verificar si el usuario está logueado
-    if 'loggedin' not in session:
-        return redirect(url_for('login'))
-    
-    user_id = session['user_id']
-    
-    # Obtener la información del usuario desde la base de datos
-    connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
-    cursor.execute('SELECT nombre, apellido, correo, telefono FROM usuario WHERE id_usuario = %s', (user_id,))
-    user = cursor.fetchone()
-    cursor.close()
-    connection.close()
-    return render_template('usuario/u_Servicios-solicitud.html', user=user)
+
+
 
 @app.route('/admin/')
 def indexAdmin():
+    # Verificar si el usuario ha iniciado sesión y si es administrador
+    if 'user_id' not in session or session.get('is_admin') != True:
+    # Si no ha iniciado sesión o no es admin, redirigir a la página de login
+        return redirect(url_for('login'))
+    
     return render_template('admin/index.html')
 
 
 
 @app.route('/admin/adopcion/', methods=['GET', 'POST'])
 def a_adopcion():
+    # Verificar si el usuario ha iniciado sesión y si es administrador
+    if 'user_id' not in session or session.get('is_admin') != True:
+    # Si no ha iniciado sesión o no es admin, redirigir a la página de login
+        return redirect(url_for('login'))
+    
     if request.method == 'POST':
         # Manejo de formulario
         foto_mascota = request.files['foto_mascota']
@@ -558,8 +555,9 @@ def a_adopcion():
 # Funcion que muestra las mascotas en adopcion en el usuario 
 @app.route('/adopcion/usuario/')
 def u_adopcion():
-   # Verificar si el usuario está logueado
-    if 'loggedin' not in session:
+    # Verificar si el usuario está logueado
+    if not session.get('loggedin'):
+    # Si no ha iniciado sesión, redirige a la página de login
         return redirect(url_for('login'))
     
     user_id = session['user_id']
@@ -571,8 +569,7 @@ def u_adopcion():
     user = cursor.fetchone()
     cursor.close()
     connection.close()
- 
-
+    
 # Muestra las adopcion 
     connection = get_db_connection()
     cursor = connection.cursor()
@@ -588,6 +585,11 @@ def u_adopcion():
 # Permite eliminar las adopciones de la mascota al admin y asi no aparzcan al usuario 
 @app.route('/admin/adopcion/eliminar/<int:id_adopcion>', methods=['POST'])
 def eliminar_adopcion(id_adopcion):
+    # Verificar si el usuario ha iniciado sesión y si es administrador
+    if 'user_id' not in session or session.get('is_admin') != True:
+    # Si no ha iniciado sesión o no es admin, redirigir a la página de login
+        return redirect(url_for('login'))
+    
     connection = get_db_connection()
     cursor = connection.cursor()
     
@@ -603,6 +605,11 @@ def eliminar_adopcion(id_adopcion):
 
 @app.route('/admin/citas/')# Este decorador asegura que solo los usuarios con privilegios de administrador puedan acceder a esta ruta
 def a_servicios():
+    # Verificar si el usuario ha iniciado sesión y si es administrador
+    if 'user_id' not in session or session.get('is_admin') != True:
+    # Si no ha iniciado sesión o no es admin, redirigir a la página de login
+        return redirect(url_for('login'))
+    
 
     connection = get_db_connection()  # Establece una conexión con la base de datos usando una función que debe devolver un objeto de conexión de MySQL.
     cursor = connection.cursor(dictionary=True)  # Crea un objeto cursor para ejecutar consultas SQL. 'dictionary=True' hace que el cursor devuelva las filas como diccionarios.
@@ -632,6 +639,11 @@ def a_servicios():
 
 @app.route('/admin/guarderia/')
 def a_guarderia():
+    # Verificar si el usuario ha iniciado sesión y si es administrador
+    if 'user_id' not in session or session.get('is_admin') != True:
+    # Si no ha iniciado sesión o no es admin, redirigir a la página de login
+        return redirect(url_for('login'))
+    
     # Este decorador asegura que solo los usuarios con privilegios de administrador puedan acceder a esta ruta.
     # Conecta a la base de datos usando una función que debe devolver un objeto de conexión de MySQL.
     connection = get_db_connection()

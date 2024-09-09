@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title class="titulo-pagina">Citas pendientes</title>
-    <link rel="icon" href="{{ url_for('static', filename='imagenes/icon.png') }}" >
+    <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}">
+    
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos.css') }}" >
 </head>
 
@@ -28,7 +29,7 @@
                 <figure ><img class="icons-admin" src="{{ url_for('static', filename='img/a-home.png') }}" alt="Inicio" title="Inicio"></figure>
             </a>
 
-            <a href="/">
+            <a href="/cerrar-sesion">
                 <figure ><img class="icons-admin" src="{{ url_for('static', filename='img/a-saalir.png') }}" alt="Cerrar Sesion" title="Cerrar Sesion"></figure>
             </a>
         </div>
