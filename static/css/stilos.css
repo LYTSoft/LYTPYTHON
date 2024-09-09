@@ -3,7 +3,6 @@
 /* INDEX TIARA */
 
 .servicio-adomicilio {
-  background-color: #f2f2f2;
   padding: 40px;
   text-align: center;
   display: flex;
@@ -13,11 +12,10 @@
   max-width: 800px;
   margin: 0 auto;
   border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .servicio-adomicilio h2 {
-  font-size: 33px;
+  font-size: 40px;
   color: #193A6A;
   margin-bottom: 20px;
 }
@@ -688,16 +686,19 @@ main.min-main {
 }
 
 .barra-lateral .logo-pagina img {
-    min-width: 50px;
-    max-width: 50px;
+    min-width: 70px;
+    max-width: 70px;
     cursor: pointer;
+    /* margin-right: 10px; */
+    transform: translate(-13px,0);
 }
 
 .barra-lateral .logo-pagina span {
-    margin-left: 5px;
-    font-size: 25px;
+    /* margin-right: 30px; */
+    font-size: 35px;
     opacity: 1;
     transition: opacity 0.5s ease;
+    
 }
 
 /* Para que no se vea el texto */
