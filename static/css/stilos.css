@@ -55,10 +55,11 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
   padding: 10px;
-  max-width: 300px;
+  max-width: 350px;
   background-color: #fff;
   transition: all 0.3s ease;
 }
+
 
 .servicio-card img {
   width: 50px;
@@ -101,19 +102,38 @@
 }
 
 .lista ul {
+    margin-right: 30px;
+    /* background-color: #193A6A; */
   padding: 0;
   list-style: none;
+  width: 300px;
 }
 
 .lista li {
+    
   display: flex;
-  align-items: center;
+  justify-content: space-between;
   margin-bottom: 5px;
+}
+.span-index{
+    margin-bottom: 20px;
+
+}
+
+.serviprecio{   
+    color: #da0303;
+    font-weight: 700;
+    
+}
+
+.li-largo{
+    width: 330px;
+ 
 }
 
 .lista li img {
   margin-right: 10px;
-  width: 39px;
+  width: 30px;
   height: auto;
 }
 
@@ -1296,9 +1316,6 @@ select.form-input {
         margin-left: 50px;
     }
 
-       .servicio-card {
-      width: 40%;
-    }
 
     .servicio-adomicilio {
         width: 60%; 
@@ -1350,9 +1367,7 @@ select.form-input {
 
   /* Media queries para tabletas */
   @media (min-width: 601px) and (max-width: 1000px) {
-    .servicio-card {
-      width: 70%;
-    }
+ 
 
     .servicio-adomicilio {
         width: 90%;
@@ -1558,10 +1573,7 @@ select.form-input {
     .tabla-citas{
         margin-left: 0;
     }
-    .servicio-card {
-      width: 90%;
-      margin: 30px 10px;
-    }
+ 
 
     .servicio-adomicilio {
         width: 90%;
