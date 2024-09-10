@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Descubre los servicios excepcionales de PetVet, tu clínica veterinaria de confianza. Ofrecemos atención médica integral para tus mascotas, desde consultas generales y vacunas hasta cirugías especializadas. Nuestro equipo dedicado está comprometido con el bienestar animal, proporcionando cuidados personalizados y servicios de calidad. Confía en PetVet para mantener a tus mascotas felices y saludables en cada etapa de sus vidas.">
-    <title>Página de los Servicios</title>
-    <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}">
+    <title>PetVet - Tu Clínica Veterinaria de Confianza</title>
+        <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos.css') }}">
 </head>
-
 <body>
     <header>
         <div class="menu">
@@ -49,7 +47,7 @@
                      <li>
                         <a href="/citasAdomicilio/">
                             <img src="{{ url_for('static', filename='recursos/icon/servicios-solicitado.svg') }}" alt="Servicios Solicitados" class="icon">
-                            <span>Servicios a domicilio </span>
+                            <span>Servicios </span>
                         </a>
                     </li>
                     <li>
@@ -103,76 +101,73 @@
             </div>
         </div>
     </header>
+
+
     <main>
-        <section class="servicio-adomicilio">
-            <h2>Disfruta de nuestros servicios </h2>
-            <p>Queremos hacer más conveniente para ti y tus mascotas el acceso a los cuidados veterinarios. No dudes en contactarnos para programar una cita en la comodidad de tu hogar o en nuestra clínica veterinaria.</p>
-        </section>
-        <section class="servicio-contenedor">
-            <article class="servicio-card">
-                <div class="icon-img">
-                    <img src="{{ url_for('static', filename='img/bañera.png') }}" alt="Higiene para Animales">
-                </div>
-                <h2>Higiene para Mascotas</h2>
-                <p>En nuestro servicio de higiene, nos ocupamos de mantener a tus mascotas limpias y saludables.</p>
-                <div class="lista">
-                    <ul>
-                        <li><img src="{{ url_for('static', filename='img/pata.png') }}" alt="Baño"><span class="span-index">Baño</span> <span class="serviprecio">RD$700</span> </li>
+       <section class="inicio-styles">
+            <div class="inicio-styles-content">
+                <div class="texto">
+                   <h1 class="adopcion-titulo">Bienvenido a PetVet</h1>
+                <p class="adopcion-texto">Tu clínica veterinaria de confianza para el cuidado integral de tus mascotas</p>  
 
-                        <li><img src="{{ url_for('static', filename='img/peluqueria.png') }}" alt="Corte de cabello y uñas"> <span class="span-index">Peluquería y Corte de uñas</span> <span class="serviprecio">RD$600</span>  </li>
-
-                        <li><img src="{{ url_for('static', filename='img/diente.png') }}" alt="Chequeos dentales"> <span class="span-index">Lavado dental</span> <span class="serviprecio">RD$300</span> </li>
-                    </ul>
-                </div>
-            </article>
-            <article class="servicio-card">
-                <div class="icon-img">
-                    <img src="{{ url_for('static', filename='img/hotel.png') }}" alt="Hotel para Animales">
-                </div>
-                <h2>Guardería y Hotelería</h2>
-                <p>Ofrecemos un espacio seguro y cómodo para que tus mascotas se queden mientras estás fuera.</p>
-                <div class="lista">
-                    <ul>
-                        <li class="li-largo"><img src="{{ url_for('static', filename='img/hospedaje.png') }}" alt="Hotel para mascotas"><span class="span-index">Hospedaje de mascotas</span> <span class="serviprecio variado">Precio Variado</span></li>
-                        <li><img src="{{ url_for('static', filename='img/paseos.png') }}" alt="Paseos para tu mascota"> <span class="span-index">Paseos diarios</span> <span class="serviprecio">RD$500</span></li>
-                        <li><img src="{{ url_for('static', filename='img/juego.png') }}" alt="Diversión para animales"> <span class="span-index">Áreas de recreación</span> <span class="serviprecio">RD$500</span></li>
-                    </ul>
-                </div>
-            </article>
-            <article class="servicio-card">
-                <div class="icon-img">
-                    <img src="{{ url_for('static', filename='img/chequeo.png') }}" alt="Chequeos para Animales">
-                </div>
-                <h2>Chequeo General</h2>
-                <p>Realizamos exámenes completos para garantizar la salud y bienestar de tus mascotas.</p>
-                <div class="lista">
-                    <ul>
-                        <li><img src="{{ url_for('static', filename='img/laboratorio.png') }}" alt="Exámenes de laboratorio"><span class="span-index">Exámenes de laboratorio</span> <span class="serviprecio">RD$1300</span> </li>
-                        <li><img src="{{ url_for('static', filename='img/chequeo.png') }}" alt="Revisiones físicas"> <span class="span-index">Revisiones físicas</span> <span class="serviprecio">RD$1000</span> </li>
-                        <li><img src="{{ url_for('static', filename='img/consultas.png') }}" alt="Atención médica"> <span class="span-index">Consultas</span> <span class="serviprecio">RD$900</span> </li>
-                    </ul>
-                </div>
-            </article>
-            <article class="servicio-card">
-                <div class="icon-img">
-                    <img src="{{ url_for('static', filename='img/jeringa.png') }}" alt="Medicina para Animales">
-                </div>
-                <h2>Vacunación y Medicación</h2>
-                <p>Protege a tus mascotas contra enfermedades con nuestros servicios de vacunación y suministro de medicamentos.</p>
-                <div class="lista">
-                    <ul>
-                        <li><img src="{{ url_for('static', filename='img/vacunas.png') }}" alt="Todo tipo de Vacunas"><span class="span-index">Vacunas básicas y refuerzos</span><span class="serviprecio">RD$700</span></li>
-
-                        <li><img src="{{ url_for('static', filename='img/medicina.png') }}" alt="Medicamentos básicos"><span class="span-index">Medicamentos básicos</span> <span class="serviprecio">RD$500</span></li>
+                  <p class="adopcion-texto">En PetVet, nos dedicamos a proporcionar el mejor cuidado posible para tus mascotas. Nuestro equipo de veterinarios altamente calificados y personal amante de los animales está comprometido con la salud y el bienestar de tus compañeros peludos.</p>
                     
-                        <li><img src="{{ url_for('static', filename='img/spray.png') }}" alt="Tratamientos contra parásitos"> <span class="span-index">Tratamientos contra parásitos</span> 
-                            <span class="serviprecio">RD$400</span></li>
-                    </ul>
+                    <p class="adopcion-texto"> Contamos con instalaciones modernas y ofrecemos una amplia gama de servicios, desde chequeos de rutina hasta cirugías complejas y servicios de adopción.</p>
                 </div>
-            </article>
+               
+            </div>
+        </section>
+
+        <section class="inicio-styles-services">
+            <div class="inicio-styles-service-list">
+               <a href="/agendarcitas/usuario/" class="links-de-fotos">
+                  <div class="inicio-styles-service-item">
+                    <img src="{{ url_for('static', filename='img/consulta-general.jpg') }}" alt="Consulta General">
+                    <div class="inicio-styles-service-item-content">
+                        <h3>Consulta General</h3>
+                        <p>Chequeos de rutina y atención primaria para tu mascota</p>
+                    </div>
+                </div>
+               </a>
+              
+                <div class="inicio-styles-service-item">
+                    <img src="{{ url_for('static', filename='img/adopcion-inicio.jpg') }}" alt="Servicios a Domicilio" >
+                    <a href="/adopcion/usuario/">
+                     <div class="inicio-styles-service-item-content">
+                        <h3>Adopcion</h3>
+                        <p>Adopciones disponibles.</p>
+                    </div>
+                    </a>
+                    
+                </div>
+                <div class="inicio-styles-service-item">
+                    <a href="/guarderia/usuario/">
+                    <img src="{{ url_for('static', filename='img/guarderia-inicio.jpg') }}" alt="Guardería">
+                    <div class="inicio-styles-service-item-content">
+                        
+                           <h3>Guardería</h3>
+                        <p>Cuidado profesional para tu mascota mientras estás fuera</p>  
+                        </a>
+                       
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
+  
+    <footer class="footer">
+        <div class="footer-medio">
+          <div class="footer-content">
+        <p>Contacto: info@petvet.com | Teléfono: (123) 456-7890</p>
+        <p>Dirección: Calle Principal 123, Ciudad</p>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2024 PetVet. Todos los derechos reservados.</p>   
+        </div>
+   
+    </div>
+</footer>
 
-    <script src="{{ url_for('static', filename='js/header.js') }}"></script>
 </body>
 </html>
+  <script src="{{ url_for('static', filename='js/header.js') }}"></script>

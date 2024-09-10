@@ -2,14 +2,13 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Servicios a domicilio</title>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos.css') }}">
+    <meta name="description" content="Descubre los servicios excepcionales de PetVet, tu clínica veterinaria de confianza. Ofrecemos atención médica integral para tus mascotas, desde consultas generales y vacunas hasta cirugías especializadas. Nuestro equipo dedicado está comprometido con el bienestar animal, proporcionando cuidados personalizados y servicios de calidad. Confía en PetVet para mantener a tus mascotas felices y saludables en cada etapa de sus vidas.">
+    <title>Página de los Servicios</title>
     <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos.css') }}">
 </head>
+
 <body>
     <header>
         <div class="menu">
@@ -47,10 +46,10 @@
                             <span>Citas Guardería</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="#">
+                     <li>
+                        <a href="/citasAdomicilio/">
                             <img src="{{ url_for('static', filename='recursos/icon/servicios-solicitado.svg') }}" alt="Servicios Solicitados" class="icon">
-                            <span>Servicios a domicilio </span>
+                            <span>Servicios </span>
                         </a>
                     </li>
                     <li>
@@ -68,11 +67,10 @@
                 </ul>
             </nav>
 
-            <div class="linea"></div>
+             <div class="linea"></div>
 
             <div class="usuario">
                 <a href="#" onclick="abrirModal()">
-                   
                     <div class="info-usuario">
                         <div class="nombre-email">
                             <span class="nombre">{{ user.nombre }} {{ user.apellido }}</span>
@@ -87,90 +85,99 @@
                     <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
                     <div class="perfil-container">
                         <div class="perfil-header">
-                            
                             <div class="perfil-info">
                                 <h1>{{ user.nombre }} {{ user.apellido }}</h1>
                                 <p>Email: <span id="email">{{ user.correo }}</span></p>
                                 <p>Teléfono: <span id="telefono">{{ user.telefono }}</span></p>
-                    
+                                
                             </div>
                         </div>
-                        <div class="accion">
+                       <div class="accion">
                             <form action="{{ url_for('cerrar_sesion') }}" method="GET">
                                 
-                                <button class="boton-cs-perfil" id="cerrarsesion">Cerrar Sesión</button>
+                            <button class="boton-cs-perfil" id="cerrarsesion">Cerrar Sesión</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-            
         </div>
     </header>
-    
-   <main>
-        <div class="petvet-container">
-        <h1 class="petvet-title">Servicios y Vacunas a Domicilio</h1>
-        <p class="petvet-intro ">Ofrecemos una variedad de servicios a domicilio para el cuidado de tus mascotas. A continuación, te detallamos lo que podemos ofrecerte:</p>
-        
-        <div class="petvet-content">
-            <div class="petvet-column">
-                <h2 class="petvet-subtitle">Servicios</h2>
-                <ul class="petvet-list">
-                    <li class="petvet-item">
-                        <span>Baño, Peluquería y Corte de Uñas</span>
-                        <span class="petvet-price">$700</span>
-                    </li>
-                    <li class="petvet-item">
-                        <span>Paseos a Mascotas</span>
-                        <span class="petvet-price">$100/hora</span>
-                    </li>
-                    <li class="petvet-item">
-                        <span>Entrenamiento y Obediencia</span>
-                        <span class="petvet-price">$600/cita</span>
-                    </li>
-                    <li class="petvet-item">
-                        <span>Revisiones Físicas</span>
-                        <span class="petvet-price">$1000</span>
-                    </li>
-                </ul>
-            </div>
+    <main>
+        <section class="servicio-adomicilio">
+            <h2>Disfruta de nuestros servicios </h2>
+            <p>Queremos hacer más conveniente para ti y tus mascotas el acceso a los cuidados veterinarios. No dudes en contactarnos para programar una cita en la comodidad de tu hogar o en nuestra clínica veterinaria. Escribenos por WhatsApp y quiers algun servicio adomicilio!!</p>
+        </section>
+        <section class="servicio-contenedor">
+            <article class="servicio-card">
+                <div class="icon-img">
+                    <img src="{{ url_for('static', filename='img/bañera.png') }}" alt="Higiene para Animales">
+                </div>
+                <h2>Higiene para Mascotas</h2>
+                <p>En nuestro servicio de higiene, nos ocupamos de mantener a tus mascotas limpias y saludables.</p>
+                <div class="lista">
+                    <ul>
+                        <li><img src="{{ url_for('static', filename='img/pata.png') }}" alt="Baño"><span class="span-index">Baño</span> <span class="serviprecio">RD$700</span> </li>
 
-            <div class="petvet-column">
-                <h2 class="petvet-subtitle">Vacunas</h2>
-                <ul class="petvet-list">
-                    <li class="petvet-item">
-                        <span>Vacuna contra la rabia</span>
-                        <span class="petvet-price">$500</span>
-                    </li>
-                    <li class="petvet-item">
-                        <span>Vacuna contra el parvovirus</span>
-                        <span class="petvet-price">$500</span>
-                    </li>
-                    <li class="petvet-item">
-                        <span>Vacuna contra el moquillo</span>
-                        <span class="petvet-price">$500</span>
-                    </li>
-                    <li class="petvet-item">
-                        <span>Vacuna refuerzo a polivalente</span>
-                        <span class="petvet-price">$600</span>
-                    </li>
-                    <li class="petvet-item">
-                        <span>Vacuna contra Lyme</span>
-                        <span class="petvet-price">$800</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
+                        <li><img src="{{ url_for('static', filename='img/peluqueria.png') }}" alt="Corte de cabello y uñas"> <span class="span-index">Peluquería y Corte de uñas</span> <span class="serviprecio">RD$600</span>  </li>
 
-        
-        <div class="whatsapp-icon-ado">
+                        <li><img src="{{ url_for('static', filename='img/diente.png') }}" alt="Chequeos dentales"> <span class="span-index">Lavado dental</span> <span class="serviprecio">RD$300</span> </li>
+                    </ul>
+                </div>
+            </article>
+            <article class="servicio-card">
+                <div class="icon-img">
+                    <img src="{{ url_for('static', filename='img/hotel.png') }}" alt="Hotel para Animales">
+                </div>
+                <h2>Guardería y Hotelería</h2>
+                <p>Ofrecemos un espacio seguro y cómodo para que tus mascotas se queden mientras estás fuera.</p>
+                <div class="lista">
+                    <ul>
+                        <li class="li-largo"><img src="{{ url_for('static', filename='img/hospedaje.png') }}" alt="Hotel para mascotas"><span class="span-index">Hospedaje de mascotas</span> <span class="serviprecio variado">Precio Variado</span></li>
+                        <li><img src="{{ url_for('static', filename='img/paseos.png') }}" alt="Paseos para tu mascota"> <span class="span-index">Paseos diarios</span> <span class="serviprecio">RD$500</span></li>
+                        <li><img src="{{ url_for('static', filename='img/juego.png') }}" alt="Diversión para animales"> <span class="span-index">Áreas de recreación</span> <span class="serviprecio">RD$500</span></li>
+                    </ul>
+                </div>
+            </article>
+            <article class="servicio-card">
+                <div class="icon-img">
+                    <img src="{{ url_for('static', filename='img/chequeo.png') }}" alt="Chequeos para Animales">
+                </div>
+                <h2>Chequeo General</h2>
+                <p>Realizamos exámenes completos para garantizar la salud y bienestar de tus mascotas.</p>
+                <div class="lista">
+                    <ul>
+                        <li><img src="{{ url_for('static', filename='img/laboratorio.png') }}" alt="Exámenes de laboratorio"><span class="span-index">Exámenes de laboratorio</span> <span class="serviprecio">RD$1300</span> </li>
+                        <li><img src="{{ url_for('static', filename='img/chequeo.png') }}" alt="Revisiones físicas"> <span class="span-index">Revisiones físicas</span> <span class="serviprecio">RD$1000</span> </li>
+                        <li><img src="{{ url_for('static', filename='img/consultas.png') }}" alt="Atención médica"> <span class="span-index">Consultas</span> <span class="serviprecio">RD$900</span> </li>
+                    </ul>
+                </div>
+            </article>
+            <article class="servicio-card">
+                <div class="icon-img">
+                    <img src="{{ url_for('static', filename='img/jeringa.png') }}" alt="Medicina para Animales">
+                </div>
+                <h2>Vacunación y Medicación</h2>
+                <p>Protege a tus mascotas contra enfermedades con nuestros servicios de vacunación y suministro de medicamentos.</p>
+                <div class="lista">
+                    <ul>
+                        <li><img src="{{ url_for('static', filename='img/vacunas.png') }}" alt="Todo tipo de Vacunas"><span class="span-index">Vacunas básicas y refuerzos</span><span class="serviprecio">RD$700</span></li>
+
+                        <li><img src="{{ url_for('static', filename='img/medicina.png') }}" alt="Medicamentos básicos"><span class="span-index">Medicamentos básicos</span> <span class="serviprecio">RD$500</span></li>
+                    
+                        <li><img src="{{ url_for('static', filename='img/spray.png') }}" alt="Tratamientos contra parásitos"> <span class="span-index">Tratamientos contra parásitos</span> 
+                            <span class="serviprecio">RD$400</span></li>
+                    </ul>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <div class="whatsapp-icon-ado">
                         <a href="https://wa.me/18498544639?"
                      target="_blank"><img src="{{ url_for('static', filename='img/imagen-whatsapp.jpg') }}" alt="WhatsApp"></a>
                     </div>
-    </a>
-    </div>
-    </main>
-     <script src="{{ url_for('static', filename='js/header.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/header.js') }}"></script>
 </body>
 </html>
