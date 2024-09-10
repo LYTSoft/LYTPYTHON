@@ -60,7 +60,7 @@ def login():
         password = request.form['pass-sesion']
 
         # Verifica si las credenciales corresponden a un administrador predefinido
-        if nombre == 'Admin' and password == '12345':
+        if nombre == 'admin' and password == '12345':
             # Si el usuario es un administrador, establece las variables de sesión correspondientes
             session['loggedin'] = True
             session['is_admin'] = True
