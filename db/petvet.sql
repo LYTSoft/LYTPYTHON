@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-09-2024 a las 22:56:09
+-- Tiempo de generación: 11-09-2024 a las 20:04:32
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.2.13
 
@@ -44,16 +44,24 @@ INSERT INTO `admin` (`id_pendientesAdmin`, `id_domicilio`, `id_citas`, `id_guard
 (21, 0, 0, 1, 0),
 (25, 0, 0, 2, 0),
 (28, 0, 0, 3, 0),
+(32, 0, 0, 4, 0),
+(33, 0, 0, 5, 0),
+(34, 0, 0, 6, 0),
 (14, 0, 0, 7, 0),
+(35, 0, 0, 7, 0),
 (15, 0, 0, 8, 0),
 (16, 0, 0, 9, 0),
 (18, 0, 0, 10, 0),
+(36, 0, 0, 10, 0),
 (20, 0, 1, 0, 0),
 (22, 0, 2, 0, 0),
 (23, 0, 3, 0, 0),
 (24, 0, 4, 0, 0),
 (26, 0, 5, 0, 0),
 (27, 0, 6, 0, 0),
+(29, 0, 7, 0, 0),
+(30, 0, 8, 0, 0),
+(31, 0, 9, 0, 0),
 (12, 0, 30, 0, 0),
 (13, 0, 31, 0, 0),
 (17, 0, 32, 0, 0),
@@ -88,7 +96,7 @@ CREATE TABLE `adopcion` (
   `descripcion` varchar(120) COLLATE utf8_spanish_ci NOT NULL,
   `foto_mascota` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `sexo` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
-  `edad` varchar(2) COLLATE utf8_spanish_ci NOT NULL,
+  `edad` varchar(12) COLLATE utf8_spanish_ci NOT NULL,
   `raza` varchar(15) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
@@ -97,11 +105,10 @@ CREATE TABLE `adopcion` (
 --
 
 INSERT INTO `adopcion` (`id_adopcion`, `nombre`, `descripcion`, `foto_mascota`, `sexo`, `edad`, `raza`) VALUES
-(7, 'toni', 'tobi es un perrito que fue abandonado por su familia  termina esto con 7 palabras ahora busca amor y cuidado en otro hog', '/static/img/20240902172529_1.jpg', 'macho', '1', ''),
-(8, 'rocky', 'Amigable y juguetón, siempre busca compañía. Ideal para familias activas y cariñosas.', '/static/img/20240902172752_3.jpg', 'macho', '0', ''),
-(9, 'piguie', 'Enérgico y curioso, necesita mucho ejercicio y atención. Adora aprender trucos y jugar.', '/static/img/20240902172856_8.jpg', 'macho', '2', 'Pastor aleman'),
-(10, 'misu', 'Tierno y independiente, le encanta dormir en ventanas soleadas. Ideal para un hogar tranquilo.', '/static/img/20240902173127_gato1.jpg', 'hembra', '1', ''),
-(14, 'Dewey', 'Dewey es sociable y juguetón, busca cariño constante. Perfecto para familias con tiempo para jugar.', '/static/img/20240905165409_dui.jpg', 'macho', '1', '');
+(18, 'rocky', 'Amigable y juguetón, siempre busca compañía. Ideal para familias activas y cariñosas.', '/static/img/20240911135648_rocky.jpg', 'macho', '3 meses', ''),
+(19, 'Dewey', 'Dewey es sociable y juguetón, busca cariño constante. Perfecto para familias con tiempo para jugar.', '/static/img/20240911135847_dui.jpg', 'macho', '1 año', ''),
+(20, 'misu', 'Tierno y independiente, le encanta dormir en ventanas soleadas. Ideal para un hogar tranquilo.', '/static/img/20240911140135_gato1.jpg', 'hembra', '1 año', ''),
+(21, 'piguie', 'Enérgico y curioso, necesita mucho ejercicio y atención. Adora aprender trucos y jugar.', '/static/img/20240911140217_8.jpg', 'macho', '2 años', '');
 
 -- --------------------------------------------------------
 
@@ -125,7 +132,9 @@ CREATE TABLE `citas` (
 
 INSERT INTO `citas` (`id_citas`, `id_usuario`, `fecha`, `tanda`, `id_mascota`, `id_servicios`, `descripcion`) VALUES
 (5, 6, '2024-09-06', 'Tarde', 1, 1, 'Mi perro tiene una rara enfermedad'),
-(6, 6, '2024-09-07', 'Tarde', 3, 1, 'wsss');
+(6, 6, '2024-09-07', 'Tarde', 3, 1, 'wsss'),
+(7, 1, '2024-09-08', 'Mañana', 4, 1, 'd'),
+(9, 5, '2024-09-05', 'Tarde', 3, 5, 'SRsdhbdf');
 
 -- --------------------------------------------------------
 
@@ -148,7 +157,8 @@ CREATE TABLE `guarderia` (
 --
 
 INSERT INTO `guarderia` (`id_guarderia`, `id_usuario`, `id_servicios`, `desde`, `hasta`, `id_mascota`, `descripcion`) VALUES
-(3, 6, 4, '2024-09-05', '2024-09-14', 2, 'aDSgsdgsdgsdddd');
+(3, 6, 4, '2024-09-05', '2024-09-14', 2, 'aDSgsdgsdgsdddd'),
+(10, 5, 4, '2024-09-20', '2024-09-29', 2, 'sdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddssssssssssssssssssssss');
 
 -- --------------------------------------------------------
 
@@ -207,8 +217,8 @@ INSERT INTO `servicio` (`id_servicios`, `servicio`, `precio`) VALUES
 (4, 'Hospedaje y cuidado de mascota', 0),
 (5, 'Chequeo General', 0),
 (6, 'Vacunación y Medicación', 0),
-(7, 'Pasadia', 0),
-(8, 'Odontologia', 0);
+(8, 'Pasadia', 0),
+(9, 'Odontologia', 0);
 
 -- --------------------------------------------------------
 
@@ -356,7 +366,7 @@ ALTER TABLE `vacuna`
 -- AUTO_INCREMENT de la tabla `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id_pendientesAdmin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id_pendientesAdmin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `adomicilio`
@@ -368,19 +378,19 @@ ALTER TABLE `adomicilio`
 -- AUTO_INCREMENT de la tabla `adopcion`
 --
 ALTER TABLE `adopcion`
-  MODIFY `id_adopcion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_adopcion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `citas`
 --
 ALTER TABLE `citas`
-  MODIFY `id_citas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_citas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `guarderia`
 --
 ALTER TABLE `guarderia`
-  MODIFY `id_guarderia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_guarderia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `mascota`
